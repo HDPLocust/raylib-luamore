@@ -3,7 +3,13 @@
 This is Lua binding for raylib.
 ### All stuff provided by Snooze.
 
-Read the [Core] 
+(there should be a table of contents)
+* Core
+** Core functions
+* Text
+** Text functions
+etc
+
 
 
 ## Core
@@ -232,7 +238,7 @@ Monitors = {
 ```lua
 ray_vector2 Position = ray.core.GetWindowPosition()
 ```
-Get window position XY on monitor
+Get window position XY on monitor.
 See [Vector2](#Ray_vector2)
 
 
@@ -298,7 +304,7 @@ Disables cursor (lock cursor)
 ```lua
 ray.core.ClearBackground(ray_color Color)
 ```
-Set background color (framebuffer clear color)
+Set background color (framebuffer clear color).
 See [Color](#Ray_color)
 
 
@@ -320,7 +326,7 @@ End canvas drawing and swap buffers (double buffering)
 ```lua
 ray.core.BeginMode2D(ray_camera2d Camera)
 ```
-Initialize 2D mode with custom camera (2D)
+Initialize 2D mode with custom camera (2D).
 See [Camera2D](#Ray_camera2d)
 
 
@@ -335,7 +341,7 @@ Ends 2D mode with custom camera
 ```lua
 ray.core.BeginMode3D(ray_camera3d Camera)
 ```
-Initializes 3D mode with custom camera (3D)
+Initializes 3D mode with custom camera (3D).
 See [Camera3D](#Ray_camera3d)
 
 
@@ -350,7 +356,7 @@ Ends 3D mode and returns to default 2D orthographic mode
 ```lua
 ray.core.BeginTextureMode(ray_rendertexture Texture)
 ```
-Initializes render texture for drawing
+Initializes render texture for drawing.
 See [RenderTexture](#Ray_rendertexture)
 
 
