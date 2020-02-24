@@ -1,0 +1,390 @@
+<!DOCTYPE html []>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="MarkdownViewer++" />
+    <title>readme.md</title>
+    <style type="text/css">
+            
+/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+    page-break-inside: avoid; 
+}
+table {
+  border-collapse: collapse;
+}
+td, th {
+  border:    1px solid;
+  border-color: #ABC;
+  padding: 3px;
+}
+th {
+  background: #eee;
+}
+code {
+  display: inline-block;
+  padding: 3px;
+  background: #eee;
+
+}
+        </style>
+  </head>
+  <body>
+    <h1 id="hello">Hello.</h1>
+    <p>This is Lua binding for raylib.</p>
+    <h3 id="all-stuff-provided-by-snooze">All stuff provided by Snooze.</h3>
+    <p>Read the <a href="#core">Core</a></p>
+    <h2 id="core">Core</h2>
+    <h3 id="core-functions">Core functions</h3>
+    <h4 id="initialization">Initialization</h4>
+    <pre>
+      <code class="language-lua">local ray = require("raylib_luamore")
+</code>
+    </pre>
+    <h3 id="window-related-functions">Window-related functions:</h3>
+    <h4 id="initwindow">InitWindow</h4>
+    <pre>
+      <code class="language-lua">ray.core.InitWindow(integer Width, integer Height, string Title)
+</code>
+    </pre>
+    <p>Initialize window and OpenGL context
+Should be called before any widnow stuff is used.</p>
+    <h4 id="windowshouldclose">WindowShouldClose</h4>
+    <pre>
+      <code class="language-lua">Boolean = ray.core.WindowShouldClose()
+</code>
+    </pre>
+    <p>Check if KEY_ESCAPE pressed or Close icon pressed</p>
+    <h4 id="closewindow">CloseWindow</h4>
+    <pre>
+      <code class="language-lua">ray.core.CloseWindow()
+</code>
+    </pre>
+    <p>Close window and unload OpenGL context</p>
+    <h4 id="iswindowready">IsWindowReady</h4>
+    <pre>
+      <code class="language-lua">boolean res = ray.core.IsWindowReady()
+</code>
+    </pre>
+    <p>Check if window has been initialized successfully</p>
+    <h4 id="iswindowminimized">IsWindowMinimized</h4>
+    <pre>
+      <code class="language-lua">boolean res = ray.core.IsWindowMinimized()
+</code>
+    </pre>
+    <p>Check if window has been minimized (or lost focus)</p>
+    <h4 id="iswindowresized">IsWindowResized</h4>
+    <pre>
+      <code class="language-lua">boolean res = ray.core.IsWindowResized()
+</code>
+    </pre>
+    <p>Check if window has been resized</p>
+    <h4 id="iswindowhidden">IsWindowHidden</h4>
+    <pre>
+      <code class="language-lua">boolean res = ray.core.IsWindowHidden()
+</code>
+    </pre>
+    <p>Check if window is currently hidden</p>
+    <h4 id="togglefullscreen">ToggleFullscreen</h4>
+    <pre>
+      <code class="language-lua">ray.core.ToggleFullscreen()
+</code>
+    </pre>
+    <p>Toggle fullscreen mode (only PLATFORM_DESKTOP)</p>
+    <h4 id="unhidewindow">UnhideWindow</h4>
+    <pre>
+      <code class="language-lua">ray.core.UnhideWindow()
+</code>
+    </pre>
+    <p>Show the window</p>
+    <h4 id="hidewindow">HideWindow</h4>
+    <pre>
+      <code class="language-lua">ray.core.HideWindow()
+</code>
+    </pre>
+    <p>Hide the window</p>
+    <h4 id="setwindowicon">SetWindowIcon</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetWindowIcon(ray_image Icon)
+</code>
+    </pre>
+    <p>Set icon for window (only PLATFORM_DESKTOP)
+For additional info [ray_image]</p>
+    <h4 id="setwindowtitle">SetWindowTitle</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetWindowTitle(string Title)
+</code>
+    </pre>
+    <p>Set title for window (only PLATFORM_DESKTOP)</p>
+    <h4 id="setwindowposition">SetWindowPosition</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetWindowPosition(string Title)
+</code>
+    </pre>
+    <p>Set window position on screen (only PLATFORM_DESKTOP)</p>
+    <h4 id="setwindowmonitor">SetWindowMonitor</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetWindowMonitor(integer Monitor)
+</code>
+    </pre>
+    <p>Set monitor for the current window (fullscreen mode)</p>
+    <h4 id="setwindowminsize">SetWindowMinSize</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetWindowMinSize(integer Width, integer Height)
+</code>
+    </pre>
+    <p>Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)</p>
+    <h4 id="setwindowsize">SetWindowSize</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetWindowSize(integer Width, integer Height)
+</code>
+    </pre>
+    <p>Set window dimensions</p>
+    <h4 id="getwindowhandle">GetWindowHandle</h4>
+    <pre>
+      <code class="language-lua">userdata Handle = ray.core.GetWindowHandle()
+</code>
+    </pre>
+    <p>Get native window handle
+Using for FFI or something</p>
+    <h4 id="getscreenwidth">GetScreenWidth</h4>
+    <pre>
+      <code class="language-lua">integer Width = ray.core.GetScreenWidth()
+</code>
+    </pre>
+    <p>Get current screen width</p>
+    <h4 id="getscreenheight">GetScreenHeight</h4>
+    <pre>
+      <code class="language-lua">integer Height = ray.core.GetScreenHeight()
+</code>
+    </pre>
+    <p>Get current screen height</p>
+    <h4 id="getscreendimensions">GetScreenDimensions</h4>
+    <pre>
+      <code class="language-lua">integer Width, integer Height = ray.core.GetScreenDimensions()
+</code>
+    </pre>
+    <p>Get current screen dimensions</p>
+    <h4 id="getmonitorcount">GetMonitorCount</h4>
+    <pre>
+      <code class="language-lua">integer Count = ray.core.GetMonitorCount()
+</code>
+    </pre>
+    <p>Get number of connected monitors</p>
+    <h4 id="getmonitorwidth">GetMonitorWidth</h4>
+    <pre>
+      <code class="language-lua">integer Width = ray.core.GetMonitorWidth(integer Monitor)
+</code>
+    </pre>
+    <p>Get selected monitor width</p>
+    <h4 id="getmonitorheight">GetMonitorHeight</h4>
+    <pre>
+      <code class="language-lua">integer Height = ray.core.GetMonitorHeight(integer Monitor)
+</code>
+    </pre>
+    <p>Get selected monitor height</p>
+    <h4 id="getmonitordimensions">GetMonitorDimensions</h4>
+    <pre>
+      <code class="language-lua">integer Width, integer Height = ray.core.GetMonitorDimensions(integer Monitor)
+</code>
+    </pre>
+    <p>Get selected monitor dimensions</p>
+    <h4 id="getmonitorphysicalwidth">GetMonitorPhysicalWidth</h4>
+    <pre>
+      <code class="language-lua">integer Width = ray.core.GetMonitorPhysicalWidth(integer Monitor)
+</code>
+    </pre>
+    <p>Get selected monitor physical width in millimetres</p>
+    <h4 id="getmonitorphysicalheight">GetMonitorPhysicalHeight</h4>
+    <pre>
+      <code class="language-lua">integer Height = ray.core.GetMonitorPhysicalHeight(integer Monitor)
+</code>
+    </pre>
+    <p>Get selected monitor physical height in millimetres</p>
+    <h4 id="getmonitorphysicaldimensions">GetMonitorPhysicalDimensions</h4>
+    <pre>
+      <code class="language-lua">integer Width, integer Height = ray.core.GetMonitorPhysicalDimensions(integer Monitor)
+</code>
+    </pre>
+    <p>Get selected monitor physical dimensions in millimetres</p>
+    <h4 id="getmonitors">GetMonitors</h4>
+    <pre>
+      <code class="language-lua">table Monitors = ray.core.GetMonitors()
+</code>
+    </pre>
+    <p>Get all monitors and it's stats using this layout:</p>
+    <pre>
+      <code class="language-lua">Monitors = {
+    { -- first monitor info
+      string  name,    -- human-readable monitor name
+      integer width,   -- monitor width in pixels
+      integer height   -- monitor height in pixels
+      integer pwidth,  -- monitor physical width in millimetres
+      integer pheight, -- monitor physical height in millimetres
+    },
+    { -- second monitor
+    }
+  }
+</code>
+    </pre>
+    <h4 id="getwindowposition">GetWindowPosition</h4>
+    <pre>
+      <code class="language-lua">ray_vector2 Position = ray.core.GetWindowPosition()
+</code>
+    </pre>
+    <p>Get window position XY on monitor
+See <a href="#ray_vector2">ray_vector2</a></p>
+    <h4 id="getmonitorname">GetMonitorName</h4>
+    <pre>
+      <code class="language-lua">string Name = ray.core.GetMonitorName()
+</code>
+    </pre>
+    <p>Get the human-readable, UTF-8 encoded name of the primary monitor</p>
+    <h4 id="getclipboardtext">GetClipboardText</h4>
+    <pre>
+      <code class="language-lua">string Text = ray.core.GetClipboardText()
+</code>
+    </pre>
+    <p>Get clipboard text content</p>
+    <h4 id="setclipboardtext">SetClipboardText</h4>
+    <pre>
+      <code class="language-lua">ray.core.SetClipboardText(string Text)
+</code>
+    </pre>
+    <p>Set clipboard text content</p>
+    <h3 id="cursor-related-functions">Cursor-related functions</h3>
+    <h4 id="showcursor">ShowCursor</h4>
+    <pre>
+      <code class="language-lua">ray.core.ShowCursor()
+</code>
+    </pre>
+    <p>Shows cursor</p>
+    <h4 id="hidecursor">HideCursor</h4>
+    <pre>
+      <code class="language-lua">ray.core.HideCursor()
+</code>
+    </pre>
+    <p>Hides cursor</p>
+    <h4 id="iscursorhidden">IsCursorHidden</h4>
+    <pre>
+      <code class="language-lua">boolean Status = ray.core.IsCursorHidden()
+</code>
+    </pre>
+    <p>Check if cursor is not visible</p>
+    <h4 id="enablecursor">EnableCursor</h4>
+    <pre>
+      <code class="language-lua">ray.core.EnableCursor()
+</code>
+    </pre>
+    <p>Enables cursor (unlock cursor)</p>
+    <h4 id="disablecursor">DisableCursor</h4>
+    <pre>
+      <code class="language-lua">ray.core.DisableCursor()
+</code>
+    </pre>
+    <p>Disables cursor (lock cursor)</p>
+    <h3 id="drawing-related-functions">Drawing-related functions</h3>
+    <h4 id="clearbackground">ClearBackground</h4>
+    <pre>
+      <code class="language-lua">ray.core.ClearBackground(ray_color Color)
+</code>
+    </pre>
+    <p>Set background color (framebuffer clear color)
+See [ray_color]</p>
+    <h4 id="begindrawing">BeginDrawing</h4>
+    <pre>
+      <code class="language-lua">ray.core.BeginDrawing()
+</code>
+    </pre>
+    <p>Setup canvas (framebuffer) to start drawing</p>
+    <h4 id="enddrawing">EndDrawing</h4>
+    <pre>
+      <code class="language-lua">ray.core.EndDrawing()
+</code>
+    </pre>
+    <p>End canvas drawing and swap buffers (double buffering)</p>
+    <h4 id="beginmode2d">BeginMode2D</h4>
+    <pre>
+      <code class="language-lua">ray.core.BeginMode2D(ray_camera2d Camera)
+</code>
+    </pre>
+    <p>Initialize 2D mode with custom camera (2D)
+See [ray_camera2d]</p>
+    <h4 id="endmode2d">EndMode2D</h4>
+    <pre>
+      <code class="language-lua">ray.core.EndMode2D()
+</code>
+    </pre>
+    <p>Ends 2D mode with custom camera</p>
+    <h4 id="beginmode3d">BeginMode3D</h4>
+    <pre>
+      <code class="language-lua">ray.core.BeginMode3D(ray_camera3d Camera)
+</code>
+    </pre>
+    <p>Initializes 3D mode with custom camera (3D)</p>
+    <h4 id="endmode3d">EndMode3D</h4>
+    <pre>
+      <code class="language-lua">ray.core.EndMode3D()
+</code>
+    </pre>
+    <p>Ends 3D mode and returns to default 2D orthographic mode</p>
+    <h4 id="begintexturemode">BeginTextureMode</h4>
+    <pre>
+      <code class="language-lua">ray.core.BeginTextureMode(ray_rendertexture Texture)
+</code>
+    </pre>
+    <p>Initializes render texture for drawing
+See [ray_rendertexture]</p>
+    <h4 id="endtexturemode">EndTextureMode</h4>
+    <pre>
+      <code class="language-lua">ray.core.EndTextureMode()
+</code>
+    </pre>
+    <p>Ends drawing to render texture</p>
+    <h4 id="beginscissormode">BeginScissorMode</h4>
+    <pre>
+      <code class="language-lua">ray.core.BeginScissorMode(integer X, integer Y, integer Width, integer Height)
+</code>
+    </pre>
+    <p>Begin scissor mode (define screen area for following drawing)</p>
+    <h4 id="endscissormode">EndScissorMode</h4>
+    <pre>
+      <code class="language-lua">ray.core.EndScissorMode()
+</code>
+    </pre>
+    <p>End scissor mode</p>
+    <h1 id="classes">Classes</h1>
+    <h2 id="ray_vector2">Ray_vector2</h2>
+    <h3 id="initialization-1">Initialization</h3>
+    <pre>
+      <code class="language-lua">-- variadic
+ray_vector2 vec = ray.Vector2(number x, number y) --&gt; vec2[x, y]
+ray_vector2 vec = ray.Vector2(number x) --&gt; vec2[x, x]
+ray_vector2 vec = ray.Vector2(table t) vec2[t[1], t[2]]
+</code>
+    </pre>
+    <p>Creates new Vector2 object.</p>
+    <h3 id="methods">Methods</h3>
+    <h4 id="clone">Clone</h4>
+    <pre>
+      <code class="language-lua">Vector2 = Vector2:clone()
+</code>
+    </pre>
+    <p>Clones Vector2 object.</p>
+    <h4 id="get">Get</h4>
+    <pre>
+      <code class="language-lua">-- variadic
+float x, float y = Vector2:get()
+table t = Vector2:get('t') --&gt; {x, y}
+</code>
+    </pre>
+    <p>Get Vector2 components.</p>
+    <h4 id="set-variants">Set variants</h4>
+    <pre>
+      <code class="language-lua">float x, float y = Vector2:get()
+table t = Vector2:get('t') --&gt; {x, y}
+</code>
+    </pre>
+    <p>Set Vector2 components.</p>
+  </body>
+</html>

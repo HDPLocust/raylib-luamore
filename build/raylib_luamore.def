@@ -1,0 +1,4 @@
+LIBRARY raylib_luamore.dll
+
+EXPORTS
+luaopen_raylib_luamore

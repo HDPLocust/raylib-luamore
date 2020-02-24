@@ -1,0 +1,9 @@
+Windres- GNU Windows resource compiler
+---------------------------------------
+
+Included windres.exe has been manually hex-edited to look for tcc.exe instead of gcc.exe
+
+To compile window resource to be used with TCC use:
+windres -DIDC_STATIC=-1 -O coff resource.rc -o resource.rc.data
+
+More info about original windres: http://www.sourceware.org/binutils/docs-2.15/binutils/windres.html

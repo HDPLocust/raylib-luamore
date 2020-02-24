@@ -1,0 +1,62 @@
+raylib_compilation using tcc
+----------------------------
+
+Current TCC (0.9.27 - 32bit) comes with all required libraries for raylib sources and examples compilation under Windows platform (32bit/64bit).
+
+This package also includes some additional useful tools:
+
+ - make.exe - GNU Make (Build with MinGW32-w64)
+ - windres.exe - GNU windres - Resource compiler for TCC
+ - upc.exe - Ultimate Packer for eXecutables - Executables compressor
+
+### To compile raylib sources:
+
+```
+// Compile raylib modules
+// ------------------------------
+tcc -c core.c -Iexternal/glfw/include -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD -DGRAPHICS_API_OPENGL_33
+tcc -c rglfw.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD
+tcc -c shapes.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD
+tcc -c textures.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD
+tcc -c text.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD
+tcc -c models.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD
+tcc -c raudio.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD -DMAL_NO_WASAPI
+tcc -c utils.c -std=c99 -Wall -DPLATFORM_DESKTOP -DSTBI_NO_SIMD
+```
+```
+// Generate raylib library (static)
+// --------------------------------
+tcc -ar rcs libraylib.a core.o rglfw.o shapes.o textures.o text.o models.o raudio.o utils.o
+```
+```
+// Generate raylib library (dynamic)
+// --------------------------------
+tcc -shared libraylib.a core.o rglfw.o shapes.o textures.o text.o models.o raudio.o utils.o
+```
+
+### To compile raylib example
+```
+// Compile program
+// -----------------------
+tcc -o core_basic_window.exe core_basic_window.c -std=c99 -Wall -lmsvcrt -lraylib -lopengl32 -lgdi32 -lkernel32 -lshell32 -luser32 -lwinmm -Wl,-subsystem=gui
+```
+
+NOTE that tcc compiled program requires linkage with some default Windows OS libraries, including MSVCRT, used as runtime C library.
+
+Linkage also requires the symbols definition included in those system libraries, those symbols are provided as lib/*.def files (plain text files),
+in case symbols provided are not correct, for example, due to different system libraries than the ones used to generate those .def, those
+files could be regenerated using:
+```
+// Regenerate system libraries symbols definition files
+// -----------------------------------------------------
+tcc -impdef opengl32.dll
+tcc -impdef gdi32.dll
+tcc -impdef msvcrt.dll
+tcc -impdef kernel32.dll
+tcc -impdef shell32.dll
+tcc -impdef user32.dll
+tcc -impdef winmm.dll
+```
+
+Enjoy using TCC compiler with raylib!
+

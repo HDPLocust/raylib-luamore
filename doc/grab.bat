@@ -1,0 +1,1 @@
+..\build\luajit.exe grab.lua -i ..\main.c -i ..\classes.h -o readme.md

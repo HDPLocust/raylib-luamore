@@ -1,0 +1,1 @@
+tcc\tcc.exe -shared -vv -I./include -L./lib -o ./build/raylib_luamore.dll main.c -std=c99 -Wall -lmsvcrt -lraylib -llua51 -lopengl32 -lgdi32 -lkernel32 -lshell32 -luser32 -lwinmm -Wl,-subsystem=gui
