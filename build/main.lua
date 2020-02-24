@@ -15,7 +15,7 @@ function Main()
 		
 		c1:set(255 - s, _, s)
 		r:setPosition(20, s):draw(c3):setPosition(s, 20):draw(v, t, c2)
-		
+		ray.text.DrawText("luamore\nRaylib", 20, 20, 20, c3)
 	ray.core.EndDrawing()
 end
 

@@ -52,7 +52,6 @@ void luax_newclass(lua_State *L, char * classname, luaL_Reg *func) {
 		lua_pushstring(L, func->name);
 		lua_pushcfunction(L, func->func);
 		bool v = func->name[0] == '_';
-		printf("Push method %s to %s\n", func->name, v ? "meta" : "base");
 		lua_rawset(L, v ? -5 : -3);
 	}
 	lua_rawset(L, -3);               /* mt */

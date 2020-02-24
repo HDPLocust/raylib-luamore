@@ -1,0 +1,1 @@
+..\luajit.exe %1

@@ -1,1 +1,1 @@
-..\build\luajit.exe grab.lua -i ..\main.c -i ..\classes.h -o readme.md
+..\build\luajit.exe mdcgrabber.lua -i ..\main.c -i ..\classes.h -o readme.md
