@@ -428,7 +428,7 @@ int lua_core_GetMonitors(lua_State *L){
 ray_vector2 Position = ray.core.GetWindowPosition()
 ```
 Get window position XY on monitor
-See [Vector2](Ray_vector2)
+See [Vector2](#Ray_vector2)
 */
 
 int lua_core_GetWindowPosition(lua_State *L){
@@ -549,7 +549,7 @@ int lua_core_DisableCursor(lua_State* L) {
 ray.core.ClearBackground(ray_color Color)
 ```
 Set background color (framebuffer clear color)
-See [Color](Ray_color)
+See [Color](#Ray_color)
 */
 
 int lua_core_ClearBackground(lua_State *L){
@@ -590,7 +590,7 @@ int lua_core_EndDrawing(lua_State *L){
 ray.core.BeginMode2D(ray_camera2d Camera)
 ```
 Initialize 2D mode with custom camera (2D)
-See [Camera2D](Ray_camera2d)
+See [Camera2D](#Ray_camera2d)
 */
 
 int lua_core_BeginMode2D(lua_State *L){
@@ -618,7 +618,7 @@ int lua_core_EndMode2D(lua_State *L){
 ray.core.BeginMode3D(ray_camera3d Camera)
 ```
 Initializes 3D mode with custom camera (3D)
-See [Camera3D](Ray_camera3d)
+See [Camera3D](#Ray_camera3d)
 */
 
 int lua_core_BeginMode3D(lua_State *L){
@@ -646,7 +646,7 @@ int lua_core_EndMode3D(lua_State *L){
 ray.core.BeginTextureMode(ray_rendertexture Texture)
 ```
 Initializes render texture for drawing
-See [RenderTexture](Ray_rendertexture)
+See [RenderTexture](#Ray_rendertexture)
 */
 
 int lua_core_BeginTextureMode(lua_State *L){

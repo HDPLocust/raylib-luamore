@@ -233,7 +233,7 @@ Monitors = {
 ray_vector2 Position = ray.core.GetWindowPosition()
 ```
 Get window position XY on monitor
-See [Vector2](Ray_vector2)
+See [Vector2](#Ray_vector2)
 
 
 #### GetMonitorName
@@ -299,7 +299,7 @@ Disables cursor (lock cursor)
 ray.core.ClearBackground(ray_color Color)
 ```
 Set background color (framebuffer clear color)
-See [Color](Ray_color)
+See [Color](#Ray_color)
 
 
 #### BeginDrawing
@@ -321,7 +321,7 @@ End canvas drawing and swap buffers (double buffering)
 ray.core.BeginMode2D(ray_camera2d Camera)
 ```
 Initialize 2D mode with custom camera (2D)
-See [Camera2D](Ray_camera2d)
+See [Camera2D](#Ray_camera2d)
 
 
 #### EndMode2D
@@ -336,7 +336,7 @@ Ends 2D mode with custom camera
 ray.core.BeginMode3D(ray_camera3d Camera)
 ```
 Initializes 3D mode with custom camera (3D)
-See [Camera3D](Ray_camera3d)
+See [Camera3D](#Ray_camera3d)
 
 
 #### EndMode3D
@@ -351,7 +351,7 @@ Ends 3D mode and returns to default 2D orthographic mode
 ray.core.BeginTextureMode(ray_rendertexture Texture)
 ```
 Initializes render texture for drawing
-See [RenderTexture](Ray_rendertexture)
+See [RenderTexture](#Ray_rendertexture)
 
 
 #### EndTextureMode
