@@ -4,10 +4,11 @@ This is Lua binding for raylib.
 ### All stuff provided by Snooze.
 
 (there should be a table of contents)
-* Core
-** Core functions
-* Text
-** Text functions
+ * Core
+   * Core functions
+ * Text
+   * Text functions
+
 etc
 
 

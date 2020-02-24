@@ -9,11 +9,11 @@ This is Lua binding for raylib.
 
 (there should be a table of contents)
 * Core
-** Core functions
+  * Core functions
 * Text
-** Text functions
-etc
+  * Text functions
 
+etc
 */
 
 
@@ -49,7 +49,7 @@ int lua_core_InitWindow(lua_State *L){
 /*!MD
 #### WindowShouldClose
 ```lua
-Boolean = ray.core.WindowShouldClose()
+boolean Status = ray.core.WindowShouldClose()
 ```
 Check if KEY_ESCAPE pressed or Close icon pressed
 */
@@ -75,7 +75,7 @@ int lua_core_CloseWindow(lua_State *L){
 /*!MD
 #### IsWindowReady
 ```lua
-boolean res = ray.core.IsWindowReady()
+boolean Status = ray.core.IsWindowReady()
 ```
 Check if window has been initialized successfully
 */
@@ -88,7 +88,7 @@ int lua_core_IsWindowReady(lua_State *L){
 /*!MD
 #### IsWindowMinimized
 ```lua
-boolean res = ray.core.IsWindowMinimized()
+boolean Status = ray.core.IsWindowMinimized()
 ```
 Check if window has been minimized (or lost focus)
 */
@@ -101,7 +101,7 @@ int lua_core_IsWindowMinimized(lua_State *L){
 /*!MD
 #### IsWindowResized
 ```lua
-boolean res = ray.core.IsWindowResized()
+boolean Status = ray.core.IsWindowResized()
 ```
 Check if window has been resized
 */
@@ -114,7 +114,7 @@ int lua_core_IsWindowResized(lua_State *L){
 /*!MD
 #### IsWindowHidden
 ```lua
-boolean res = ray.core.IsWindowHidden()
+boolean Status = ray.core.IsWindowHidden()
 ```
 Check if window is currently hidden
 */

@@ -4,10 +4,10 @@
 ## Ray_vector2
 ### Initialization
 ```lua
--- variadic
+-- variations
 ray_vector2 vec = ray.Vector2(number x, number y) --> vec2[x, y]
-ray_vector2 vec = ray.Vector2(number x) --> vec2[x, x]
-ray_vector2 vec = ray.Vector2(table t) vec2[t[1], t[2]]
+ray_vector2 vec = ray.Vector2(number x)           --> vec2[x, x]
+ray_vector2 vec = ray.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
 Creates new Vector2 object.
 */
@@ -54,7 +54,7 @@ int lua_class_vector2_Clone(lua_State *L){
 /*!MD
 #### Get
 ```lua
--- variadic
+-- variations
 float x, float y = Vector2:get()
 table t = Vector2:get('t') --> {x, y}
 ```
@@ -74,8 +74,9 @@ int lua_class_vector2_Get(lua_State *L){
 }
 
 /*!MD
-#### Set variants
+#### Set
 ```lua
+-- variations
 float x, float y = Vector2:get()
 table t = Vector2:get('t') --> {x, y}
 ```

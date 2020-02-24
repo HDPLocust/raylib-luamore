@@ -1,0 +1,1 @@
+Drag and drop Lua script to run_example.bat

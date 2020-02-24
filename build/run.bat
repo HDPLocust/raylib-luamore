@@ -1,1 +1,1 @@
-luajit.exe main.lua
+luajit.exe dev_test.lua
