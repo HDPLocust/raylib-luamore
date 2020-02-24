@@ -4,13 +4,12 @@ This is Lua binding for raylib.
 ### All stuff provided by Snooze.
 
 (there should be a table of contents)
- * Core
-   * Core functions
- * Text
-   * Text functions
+* Core
+  * Core functions
+* Text
+  * Text functions
 
 etc
-
 
 
 ## Core
@@ -33,7 +32,7 @@ Should be called before any widnow stuff is used.
 
 #### WindowShouldClose
 ```lua
-Boolean = ray.core.WindowShouldClose()
+boolean Status = ray.core.WindowShouldClose()
 ```
 Check if KEY_ESCAPE pressed or Close icon pressed
 
@@ -47,28 +46,28 @@ Close window and unload OpenGL context
 
 #### IsWindowReady
 ```lua
-boolean res = ray.core.IsWindowReady()
+boolean Status = ray.core.IsWindowReady()
 ```
 Check if window has been initialized successfully
 
 
 #### IsWindowMinimized
 ```lua
-boolean res = ray.core.IsWindowMinimized()
+boolean Status = ray.core.IsWindowMinimized()
 ```
 Check if window has been minimized (or lost focus)
 
 
 #### IsWindowResized
 ```lua
-boolean res = ray.core.IsWindowResized()
+boolean Status = ray.core.IsWindowResized()
 ```
 Check if window has been resized
 
 
 #### IsWindowHidden
 ```lua
-boolean res = ray.core.IsWindowHidden()
+boolean Status = ray.core.IsWindowHidden()
 ```
 Check if window is currently hidden
 
@@ -387,10 +386,10 @@ End scissor mode
 ## Ray_vector2
 ### Initialization
 ```lua
--- variadic
+-- variations
 ray_vector2 vec = ray.Vector2(number x, number y) --> vec2[x, y]
-ray_vector2 vec = ray.Vector2(number x) --> vec2[x, x]
-ray_vector2 vec = ray.Vector2(table t) vec2[t[1], t[2]]
+ray_vector2 vec = ray.Vector2(number x)           --> vec2[x, x]
+ray_vector2 vec = ray.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
 Creates new Vector2 object.
 
@@ -406,15 +405,16 @@ Clones Vector2 object.
 
 #### Get
 ```lua
--- variadic
+-- variations
 float x, float y = Vector2:get()
 table t = Vector2:get('t') --> {x, y}
 ```
 Get Vector2 components.
 
 
-#### Set variants
+#### Set
 ```lua
+-- variations
 float x, float y = Vector2:get()
 table t = Vector2:get('t') --> {x, y}
 ```

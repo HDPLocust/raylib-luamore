@@ -1,9 +1,9 @@
 <img align="left" src="logo/raylib_luamore_256x256.png" width=256>
 A Lua binding and extension for [Raylib](https://www.raylib.com) ([git](https://github.com/raysan5/raylib)).
 
-Raylib-luamore is shared library for Lua and LuaJIT (current build is for luajit). Check [Build](build) for reference.
+Raylib-luamore is shared library for Lua and LuaJIT (current build is for LuaJIT). 
 
-# Why?
+## Why?
 There are several raylib-lua bindings 
 ([raylib-lua](https://github.com/raysan5/raylib-lua), 
 [raylib-lua-sol](https://github.com/RobLoach/raylib-lua-sol), 
@@ -15,29 +15,29 @@ There are several reasons:
 * Sometimes passing objects by value can do a lot of unnecessary things, especially in math. And when to rotate the matrix, we need to create three matrices (transfer, rotation and scale), and then multiply them, creating a new matrix every time - this is not very good. And if on the C side it can be stored on the stack, then when using lua we need to allocate RAM every time, and the process slows down.
 * I seem to be able to support the library in the future: every existed binding is now outdated(?) these words may also be outdated.
 
-# Documentation
+## Documentation
 Current binding is for Raylib v3.0. Source code is self-documented, but the extracted documentation is located in [Doc](doc) directory.
-Functions is located in main.c file, classes in classes.h.
+Functions is located in `main.c` file, classes in `classes.h`.
 
-# Building
-Currently this project for Windows and LuaJIT. So just run build.bat
-Rebuilding the Raylib library is done using include/raylib/build_objects.bat (lib/raylib.a will updated).
+## Building
+Currently this project for Windows and LuaJIT. So just run `build.bat` if you are adding some features.
+Rebuilding the Raylib library is done using `include/raylib/build_objects.bat` (`lib/raylib.a` will updated).
 
-# External stuff
+## External stuff
 This package provides with Raylib source, [LuaJITx86 2.1.0-beta2](http://luajit.org) and [TCC v0.9.27](https://bellard.org/tcc/) binaries for easier compiling and running.
 
-# Binaries
+## Binaries
 Check [Build](build)
 
-# Examples
-Check [Examples](build/examples)
+## Examples
+Check [Examples](build/examples) (Lua scripts can be drag-and-dropped to `run_example.bat`)
 
-# Todo: 
+## Todo:
 * Finish main api;
 * Add Physac;
 * Add [Raygui](https://github.com/raysan5/raygui);
 * Add several additional modules.
 
-# License
+## License
 Raylib-luamore is licensed under an zlib/libpng license.
 *Copyright (c) 2020~2xxx [Snusmumriken](@HDPLocust)
