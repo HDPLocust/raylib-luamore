@@ -126,7 +126,7 @@ Set monitor for the current window (fullscreen mode)
 ```lua
 ray.core.SetWindowMinSize(integer Width, integer Height)
 ```
-Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
+Set window minimum dimensions (for flag WINDOW_RESIZABLE)
 
 
 #### SetWindowSize
@@ -533,14 +533,14 @@ ray.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
 ```
 Setup window configuration flags
 Available flags:
-`"FULLSCREEN_MODE"   ` Set to run program in fullscreen
-`"WINDOW_RESIZABLE"  ` Set to allow resizable window
-`"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
-`"WINDOW_TRANSPARENT"` Set to allow transparent window
-`"WINDOW_HIDDEN"     ` Set to create the window initially hidden
-`"WINDOW_ALWAYS_RUN" ` Set to allow windows running while minimized
-`"MSAA_4X_HINT"      ` Set to try enabling MSAA 4X
-`"VSYNC_HINT"        ` Set to try enabling V-Sync on GPU
+* `"FULLSCREEN_MODE"   ` Set to run program in fullscreen
+* `"WINDOW_RESIZABLE"  ` Set to allow resizable window
+* `"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
+* `"WINDOW_TRANSPARENT"` Set to allow transparent window
+* `"WINDOW_HIDDEN"     ` Set to create the window initially hidden
+* `"WINDOW_ALWAYS_RUN" ` Set to allow windows running while minimized
+* `"MSAA_4X_HINT"      ` Set to try enabling MSAA 4X
+* `"VSYNC_HINT"        ` Set to try enabling V-Sync on GPU
 
 
 #### SetTraceLogLevel
@@ -549,14 +549,14 @@ ray.core.SetTraceLogLevel(string Mode)
 ```
 Set the current threshold (minimum) log level.
 Available Modes:
-`"ALL"     ` Set to run program in fullscreen
-`"TRACE"   ` Set to allow resizable window
-`"DEBUG"   ` Set to disable window decoration (frame and buttons)
-`"INFO"    ` Set to allow transparent window
-`"WARNING" ` Set to create the window initially hidden
-`"ERROR"   ` Set to allow windows running while minimized
-`"FATAL"   ` Set to try enabling MSAA 4X
-`"NONE"    ` Set to try enabling V-Sync on GPU
+* `"ALL"     ` Set to run program in fullscreen
+* `"TRACE"   ` Set to allow resizable window
+* `"DEBUG"   ` Set to disable window decoration (frame and buttons)
+* `"INFO"    ` Set to allow transparent window
+* `"WARNING" ` Set to create the window initially hidden
+* `"ERROR"   ` Set to allow windows running while minimized
+* `"FATAL"   ` Set to try enabling MSAA 4X
+* `"NONE"    ` Set to try enabling V-Sync on GPU
 
 
 ### Files management functions
