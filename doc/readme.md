@@ -34,7 +34,7 @@ Should be called before any widnow stuff is used.
 ```lua
 boolean Status = ray.core.WindowShouldClose()
 ```
-Check if KEY_ESCAPE pressed or Close icon pressed
+Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](SetExitKey)
 
 
 #### CloseWindow
@@ -95,10 +95,10 @@ Hide the window
 
 #### SetWindowIcon
 ```lua
-ray.core.SetWindowIcon(ray_image Icon)
+ray.core.SetWindowIcon(Image Icon)
 ```
 Set icon for window (only PLATFORM_DESKTOP)
-For additional info [ray_image]
+For additional info [Image]
 
 
 #### SetWindowTitle
@@ -236,10 +236,10 @@ Monitors = {
 
 #### GetWindowPosition
 ```lua
-ray_vector2 Position = ray.core.GetWindowPosition()
+Vector2 Position = ray.core.GetWindowPosition()
 ```
 Get window position XY on monitor.
-See [Vector2](#Ray_vector2)
+See [Vector2](#Vector2)
 
 
 #### GetMonitorName
@@ -302,10 +302,10 @@ Disables cursor (lock cursor)
 ### Drawing-related functions
 #### ClearBackground
 ```lua
-ray.core.ClearBackground(ray_color Color)
+ray.core.ClearBackground(Color Color)
 ```
 Set background color (framebuffer clear color).
-See [Color](#Ray_color)
+See [Color](#Color)
 
 
 #### BeginDrawing
@@ -324,10 +324,10 @@ End canvas drawing and swap buffers (double buffering)
 
 #### BeginMode2D
 ```lua
-ray.core.BeginMode2D(ray_camera2d Camera)
+ray.core.BeginMode2D(Camera2D Camera)
 ```
 Initialize 2D mode with custom camera (2D).
-See [Camera2D](#Ray_camera2d)
+See [Camera2D](#Camera2D)
 
 
 #### EndMode2D
@@ -339,10 +339,10 @@ Ends 2D mode with custom camera
 
 #### BeginMode3D
 ```lua
-ray.core.BeginMode3D(ray_camera3d Camera)
+ray.core.BeginMode3D(Camera3D Camera)
 ```
 Initializes 3D mode with custom camera (3D).
-See [Camera3D](#Ray_camera3d)
+See [Camera3D](#Camera3D)
 
 
 #### EndMode3D
@@ -354,10 +354,10 @@ Ends 3D mode and returns to default 2D orthographic mode
 
 #### BeginTextureMode
 ```lua
-ray.core.BeginTextureMode(ray_rendertexture Texture)
+ray.core.BeginTextureMode(RenderTexture Texture)
 ```
 Initializes render texture for drawing.
-See [RenderTexture](#Ray_rendertexture)
+See [RenderTexture](#RenderTexture)
 
 
 #### EndTextureMode
@@ -381,15 +381,254 @@ ray.core.EndScissorMode()
 End scissor mode
 
 
+### Screen-space-related functions
+#### GetMouseRay
+```lua
+-- variations
+Ray Ray = ray.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
+Vector2 Position, Vector2 Direction = ray.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
+```
+Returns a ray trace from mouse position. See [Ray](Ray), [Vector2](Vector2).
+
+
+#### GetCameraMatrix
+```lua
+Matrix View = ray.core.GetCameraMatrix(Camera3D Camera)
+```
+Returns camera transform matrix (view matrix). See [Matrix](Matrix)
+
+
+#### GetCameraMatrix2D
+```lua
+Matrix View = ray.core.GetCameraMatrix2D(Camera2D Camera)
+```
+Returns camera 2d transform matrix. See [Matrix](Matrix), [Camera2D](Camera2D)
+
+
+#### GetWorldToScreen
+```lua
+Vector2 ScreenV = Matrix ray.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
+```
+Returns the screen space position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+
+
+#### GetWorldToScreenEx
+```lua
+Vector2 ScreenV = Matrix ray.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
+```
+Returns size position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+
+
+#### GetWorldToScreen2D
+```lua
+Vector2 ScreenV = Matrix ray.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
+```
+Returns the screen space position for a 2d camera world space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+
+
+#### GetScreenToWorld2D
+```lua
+Vector2 ScreenV = Matrix ray.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
+```
+Returns the world space position for a 2d camera screen space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+
+
+### Timing-related functions
+#### SetTargetFPS
+```lua
+ray.core.SetTargetFPS(integer FPS)
+```
+Set target FPS (maximum)
+
+
+#### GetFPS
+```lua
+integer FPS = Matrix ray.core.GetFPS()
+```
+Returns current FPS
+
+
+#### GetFrameTime
+```lua
+float DT = Matrix ray.core.GetFrameTime()
+```
+Returns time in seconds for last frame drawn
+
+
+#### GetTime
+```lua
+float Time = Matrix ray.core.GetTime()
+```
+Returns elapsed time in seconds since InitWindow()
+
+
+### Color-related functions
+#### ColorToInt
+```lua
+integer iColor = ray.core.ColorToInt(Color Color)
+```
+Returns hexadecimal value for a Color
+
+
+#### ColorNormalize
+```lua
+-- variations
+Vector4 vColor = ray.core.ColorNormalize(Color Color)
+integer NR, integer NG, integer NB, integer NA = ray.core.ColorNormalize(Color Color, "n")
+table tColor = ray.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
+```
+Returns color normalized as float [0..1]. See [Vector4](Vector4), [Color](Color)
+
+
+#### ColorFromNormalized
+```lua
+-- variations
+Color Color = ray.core.ColorFromNormalized(Vector4 vColor)
+Color Color = ray.core.ColorFromNormalized(float R, float G, float B[, float A])
+Color Color = ray.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
+```
+Returns color from normalized values [0..1]. See [Vector4](Vector4), [Color](Color)
+
+
+#### ColorToHSV
+```lua
+-- variations
+Vector3 vColor = ray.core.ColorToHSV(Color Color)
+float Hue, float Saturation, float Value = ray.core.ColorToHSV(Color Color, "n")
+table hsvColor = ray.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
+```
+Returns HSV values for a Color. See [Vector3](Vector3), [Color](Color)
+
+
+#### ColorFromHSV
+```lua
+-- variations
+Color Color = ray.core.ColorFromHSV(Vector3 vColor)
+Color Color = ray.core.ColorFromHSV(float H, float S, float V)
+Color Color = ray.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
+```
+Returns a Color from HSV values. See [Vector3](Vector3), [Color](Color)
+
+
+#### GetColor
+```lua
+-- variations
+Color Color = ray.core.GetColor(integer hColor)
+```
+Returns a Color struct from hexadecimal value. See [Color](Color)
+
+
+#### Fade
+```lua
+-- variations
+Color fColor = ray.core.Fade(Color Color, float alpha)
+```
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](Color)
+
+
+### Misc. functions
+#### SetConfigFlags
+```lua
+ray.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
+```
+Setup window configuration flags
+Available flags:
+`"FULLSCREEN_MODE"   ` Set to run program in fullscreen
+`"WINDOW_RESIZABLE"  ` Set to allow resizable window
+`"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
+`"WINDOW_TRANSPARENT"` Set to allow transparent window
+`"WINDOW_HIDDEN"     ` Set to create the window initially hidden
+`"WINDOW_ALWAYS_RUN" ` Set to allow windows running while minimized
+`"MSAA_4X_HINT"      ` Set to try enabling MSAA 4X
+`"VSYNC_HINT"        ` Set to try enabling V-Sync on GPU
+
+
+#### SetTraceLogLevel
+```lua
+ray.core.SetTraceLogLevel(string Mode)
+```
+Set the current threshold (minimum) log level.
+Available Modes:
+`"ALL"     ` Set to run program in fullscreen
+`"TRACE"   ` Set to allow resizable window
+`"DEBUG"   ` Set to disable window decoration (frame and buttons)
+`"INFO"    ` Set to allow transparent window
+`"WARNING" ` Set to create the window initially hidden
+`"ERROR"   ` Set to allow windows running while minimized
+`"FATAL"   ` Set to try enabling MSAA 4X
+`"NONE"    ` Set to try enabling V-Sync on GPU
+
+
+### Files management functions
+#### FileExists
+```lua
+ray.core.FileExists(string Filename)
+```
+Check if file exists
+
+
+### Persistent storage management
+#### StorageSaveValue
+```lua
+ray.core.StorageSaveValue(integer Position, integer Value)
+```
+Save integer value to storage file (to defined position)
+
+
+### Input-related functions: keyb
+#### IsKeyPressed
+```lua
+boolean State = ray.core.IsKeyPressed(integer Key)
+```
+Detect if a key has been pressed once
+
+
+### Input-related functions: gamepads
+#### IsGamepadAvailable
+```lua
+boolean State = ray.core.IsGamepadAvailable(integer Gamepad)
+```
+Detect if a gamepad is available
+
+
+### Input-related functions: mouse
+#### IsMouseButtonPressed
+```lua
+boolean State = ray.core.IsMouseButtonPressed(integer Button)
+```
+Detect if a mouse button has been pressed once
+
+
+### Input-related functions: touch
+#### GetTouchX
+```lua
+boolean State = ray.core.GetTouchX()
+```
+Returns touch position X for touch point 0 (relative to screen size)
+
+
+### Camera System Functions (Module: camera)
+#### SetCameraMode
+```lua
+ray.core.SetCameraMode(Camera3D Camera, string Mode)
+```
+Set camera mode. Availabke modes: 
+* `"CUSTOM"` - default
+* `"FREE"`
+* `"ORBITAL"`
+* `"FIRST_PERSON"`
+* `"THIRD_PERSON"`
+
+
 # Classes
 
-## Ray_vector2
+## Vector2
 ### Initialization
 ```lua
 -- variations
-ray_vector2 vec = ray.Vector2(number x, number y) --> vec2[x, y]
-ray_vector2 vec = ray.Vector2(number x)           --> vec2[x, x]
-ray_vector2 vec = ray.Vector2(table t)            --> vec2[ t[1], t[2] ]
+Vector2 vec = ray.Vector2(number x, number y) --> vec2[x, y]
+Vector2 vec = ray.Vector2(number x)           --> vec2[x, x]
+Vector2 vec = ray.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
 Creates new Vector2 object.
 

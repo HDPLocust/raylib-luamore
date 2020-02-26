@@ -1,5 +1,8 @@
+os.execute'chcp 65001' -- unicode in cmd
 local ray = require'raylib_luamore'
+
 ray.core.InitWindow(300, 300, "Hello")
+ray.core.SetTargetFPS(30)
 
 local c1 = ray.Color(120, 200, 200)
 local c2 = ray.Color("darkpurple")
@@ -8,6 +11,8 @@ local c3 = ray.Color({0xb, 0xbb, 0x21})
 local r = ray.Rectangle(20, 20, 20, 20);
 local v = ray.Vector2(10, 10)
 function Main()
+	local text = ray.core.GetAllKeysPressedString()
+	if text then print(text) end
 	ray.core.BeginDrawing()
 		ray.core.ClearBackground(c1)
 		local s = (math.sin(os.clock())/2 + 0.5) * 255

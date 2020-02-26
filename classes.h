@@ -1,19 +1,19 @@
 /*!MD
 # Classes
 
-## Ray_vector2
+## Vector2
 ### Initialization
 ```lua
 -- variations
-ray_vector2 vec = ray.Vector2(number x, number y) --> vec2[x, y]
-ray_vector2 vec = ray.Vector2(number x)           --> vec2[x, x]
-ray_vector2 vec = ray.Vector2(table t)            --> vec2[ t[1], t[2] ]
+Vector2 vec = ray.Vector2(number x, number y) --> vec2[x, y]
+Vector2 vec = ray.Vector2(number x)           --> vec2[x, x]
+Vector2 vec = ray.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
 Creates new Vector2 object.
 */
 
 int lua_class_vector2_new(lua_State *L){
-  Vector2 * v = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   if (lua_isnumber(L, 1)) {
     v->x = luaL_checkinteger(L, 1);
     v->y = luax_optnumber(L, 2, v->x);
@@ -30,7 +30,6 @@ int lua_class_vector2_new(lua_State *L){
     v->x = 0; 
     v->y = 0;
   }
-
   return 1;
 }
 
@@ -45,8 +44,8 @@ Clones Vector2 object.
 */
 
 int lua_class_vector2_Clone(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   v2->x = v1->x; v2->y = v1->y;
   return 1;
 }
@@ -61,7 +60,7 @@ table t = Vector2:get('t') --> {x, y}
 Get Vector2 components.
 */
 int lua_class_vector2_Get(lua_State *L){
-  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, (float)v->x);
@@ -83,7 +82,7 @@ table t = Vector2:get('t') --> {x, y}
 Set Vector2 components.
 */
 int lua_class_vector2_Set(lua_State *L){
-  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   v->x = luax_optnumber(L, 2, v->x);
   v->y = luax_optnumber(L, 3, v->y);
   lua_settop(L, 1);
@@ -91,47 +90,47 @@ int lua_class_vector2_Set(lua_State *L){
 }
 
 int lua_class_vector2_Add(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v1->x += v2->x; v1->y += v2->y;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector2_Subtract(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v1->x -= v2->x; v1->y -= v2->y;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector2_Length(lua_State *L){
-  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   float result = sqrtf((v->x * v->x) + (v->y * v->y));
   lua_pushnumber(L, result);
   return 1;
 }
 
 int lua_class_vector2_DotProduct(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   float result = (v1->x * v2->x + v1->y * v2->y);
   lua_pushnumber(L, result);
   return 1;
 }
 
 int lua_class_vector2_Distance(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   float result = sqrtf((v1->x - v2->x)*(v1->x - v2->x) + (v1->y - v2->y)*(v1->y - v2->y));
   lua_pushnumber(L, result);
   return 1;
 }
 
 int lua_class_vector2_Angle(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   float result = atan2f(v2->y - v1->y, v2->x - v1->x)*(180.0f/PI);
   if (result < 0) result += 360.0f;
   lua_pushnumber(L, result);
@@ -139,8 +138,8 @@ int lua_class_vector2_Angle(lua_State *L){
 }
 
 int lua_class_vector2_AngleRad(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   float result = atan2f(v2->y - v1->y, v2->x - v1->x);
   if (result < 0) result += 2*PI;
   lua_pushnumber(L, result);
@@ -148,7 +147,7 @@ int lua_class_vector2_AngleRad(lua_State *L){
 }
 
 int lua_class_vector2_Scale(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   float n = luaL_checknumber(L, 2);
   v1->x *= n; v1->y *= n;
   lua_settop(L, 1);
@@ -156,15 +155,15 @@ int lua_class_vector2_Scale(lua_State *L){
 }
 
 int lua_class_vector2_MultiplyV(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v1->x *= v2->x; v1->y *= v2->y;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector2_Multiply(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   if (lua_isnumber(L, 2)){
     float n = luaL_checknumber(L, 2);
     v1->x *= n; v1->y *= n;
@@ -172,20 +171,20 @@ int lua_class_vector2_Multiply(lua_State *L){
     return 1;
   }
 
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v1->x *= v2->x; v1->y *= v2->y;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector2_Negate(lua_State *L){
-  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   v->x = -v->x; v->y = -v->y;
   return 1;
 }
 
 int lua_class_vector2_Divide(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   if (lua_isnumber(L, 2)){
     float n = luaL_checknumber(L, 2);
     v1->x /= n; v1->y /= n;
@@ -193,15 +192,15 @@ int lua_class_vector2_Divide(lua_State *L){
     return 1;
   }
 
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v1->x /= v2->x; v1->y /= v2->y;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector2_DivideV(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v1->x /= v2->x;
   v1->y /= v2->y;
   lua_pop(L, 1);
@@ -209,7 +208,7 @@ int lua_class_vector2_DivideV(lua_State *L){
 }
 
 int lua_class_vector2_Normalize(lua_State *L){
-  Vector2 * v   = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
+  Vector2 * v   = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   float     len = sqrtf((v->x * v->x) + (v->y * v->y));
   v->x /= len; v->y /= len;
   lua_settop(L, 1);
@@ -217,8 +216,8 @@ int lua_class_vector2_Normalize(lua_State *L){
 }
 
 int lua_class_vector2_Lerp(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   float amount = luaL_checknumber(L, 3);
 
   v1->x = v1->x + amount * (v2->x - v1->x);
@@ -229,52 +228,52 @@ int lua_class_vector2_Lerp(lua_State *L){
 
 // metamethods mostly creates new objects
 int lua_class_vector2__Add(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
-  Vector2 * v3 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
+  Vector2 * v3 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   *v3 = Vector2Add(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector2__Sub(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
-  Vector2 * v3 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
+  Vector2 * v3 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   *v3 = Vector2Subtract(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector2__Mul(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v3 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v3 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     *v3 = Vector2Scale(*v1, n);
     return 1;
   }
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   *v3 = Vector2MultiplyV(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector2__Div(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
-  Vector2 * v3 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
+  Vector2 * v3 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   *v3 = Vector2DivideV(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector2__Pow(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v3 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v3 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     v3->x = pow(v3->x, n);
     v3->y = pow(v3->y, n);
     return 1;
   }
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   v3->x = pow(v3->x, v2->x);
   v3->y = pow(v3->y, v2->y);
 
@@ -282,22 +281,22 @@ int lua_class_vector2__Pow(lua_State *L){
 }
 
 int lua_class_vector2__Neg(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   *v2 = Vector2Negate(*v1);
   return 1;
 }
 
 int lua_class_vector2__Eq(lua_State *L){
-  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+  Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
   lua_pushboolean(L, (v1->x == v2->x) && (v1->y == v2->y));
   return 1;
 }
 
 int lua_class_vector2__ToString(lua_State *L){
-  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "ray_vector2");
-  lua_pushfstring(L, "ray_vector2[%f, %f]: 0x%0.8x", v->x, v->y, v);
+  Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  lua_pushfstring(L, "Vector2[%f, %f]: 0x%0.8x", v->x, v->y, v);
   return 1;
 }
 
@@ -335,7 +334,7 @@ luaL_Reg luaray_class_vector2[] = {
 
 // Vector3
 int lua_class_vector3_new(lua_State *L){
-  Vector3 * v = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if (lua_isnumber(L, 1)) {
     v->x = luaL_checkinteger(L, 1);
     v->y = luax_optnumber(L, 2, v->x);
@@ -358,14 +357,14 @@ int lua_class_vector3_new(lua_State *L){
 }
 
 int lua_class_vector3_Clone(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   v2->x = v1->x; v2->y = v1->y; v2->z = v1->z;
   return 1;
 }
 
 int lua_class_vector3_Get(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, (float)v->x);
@@ -380,7 +379,7 @@ int lua_class_vector3_Get(lua_State *L){
 }
 
 int lua_class_vector3_Set(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   v->x = luax_optnumber(L, 2, v->x);
   v->y = luax_optnumber(L, 3, v->y);
   v->z = luax_optnumber(L, 4, v->z);
@@ -389,8 +388,8 @@ int lua_class_vector3_Set(lua_State *L){
 }
 
 int lua_class_vector3_Add(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   v1->x += v2->x;
   v1->y += v2->y;
   v1->z += v2->z;
@@ -404,15 +403,15 @@ Vector3 * _ptr_vector3_Subtract(Vector3 * v1, Vector3 * v2){
 }
 
 int lua_class_vector3_Subtract(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   _ptr_vector3_Subtract(v1, v2);
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector3_Scale(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   float n = luaL_checknumber(L, 2);
   v1->x *= n; v1->y *= n; v1->z *= n;
   lua_settop(L, 1);
@@ -420,15 +419,15 @@ int lua_class_vector3_Scale(lua_State *L){
 }
 
 int lua_class_vector3_MultiplyV(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   v1->x *= v2->x; v1->y *= v2->y; v1->z *= v2->z;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector3_Multiply(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   if (lua_isnumber(L, 2)){
     float n = luaL_checknumber(L, 2);
     v1->x *= n; v1->y *= n; v1->z *= n;
@@ -436,7 +435,7 @@ int lua_class_vector3_Multiply(lua_State *L){
     return 1;
   }
 
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   v1->x *= v2->x; v1->y *= v2->y; v1->z *= v2->z;
   lua_settop(L, 1);
   return 1;
@@ -450,15 +449,15 @@ Vector3 * _ptr_vector3_CrossProduct(Vector3 * v1, Vector3 * v2){
 }
 
 int lua_class_vector3_CrossProduct(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   _ptr_vector3_CrossProduct(v1, v2);
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector3_Perpendicular(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3   c = {1.0f, 0.0f, 0.0f};
 
   float min  = (float)fabs(v->x);
@@ -484,7 +483,7 @@ int lua_class_vector3_Perpendicular(lua_State *L){
 }
 
 int lua_class_vector3_Length(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   float result = sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
   lua_pushnumber(L, result);
   return 1;
@@ -495,16 +494,16 @@ float _ptr_vector3_DotProduct(Vector3 * v1, Vector3 * v2){
 }
 
 int lua_class_vector3_DotProduct(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   float result = _ptr_vector3_DotProduct(v1, v2);
   lua_pushnumber(L, result);
   return 1;
 }
 
 int lua_class_vector3_Distance(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   float dx = v2->x - v1->x;
   float dy = v2->y - v1->y;
   float dz = v2->z - v1->z;
@@ -514,14 +513,14 @@ int lua_class_vector3_Distance(lua_State *L){
 }
 
 int lua_class_vector3_Negate(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   v->x = -v->x; v->y = -v->y; v->z = -v->z;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector3_Divide(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   if (lua_isnumber(L, 2)){
     float n = luaL_checknumber(L, 2);
     v1->x /= n; v1->y /= n; v1->z /= n;
@@ -529,15 +528,15 @@ int lua_class_vector3_Divide(lua_State *L){
     return 1;
   }
 
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   v1->x /= v2->x; v1->y /= v2->y; v1->z /= v2->z;
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector3_DivideV(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   v1->x /= v2->x; v1->y /= v2->y; v1->z /= v2->z;
   lua_settop(L, 1);
   return 1;
@@ -554,15 +553,15 @@ Vector3 * _ptr_vector3_Normalize(Vector3 * v){
 }
 
 int lua_class_vector3_Normalize(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   _ptr_vector3_Normalize(v);
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_vector3_OrthoNormalize(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
 
   _ptr_vector3_Normalize(v1);
   Vector3 vn = {v1->x, v1->y, v1->z};
@@ -574,8 +573,8 @@ int lua_class_vector3_OrthoNormalize(lua_State *L){
 }
 
 int lua_class_vector3_Transform(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Matrix  * m =  (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Matrix  * m =  (Matrix *)luaL_checkudata(L, 2, "Matrix");
   float x = v->x, y = v->y, z = v->z;
   v->x = m->m0*x + m->m4*y + m->m8*z  + m->m12;
   v->y = m->m1*x + m->m5*y + m->m9*z  + m->m13;
@@ -585,8 +584,8 @@ int lua_class_vector3_Transform(lua_State *L){
 }
 
 int lua_class_vector3_RotateByQuaternion(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector4 * q = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector4 * q = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   float vx = v->x, vy = v->y, vz = v->z;
   float qx = q->x, qy = q->y, qz = q->z, qw = q->w;
 
@@ -598,8 +597,8 @@ int lua_class_vector3_RotateByQuaternion(lua_State *L){
 }
 
 int lua_class_vector3_Lerp(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   float amount = luaL_checknumber(L, 3);
   v1->x = v1->x + amount*(v2->x - v1->x);
   v1->y = v1->y + amount*(v2->y - v1->y);
@@ -610,8 +609,8 @@ int lua_class_vector3_Lerp(lua_State *L){
 }
 
 int lua_class_vector3_Reflect(lua_State *L){
-  Vector3 * v      = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * normal = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v      = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * normal = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   float dotProduct = _ptr_vector3_DotProduct(v, normal);
 
   v->x = v->x - (2.0f*normal->x)*dotProduct;
@@ -623,8 +622,8 @@ int lua_class_vector3_Reflect(lua_State *L){
 }
 
 int lua_class_vector3_Min(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
 
   v1->x = fminf(v1->x, v2->x);
   v1->y = fminf(v1->y, v2->y);
@@ -635,8 +634,8 @@ int lua_class_vector3_Min(lua_State *L){
 }
 
 int lua_class_vector3_Max(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
 
   v1->x = fmaxf(v1->x, v2->x);
   v1->y = fmaxf(v1->y, v2->y);
@@ -648,10 +647,10 @@ int lua_class_vector3_Max(lua_State *L){
 
 // returns new vector
 int lua_class_vector3_Barycenter(lua_State *L){
-  Vector3 * p = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * a = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
-  Vector3 * b = (Vector3 *)luaL_checkudata(L, 3, "ray_vector3");
-  Vector3 * c = (Vector3 *)luaL_checkudata(L, 4, "ray_vector3");
+  Vector3 * p = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * a = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
+  Vector3 * b = (Vector3 *)luaL_checkudata(L, 3, "Vector3");
+  Vector3 * c = (Vector3 *)luaL_checkudata(L, 4, "Vector3");
 
   Vector3 v0 = Vector3Subtract(*b, *a);
   Vector3 v1 = Vector3Subtract(*c, *a);
@@ -664,7 +663,7 @@ int lua_class_vector3_Barycenter(lua_State *L){
 
   float denom = d00*d11 - d01*d01;
 
-  Vector3 * result = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * result = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
 
   result->y = (d11*d20 - d01*d21)/denom;
   result->z = (d00*d21 - d01*d20)/denom;
@@ -674,50 +673,50 @@ int lua_class_vector3_Barycenter(lua_State *L){
 
 // metamethods mostly creates new objects
 int lua_class_vector3__Add(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
-  Vector3 * v3 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
+  Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   *v3 = Vector3Add(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector3__Sub(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
-  Vector3 * v3 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
+  Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   *v3 = Vector3Subtract(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector3__Mul(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v3 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     *v3 = Vector3Scale(*v1, n);
     return 1;
   }
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   *v3 = Vector3Multiply(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector3__Div(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v3 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     *v3 = Vector3Divide(*v1, n);
     return 1;
   }
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   *v3 = Vector3DivideV(*v1, *v2);
   return 1;
 }
 
 int lua_class_vector3__Pow(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v3 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     v3->x = pow(v3->x, n);
@@ -725,7 +724,7 @@ int lua_class_vector3__Pow(lua_State *L){
     v3->z = pow(v3->z, n);
     return 1;
   }
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   v3->x = pow(v3->x, v2->x);
   v3->y = pow(v3->y, v2->y);
   v3->z = pow(v3->z, v2->z);
@@ -734,22 +733,22 @@ int lua_class_vector3__Pow(lua_State *L){
 }
 
 int lua_class_vector3__Neg(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   *v2 = Vector3Negate(*v1);
   return 1;
 }
 
 int lua_class_vector3__Eq(lua_State *L){
-  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   lua_pushboolean(L, (v1->x == v2->x) && (v1->y == v2->y) && (v1->z == v2->z) );
   return 1;
 }
 
 int lua_class_vector3__ToString(lua_State *L){
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "ray_vector3");
-  lua_pushfstring(L, "ray_vector3[%f, %f, %f]: 0x%0.8x", v->x, v->y, v->z, v);
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  lua_pushfstring(L, "Vector3[%f, %f, %f]: 0x%0.8x", v->x, v->y, v->z, v);
   return 1;
 }
 
@@ -835,14 +834,14 @@ Matrix * _ptr_matrix_Fill(lua_State *L, Matrix * m, int t){
 }
 
 int lua_class_matrix_new(lua_State *L){
-  Matrix * m = (Matrix *)luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Matrix * m = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
   _ptr_matrix_Fill(L, m, 1);
   return 1;
 }
 
 int lua_class_matrix_Clone(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
   m1->m0  = m2->m0;  m1->m1  = m2->m1;  m1->m2  = m2->m2;  m1->m3  = m2->m3;
   m1->m4  = m2->m4;  m1->m5  = m2->m5;  m1->m6  = m2->m6;  m1->m7  = m2->m7;
   m1->m8  = m2->m8;  m1->m9  = m2->m9;  m1->m10 = m2->m10; m1->m11 = m2->m11;
@@ -851,7 +850,7 @@ int lua_class_matrix_Clone(lua_State *L){
 }
 
 int lua_class_matrix_Get(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L,  1, (float)m->m0);
@@ -892,7 +891,7 @@ int lua_class_matrix_Get(lua_State *L){
 }
 
 int lua_class_matrix_Set(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   _ptr_matrix_Fill(L, m, 2);
   lua_settop(L, 1);
   return 1;
@@ -915,7 +914,7 @@ float _ptr_matrix_Determinant(Matrix * m){
 }
 
 int lua_class_matrix_Determinant(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float result = _ptr_matrix_Determinant(m);
   lua_pushnumber(L, result);
   return 1;
@@ -926,14 +925,14 @@ float _ptr_matrix_Trace(Matrix * m){
 }
 
 int lua_class_matrix_Trace(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float result = _ptr_matrix_Trace(m);
   lua_pushnumber(L, result);
   return 1;
 }
 
 int lua_class_matrix_Transpose(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float m1  = m->m1,  m2  = m->m2,  m3  = m->m3;
   float m4  = m->m4,  m6  = m->m6,  m7  = m->m7;
   float m8  = m->m8,  m9  = m->m9,  m11 = m->m11;
@@ -989,14 +988,14 @@ Matrix * _ptr_matrix_Invert(Matrix * m){
 }
 
 int lua_class_matrix_Invert(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   _ptr_matrix_Invert(m);
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_matrix_Normalize(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float det = _ptr_matrix_Determinant(m);
 
   m->m0  /= det; m->m1  /= det; m->m2  /= det; m->m3  /= det;
@@ -1017,15 +1016,15 @@ Matrix * _ptr_matrix_Identity(Matrix * m){
 }
 
 int lua_class_matrix_Identity(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   _ptr_matrix_Identity(m);
   lua_settop(L, 1);
   return 1;
 }
 
 int lua_class_matrix_Add(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
 
   m1->m0  = m1->m0  + m2->m0;
   m1->m1  = m1->m1  + m2->m1;
@@ -1049,8 +1048,8 @@ int lua_class_matrix_Add(lua_State *L){
 }
 
 int lua_class_matrix_Subtract(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
 
   m1->m0  = m1->m0  - m2->m0;
   m1->m1  = m1->m1  - m2->m1;
@@ -1074,7 +1073,7 @@ int lua_class_matrix_Subtract(lua_State *L){
 }
 
 int lua_class_matrix_Translate(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float x, y, z;
   if (lua_istable(L, 2)){
     lua_rawgeti(L, 2, 1); lua_rawgeti(L, 2, 2); lua_rawgeti(L, 2, 3);
@@ -1088,7 +1087,7 @@ int lua_class_matrix_Translate(lua_State *L){
     z = luaL_checknumber(L, 4);
   }
   else {
-    Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+    Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
     x = v->x; y = v->y; z = v->z;
   }
   _ptr_matrix_Identity(m);
@@ -1098,8 +1097,8 @@ int lua_class_matrix_Translate(lua_State *L){
 }
 
 int lua_class_matrix_Rotate(lua_State *L){
-  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   float a = luaL_checknumber(L, 3); // angle
   float x = v->x, y = v->y, z = v->z;
   float l = sqrtf(x*x + y*y + z*z);
@@ -1121,8 +1120,8 @@ int lua_class_matrix_Rotate(lua_State *L){
 }
 
 int lua_class_matrix_RotateXYZ(lua_State *L){
-  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   _ptr_matrix_Identity(m);
 
   float cosz = cosf(-v->z), sinz = sinf(-v->z);
@@ -1146,7 +1145,7 @@ int lua_class_matrix_RotateXYZ(lua_State *L){
 }
 
 int lua_class_matrix_RotateX(lua_State *L){
-  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float angle = luaL_checknumber(L, 2);
 
   _ptr_matrix_Identity(m);
@@ -1163,7 +1162,7 @@ int lua_class_matrix_RotateX(lua_State *L){
 }
 
 int lua_class_matrix_RotateY(lua_State *L){
-  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float angle = luaL_checknumber(L, 2);
 
   _ptr_matrix_Identity(m);
@@ -1180,7 +1179,7 @@ int lua_class_matrix_RotateY(lua_State *L){
 }
 
 int lua_class_matrix_RotateZ(lua_State *L){
-  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float angle = luaL_checknumber(L, 2);
   _ptr_matrix_Identity(m);
   float cosres = cosf(angle);
@@ -1196,7 +1195,7 @@ int lua_class_matrix_RotateZ(lua_State *L){
 }
 
 int lua_class_matrix_Scale(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float x, y, z;
   if (lua_istable(L, 2)){
     lua_rawgeti(L, 2, 1); lua_rawgeti(L, 2, 2); lua_rawgeti(L, 2, 3);
@@ -1210,7 +1209,7 @@ int lua_class_matrix_Scale(lua_State *L){
     z = luaL_checknumber(L, 4);
   }
   else {
-    Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+    Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
     x = v->x; y = v->y; z = v->z;
   }
 
@@ -1222,8 +1221,8 @@ int lua_class_matrix_Scale(lua_State *L){
 }
 
 int lua_class_matrix_Multiply(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
   Matrix m3 = {0};
 
   m3.m0  = m1->m0*m2->m0  + m1->m1*m2->m4  + m1->m2*m2->m8   + m1->m3*m2->m12;
@@ -1266,7 +1265,7 @@ Matrix * _ptr_matrix_Frustrum(Matrix * m, double left, double right, double bott
 }
 
 int lua_class_matrix_Frustum(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   double left   = luaL_checknumber(L, 2);
   double right  = luaL_checknumber(L, 3);
   double bottom = luaL_checknumber(L, 4);
@@ -1280,7 +1279,7 @@ int lua_class_matrix_Frustum(lua_State *L){
 }
 
 int lua_class_matrix_Perspective(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   double fovy   = luaL_checknumber(L, 2);
   double aspect = luaL_checknumber(L, 3);
   double near   = luaL_checknumber(L, 4);
@@ -1295,7 +1294,7 @@ int lua_class_matrix_Perspective(lua_State *L){
 }
 
 int lua_class_matrix_Ortho(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   double left   = luaL_checknumber(L, 2);
   double right  = luaL_checknumber(L, 3);
   double bottom = luaL_checknumber(L, 4);
@@ -1329,10 +1328,10 @@ int lua_class_matrix_Ortho(lua_State *L){
 }
 
 int lua_class_matrix_LookAt(lua_State *L){
-  Matrix  * m  =  (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Vector3 * eye    = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
-  Vector3 * target = (Vector3 *)luaL_checkudata(L, 3, "ray_vector3");
-  Vector3 * up     = (Vector3 *)luaL_checkudata(L, 4, "ray_vector3");
+  Matrix  * m  =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Vector3 * eye    = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
+  Vector3 * target = (Vector3 *)luaL_checkudata(L, 3, "Vector3");
+  Vector3 * up     = (Vector3 *)luaL_checkudata(L, 4, "Vector3");
 
   Vector3 z = Vector3Subtract(*eye, *target);
   _ptr_vector3_Normalize(&z);
@@ -1356,32 +1355,32 @@ int lua_class_matrix_LookAt(lua_State *L){
 // meta
 
 int lua_class_matrix__Add(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
-  Matrix * m3 = (Matrix *)luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
   *m3 = MatrixAdd(*m1, *m2);
   return 1;
 }
 
 int lua_class_matrix__Sub(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
-  Matrix * m3 = (Matrix *)luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
   *m3 = MatrixSubtract(*m1, *m2);
   return 1;
 }
 
 int lua_class_matrix__Mul(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
-  Matrix * m3 = (Matrix *)luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
   *m3 = MatrixMultiply(*m1, *m2);
   return 1;
 }
 
 int lua_class_matrix__Eq(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "ray_matrix");
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
 
   bool eq = (m1->m0  == m2->m0 ) && (m1->m1  == m2->m1 ) &&
             (m1->m2  == m2->m2 ) && (m1->m3  == m2->m3 ) &&
@@ -1397,8 +1396,8 @@ int lua_class_matrix__Eq(lua_State *L){
 
 
 int lua_class_matrix__ToString(lua_State *L){
-  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "ray_matrix");
-  lua_pushfstring(L, "ray_matrix[[%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f]]: 0x%0.8x",
+  Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  lua_pushfstring(L, "Matrix[[%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f]]: 0x%0.8x",
     m->m0,  m->m1,  m->m2,  m->m3,
     m->m4,  m->m5,  m->m6,  m->m7,
     m->m8,  m->m9,  m->m10, m->m11,
@@ -1444,7 +1443,7 @@ luaL_Reg luaray_class_matrix[] = {
 
 // Vector4
 int lua_class_vector4_new(lua_State *L){
-  Vector4 * v = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   if (lua_isnumber(L, 1)) {
     v->x = luaL_checkinteger(L, 1);
     v->y = luax_optnumber(L, 2, v->x);
@@ -1466,14 +1465,14 @@ int lua_class_vector4_new(lua_State *L){
 }
 
 int lua_class_vector4_Clone(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   v2->x = v1->x; v2->y = v1->y; v2->z = v1->z; v2->w = v1->w;
   return 1;
 }
 
 int lua_class_vector4_Get(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, (float)v->x);
@@ -1490,7 +1489,7 @@ int lua_class_vector4_Get(lua_State *L){
 }
 
 int lua_class_vector4_Set(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   v->x = luax_optnumber(L, 2, v->x);
   v->y = luax_optnumber(L, 3, v->y);
   v->z = luax_optnumber(L, 4, v->z);
@@ -1501,8 +1500,8 @@ int lua_class_vector4_Set(lua_State *L){
 }
 
 int lua_class_vector4_Add(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v1->x += v2->x;
   v1->y += v2->y;
   v1->z += v2->z;
@@ -1513,8 +1512,8 @@ int lua_class_vector4_Add(lua_State *L){
 }
 
 int lua_class_vector4_Subtract(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v1->x -= v2->x;
   v1->y -= v2->y;
   v1->z -= v2->z;
@@ -1525,7 +1524,7 @@ int lua_class_vector4_Subtract(lua_State *L){
 }
 
 int lua_class_vector4_Scale(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float n = luaL_checknumber(L, 2);
   v1->x *= n;
   v1->y *= n;
@@ -1537,8 +1536,8 @@ int lua_class_vector4_Scale(lua_State *L){
 }
 
 int lua_class_vector4_MultiplyV(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v1->x *= v2->x;
   v1->y *= v2->y;
   v1->z *= v2->z;
@@ -1549,7 +1548,7 @@ int lua_class_vector4_MultiplyV(lua_State *L){
 }
 
 int lua_class_vector4_Multiply(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   if (lua_isnumber(L, 2)){
     float n = luaL_checknumber(L, 2);
     v1->x *= n; v1->y *= n; v1->z *= n; v1->w *= n;
@@ -1558,7 +1557,7 @@ int lua_class_vector4_Multiply(lua_State *L){
     return 1;
   }
 
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v1->x *= v2->x; v1->y *= v2->y; v1->z *= v2->z; v1->w *= v2->w;
 
   lua_settop(L, 1);
@@ -1566,7 +1565,7 @@ int lua_class_vector4_Multiply(lua_State *L){
 }
 
 int lua_class_vector4_Identity(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   v->x = luaL_checknumber(L, 2);
   v->y = luaL_checknumber(L, 3);
   v->z = luaL_checknumber(L, 4);
@@ -1576,7 +1575,7 @@ int lua_class_vector4_Identity(lua_State *L){
 }
 
 int lua_class_vector4_Length(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float x = v->x, y = v->y, z = v->z, w = v->w;
   float result = (float)sqrt(x*x + y*y + z*z + w*w);
   lua_pushnumber(L, result);
@@ -1596,7 +1595,7 @@ Vector4 * _ptr_vector4_QuaternionNormalize(Vector4 * v){
 }
 
 int lua_class_vector4_Normalize(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   _ptr_vector4_QuaternionNormalize(v);
 
   lua_settop(L, 1);
@@ -1604,7 +1603,7 @@ int lua_class_vector4_Normalize(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionInvert(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float l, il;
   l = QuaternionLength(*v);
   float lengthSq = l*l;
@@ -1618,8 +1617,8 @@ int lua_class_vector4_QuaternionInvert(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionMultiply(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   float vax = v1->x, vay = v1->y, vaz = v1->z, vaw = v1->w;
   float vbx = v2->x, vby = v2->y, vbz = v2->z, vbw = v2->w;
 
@@ -1633,8 +1632,8 @@ int lua_class_vector4_QuaternionMultiply(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionLerp(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   float amount = luaL_checknumber(L, 3);
 
   v1->x = v1->x + amount*(v2->x - v1->x);
@@ -1662,8 +1661,8 @@ Vector4 * _ptr_vector4_QuaternionNlerp(Vector4 * v1, Vector4 * v2, float amount)
 }
 
 int lua_class_vector4_QuaternionNlerp(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   float amount = luaL_checknumber(L, 3);
   _ptr_vector4_QuaternionNlerp(v1, v2, amount);
 
@@ -1672,8 +1671,8 @@ int lua_class_vector4_QuaternionNlerp(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionSlerp(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   float amount = luaL_checknumber(L, 3);
 
   float cosHalfTheta =  v1->x*v2->x + v1->y*v2->y + v1->z*v2->z + v1->w*v2->w;
@@ -1713,9 +1712,9 @@ int lua_class_vector4_QuaternionSlerp(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionFromVector3ToVector3(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
-  Vector3 * v3 = (Vector3 *)luaL_checkudata(L, 3, "ray_vector3");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
+  Vector3 * v3 = (Vector3 *)luaL_checkudata(L, 3, "Vector3");
 
   float cos2Theta = Vector3DotProduct(*v2, *v3);
   _ptr_vector3_CrossProduct(v2, v3);
@@ -1733,8 +1732,8 @@ int lua_class_vector4_QuaternionFromVector3ToVector3(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionFromMatrix(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Matrix  * m = (Matrix  *)luaL_checkudata(L, 2, "ray_matrix");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Matrix  * m = (Matrix  *)luaL_checkudata(L, 2, "Matrix");
 
   float trace = MatrixTrace(*m);
 
@@ -1785,8 +1784,8 @@ int lua_class_vector4_QuaternionFromMatrix(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionToMatrix(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Matrix  * m = (Matrix *)luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Matrix  * m = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
 
   float x = v->x, y = v->y, z = v->z, w = v->w;
 
@@ -1815,8 +1814,8 @@ int lua_class_vector4_QuaternionToMatrix(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionFromAxisAngle(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   float angle  = luaL_checknumber(L, 3);
 
   if (Vector3Length(*v2) != 0.0f) angle *= 0.5f;
@@ -1837,8 +1836,8 @@ int lua_class_vector4_QuaternionFromAxisAngle(lua_State *L){
 
 int lua_class_vector4_QuaternionToAxisAngle(lua_State *L){
   lua_settop(L, 1);
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector3 * v2 = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector3 * v2 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
 
   if (fabs(v1->w) > 1.0f) _ptr_vector4_QuaternionNormalize(v1);
   float resAngle = 0.0f;
@@ -1863,7 +1862,7 @@ int lua_class_vector4_QuaternionToAxisAngle(lua_State *L){
 
 
 int lua_class_vector4_QuaternionFromEuler(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float roll  = luaL_checknumber(L, 2);
   float pitch = luaL_checknumber(L, 3);
   float yaw   = luaL_checknumber(L, 4);
@@ -1885,7 +1884,7 @@ int lua_class_vector4_QuaternionFromEuler(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionToEuler(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
 
   // roll (x-axis rotation)
   float x0 = 2.0f*(v->w*v->x + v->y*v->z);
@@ -1906,8 +1905,8 @@ int lua_class_vector4_QuaternionToEuler(lua_State *L){
 }
 
 int lua_class_vector4_QuaternionTransform(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Matrix  * m = (Matrix  *)luaL_checkudata(L, 2, "ray_matrix");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Matrix  * m = (Matrix  *)luaL_checkudata(L, 2, "Matrix");
   v->x = m->m0*v->x + m->m4*v->y + m->m8*v->z + m->m12*v->w;
   v->y = m->m1*v->x + m->m5*v->y + m->m9*v->z + m->m13*v->w;
   v->z = m->m2*v->x + m->m6*v->y + m->m10*v->z + m->m14*v->w;
@@ -1919,9 +1918,9 @@ int lua_class_vector4_QuaternionTransform(lua_State *L){
 
 // metamethods mostly creates new objects
 int lua_class_vector4__Add(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
-  Vector4 * v3 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
+  Vector4 * v3 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   v3->x = v1->x + v2->x;
   v3->y = v1->y + v2->y;
   v3->z = v1->z + v2->z;
@@ -1930,9 +1929,9 @@ int lua_class_vector4__Add(lua_State *L){
 }
 
 int lua_class_vector4__Sub(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
-  Vector4 * v3 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
+  Vector4 * v3 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   v3->x = v1->x - v2->x;
   v3->y = v1->y - v2->y;
   v3->z = v1->z - v2->z;
@@ -1941,8 +1940,8 @@ int lua_class_vector4__Sub(lua_State *L){
 }
 
 int lua_class_vector4__Mul(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v3 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v3 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     v3->x = v1->x * n;
@@ -1951,7 +1950,7 @@ int lua_class_vector4__Mul(lua_State *L){
     v3->w = v1->w * n;
     return 1;
   }
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v3->x = v1->x * v2->x;
   v3->y = v1->y * v2->y;
   v3->z = v1->z * v2->z;
@@ -1960,8 +1959,8 @@ int lua_class_vector4__Mul(lua_State *L){
 }
 
 int lua_class_vector4__Div(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v3 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v3 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     v3->x = v1->x / n;
@@ -1970,7 +1969,7 @@ int lua_class_vector4__Div(lua_State *L){
     v3->w = v1->w / n;
     return 1;
   }
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v3->x = v1->x / v2->x;
   v3->y = v1->y / v2->y;
   v3->z = v1->z / v2->z;
@@ -1979,8 +1978,8 @@ int lua_class_vector4__Div(lua_State *L){
 }
 
 int lua_class_vector4__Pow(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v3 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v3 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   if ( lua_isnumber(L, 2) ){
     float n = luaL_checknumber(L, 2);
     v3->x = pow(v3->x, n);
@@ -1989,7 +1988,7 @@ int lua_class_vector4__Pow(lua_State *L){
     v3->w = pow(v3->w, n);
     return 1;
   }
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   v3->x = pow(v3->x, v2->x);
   v3->y = pow(v3->y, v2->y);
   v3->z = pow(v3->z, v2->z);
@@ -1999,23 +1998,23 @@ int lua_class_vector4__Pow(lua_State *L){
 }
 
 int lua_class_vector4__Neg(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   v2->x = -v2->x; v2->y = -v2->y; v2->z = -v2->z; v2->w = -v2->w;
   return 1;
 }
 
 int lua_class_vector4__Eq(lua_State *L){
-  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
 	bool eq = (v1->x == v2->x) && (v1->y == v2->y) && (v1->z == v2->z) && (v1->w == v2->w);
   lua_pushboolean(L, eq);
   return 1;
 }
 
 int lua_class_vector4__ToString(lua_State *L){
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "ray_vector4");
-  lua_pushfstring(L, "ray_vector4[%f, %f, %f, %f]: 0x%0.8x", v->x, v->y, v->z, v->w, v);
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  lua_pushfstring(L, "Vector4[%f, %f, %f, %f]: 0x%0.8x", v->x, v->y, v->z, v->w, v);
   return 1;
 }
 
@@ -2058,7 +2057,7 @@ luaL_Reg luaray_class_vector4[] = {
 
 // Color
 int lua_class_color_new(lua_State *L){
-  Color * c = (Color *)luax_newobject(L, "ray_color", sizeof(Color));
+  Color * c = (Color *)luax_newobject(L, "Color", sizeof(Color));
 
   if (lua_istable(L, 1)){
     for (int i = 0; i < 4; i++) lua_rawgeti (L, 1, i + 1);
@@ -2109,14 +2108,14 @@ int lua_class_color_new(lua_State *L){
 }
 
 int lua_class_color_Clone(lua_State *L){
-  Color * c1 = (Color *)luaL_checkudata(L, 1, "ray_color");
-  Color * c2 = (Color *)luax_newobject(L, "ray_color", sizeof(Color));
+  Color * c1 = (Color *)luaL_checkudata(L, 1, "Color");
+  Color * c2 = (Color *)luax_newobject(L, "Color", sizeof(Color));
   c2->r = c1->r; c2->g = c1->g; c2->b = c1->b; c2->a = c1->a;
   return 1;
 }
 
 int lua_class_color_Get(lua_State *L){
-  Color * c = (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
     lua_newtable(L);
 		luax_tnnumber(L, 1, (float)c->r / 255.0f);
@@ -2133,7 +2132,7 @@ int lua_class_color_Get(lua_State *L){
 }
 
 int lua_class_color_Set(lua_State *L){
-  Color * c = (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color * c = (Color *)luaL_checkudata(L, 1, "Color");
 	c->r = luax_optinteger(L, 2, c->r);
 	c->g = luax_optinteger(L, 3, c->g);
 	c->b = luax_optinteger(L, 4, c->b);
@@ -2144,14 +2143,14 @@ int lua_class_color_Set(lua_State *L){
 }
 
 int lua_class_color_ToInteger(lua_State *L){
-  Color * c = (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   int ic = ColorToInt(*c);
   lua_pushnumber(L, ic);
   return 1;
 }
 
 int lua_class_color_FromInteger(lua_State *L){
-  Color * c = (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   int hex   = luaL_checkinteger(L, 2);
   *c = GetColor(hex); lua_pop(L, 1);
 
@@ -2160,14 +2159,14 @@ int lua_class_color_FromInteger(lua_State *L){
 }
 
 int lua_class_color_ToString(lua_State *L){
-  Color * c = (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   int ic = ColorToInt(*c);
   lua_pushfstring(L, "%0.8x", ic);
   return 1;
 }
 
 int lua_class_color_Normalize(lua_State *L){
-  Color *   c =   (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
   if (lua_isstring(L, 2)){
     const char * s = luaL_checkstring(L, 2);
     if (s[0] == 'n'){ // to numbers
@@ -2186,13 +2185,13 @@ int lua_class_color_Normalize(lua_State *L){
       return 1;
     }
   }
-  Vector4 * v = (Vector4 *)luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * v = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   *v = ColorNormalize(*c);
   return 1;
 }
 
 int lua_class_color_FromNormalized(lua_State *L){
-  Color *   c = (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color *   c = (Color *)luaL_checkudata(L, 1, "Color");
   if (lua_isnumber(L, 2)){
     c->r = luaL_checkinteger(L, 2);
     c->g = luax_optinteger(L, 3, 0);
@@ -2212,7 +2211,7 @@ int lua_class_color_FromNormalized(lua_State *L){
     return 1;
   }
 
-  Vector4 * v = (Vector4 *)luaL_checkudata(L, 2, "ray_vector4");
+  Vector4 * v = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
   *c = ColorFromNormalized(*v); lua_pop(L, 1);
 	
   lua_settop(L, 1);
@@ -2220,15 +2219,15 @@ int lua_class_color_FromNormalized(lua_State *L){
 }
 
 int lua_class_color_ToHSV(lua_State *L){
-  Color *   c =   (Color *)luaL_checkudata(L, 1, "ray_color");
-  Vector3 * v = (Vector3 *)luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
+  Vector3 * v = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   *v = ColorToHSV(*c);
   return 1;
 }
 
 int lua_class_color_FromHSV(lua_State *L){
-  Color *   c =   (Color *)luaL_checkudata(L, 1, "ray_color");
-  Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "ray_vector3");
+  Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
+  Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   *c = ColorFromHSV(*v);
 	
   lua_settop(L, 1);
@@ -2236,7 +2235,7 @@ int lua_class_color_FromHSV(lua_State *L){
 }
 
 int lua_class_color_Fade(lua_State *L){
-  Color * c =   (Color *)luaL_checkudata(L, 1, "ray_color");
+  Color * c =   (Color *)luaL_checkudata(L, 1, "Color");
   int alpha = luaL_checkinteger(L, 2);
   *c = Fade(*c, alpha);
 	
@@ -2245,8 +2244,8 @@ int lua_class_color_Fade(lua_State *L){
 }
 
 int lua_class_color__ToString(lua_State *L){
-  Color * c = (Color *)luaL_checkudata(L, 1, "ray_color");
-  lua_pushfstring(L, "ray_color[#%0.8x]: 0x%0.8x", ColorToInt(*c), c);
+  Color * c = (Color *)luaL_checkudata(L, 1, "Color");
+  lua_pushfstring(L, "Color[#%0.8x]: 0x%0.8x", ColorToInt(*c), c);
   return 1;
 }
 
@@ -2270,7 +2269,7 @@ luaL_Reg luaray_class_color[] = {
 
 // Rectangle
 int lua_class_rectangle_new(lua_State *L){
-  Rectangle * r = (Rectangle *)luax_newobject(L, "ray_rectangle", sizeof(Rectangle));
+  Rectangle * r = (Rectangle *)luax_newobject(L, "Rectangle", sizeof(Rectangle));
   int top = lua_gettop(L);
 
   if (lua_isnumber(L, 1)) {
@@ -2298,8 +2297,8 @@ int lua_class_rectangle_new(lua_State *L){
 }
 
 int lua_class_rectangle_Clone(lua_State *L){
-  Rectangle * r1 = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
-  Rectangle * r2 = (Color *)luax_newobject(L, "ray_rectangle", sizeof(Rectangle));
+  Rectangle * r1 = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r2 = (Color *)luax_newobject(L, "Rectangle", sizeof(Rectangle));
   r2->x      = r1->x;
   r2->y      = r1->y;
   r2->width  = r1->width;
@@ -2308,7 +2307,7 @@ int lua_class_rectangle_Clone(lua_State *L){
 }
 
 int lua_class_rectangle_Get(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, r->x);
@@ -2326,7 +2325,7 @@ int lua_class_rectangle_Get(lua_State *L){
 }
 
 int lua_class_rectangle_Set(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 
   r->x      = luax_optinteger(L, 2, r->x);
   r->y      = luax_optinteger(L, 3, r->y);
@@ -2338,11 +2337,11 @@ int lua_class_rectangle_Set(lua_State *L){
 }
 
 int lua_class_rectangle_Move(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 	float vx = luax_optinteger(L, 2, 0.0f);
 	float vy = luax_optinteger(L, 3, 0.0f);
 	if (lua_type(L, 2) == LUA_TUSERDATA){
-		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
 		vx = v->x; vy = v->y;
 	}
 	
@@ -2353,11 +2352,11 @@ int lua_class_rectangle_Move(lua_State *L){
 }
 
 int lua_class_rectangle_GetPosition(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 	if (lua_type(L, 2) == LUA_TSTRING){
 		char c = luaL_checkstring(L, 1)[0];
-		if (c == 'v'){ // return ray_vector2
-			Vector2 * v = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+		if (c == 'v'){ // return Vector2
+			Vector2 * v = luax_newobject(L, "Vector2", sizeof(Vector2));
 			v->x = r->x; v->y = r->y;
 			return 1;
 		}
@@ -2376,11 +2375,11 @@ int lua_class_rectangle_GetPosition(lua_State *L){
 }
 
 int lua_class_rectangle_SetPosition(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 	float vx = luax_optinteger(L, 2, r->x);
 	float vy = luax_optinteger(L, 3, r->y);
 	if (lua_type(L, 2) == LUA_TUSERDATA){
-		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
 		vx = v->x; vy = v->y;
 	}
 	if (lua_type(L, 2) == LUA_TTABLE){
@@ -2396,11 +2395,11 @@ int lua_class_rectangle_SetPosition(lua_State *L){
 }
 
 int lua_class_rectangle_GetDimensions(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 	if (lua_type(L, 2) == LUA_TSTRING){
 		char c = luaL_checkstring(L, 1)[0];
-		if (c == 'v'){ // return ray_vector2
-			Vector2 * v = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+		if (c == 'v'){ // return Vector2
+			Vector2 * v = luax_newobject(L, "Vector2", sizeof(Vector2));
 			v->x = r->width; v->y = r->height;
 			return 1;
 		}
@@ -2419,11 +2418,11 @@ int lua_class_rectangle_GetDimensions(lua_State *L){
 }
 
 int lua_class_rectangle_SetDimensions(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 	float vx = luax_optinteger(L, 2, r->x);
 	float vy = luax_optinteger(L, 3, r->y);
 	if (lua_type(L, 2) == LUA_TUSERDATA){
-		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
 		vx = v->x; vy = v->y;
 	}
 	if (lua_type(L, 2) == LUA_TTABLE){
@@ -2439,24 +2438,24 @@ int lua_class_rectangle_SetDimensions(lua_State *L){
 }
 
 int lua_class_rectangle_Draw(lua_State *L){
-  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "ray_rectangle");
-	if (luaobject_isclass(L, 2, "ray_color")){
-		Color * c = (Color *)luaL_checkudata(L, 2, "ray_color");
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+	if (luaobject_isclass(L, 2, "Color")){
+		Color * c = (Color *)luaL_checkudata(L, 2, "Color");
 		DrawRectangleRec(*r, *c);
 		lua_settop(L, 1);
 		return 1;
 	}
 	
-	if (luaobject_isclass(L, 2, "ray_vector2")){
-		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "ray_vector2");
+	if (luaobject_isclass(L, 2, "Vector2")){
+		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
 		float a   = luax_optnumber(L, 3, 0.0f);
-		Color * c = (Color *)luaL_checkudata(L, 4, "ray_color");
+		Color * c = (Color *)luaL_checkudata(L, 4, "Color");
 		DrawRectanglePro(*r, *v, a, *c);
 		lua_settop(L, 1);
 		return 1;
 	}
 	
-	lua_pushfstring(L, "Arg#1 ray_color or ray_vector2 expected, got %s", luaL_typename(L, 1));
+	lua_pushfstring(L, "Arg#1 Color or Vector2 expected, got %s", luaL_typename(L, 1));
 	lua_error(L);
   return 0;
 }
@@ -2464,8 +2463,8 @@ int lua_class_rectangle_Draw(lua_State *L){
 
 // meta
 int lua_class_rectangle__ToString(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "ray_rectangle");
-  lua_pushfstring(L, "ray_rectangle[%f, %f, %f, %f]: %0.8x", r->x, r->y, r->width, r->height, r);
+  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  lua_pushfstring(L, "Rectangle[%f, %f, %f, %f]: %0.8x", r->x, r->y, r->width, r->height, r);
   return 1;
 }
 
@@ -2486,22 +2485,22 @@ luaL_Reg luaray_class_rectangle[] = {
 
 // register table should be on top of stack
 void lua_class_register(lua_State * L){
-  luax_newclass(L,   "ray_vector2",   luaray_class_vector2);
+  luax_newclass(L,   "Vector2",   luaray_class_vector2);
   luax_tsfunction(L, "Vector2",       lua_class_vector2_new);
 
-  luax_newclass(L,   "ray_vector3",   luaray_class_vector3);
+  luax_newclass(L,   "Vector3",   luaray_class_vector3);
   luax_tsfunction(L, "Vector3",       lua_class_vector3_new);
 
-  luax_newclass(L,   "ray_matrix",    luaray_class_matrix);
+  luax_newclass(L,   "Matrix",    luaray_class_matrix);
   luax_tsfunction(L, "Matrix",        lua_class_matrix_new);
 
-  luax_newclass(L,   "ray_vector4",   luaray_class_vector4);
+  luax_newclass(L,   "Vector4",   luaray_class_vector4);
   luax_tsfunction(L, "Vector4",       lua_class_vector4_new);
 
-  luax_newclass(L,   "ray_color",     luaray_class_color);
+  luax_newclass(L,   "Color",     luaray_class_color);
   luax_tsfunction(L, "Color",         lua_class_color_new);
 
-  luax_newclass(L,   "ray_rectangle", luaray_class_rectangle);
+  luax_newclass(L,   "Rectangle", luaray_class_rectangle);
   luax_tsfunction(L, "Rectangle",     lua_class_rectangle_new);
 }
 

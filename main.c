@@ -51,7 +51,7 @@ int lua_core_InitWindow(lua_State *L){
 ```lua
 boolean Status = ray.core.WindowShouldClose()
 ```
-Check if KEY_ESCAPE pressed or Close icon pressed
+Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](SetExitKey)
 */
 
 int lua_core_WindowShouldClose(lua_State *L){
@@ -166,14 +166,14 @@ int lua_core_HideWindow(lua_State *L){
 /*!MD
 #### SetWindowIcon
 ```lua
-ray.core.SetWindowIcon(ray_image Icon)
+ray.core.SetWindowIcon(Image Icon)
 ```
 Set icon for window (only PLATFORM_DESKTOP)
-For additional info [ray_image]
+For additional info [Image]
 */
 
 int lua_core_SetWindowIcon(lua_State *L){
-  Image* i = (Image*)luaL_checkudata(L, 1, "ray_image");
+  Image* i = (Image*)luaL_checkudata(L, 1, "Image");
   SetWindowIcon(*i);
   return 0;
 }
@@ -346,7 +346,7 @@ Get selected monitor dimensions
 */
 
 int lua_core_GetMonitorDimensions(lua_State *L){
-  lua_pushnumber(L, GetMonitorWidth(luaL_checkinteger(L, 1)  + 1));
+  lua_pushnumber(L,  GetMonitorWidth(luaL_checkinteger(L, 1) + 1));
   lua_pushnumber(L, GetMonitorHeight(luaL_checkinteger(L, 1) + 1));
   return 2;
 }
@@ -427,18 +427,17 @@ int lua_core_GetMonitors(lua_State *L){
   return 1;
 }
 
-
 /*!MD
 #### GetWindowPosition
 ```lua
-ray_vector2 Position = ray.core.GetWindowPosition()
+Vector2 Position = ray.core.GetWindowPosition()
 ```
 Get window position XY on monitor.
-See [Vector2](#Ray_vector2)
+See [Vector2](#Vector2)
 */
 
 int lua_core_GetWindowPosition(lua_State *L){
-  Vector2 * v = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v = luax_newobject(L, "Vector2", sizeof(Vector2));
   *v = GetWindowPosition();
   return 1;
 }
@@ -552,14 +551,14 @@ int lua_core_DisableCursor(lua_State* L) {
 ### Drawing-related functions
 #### ClearBackground
 ```lua
-ray.core.ClearBackground(ray_color Color)
+ray.core.ClearBackground(Color Color)
 ```
 Set background color (framebuffer clear color).
-See [Color](#Ray_color)
+See [Color](#Color)
 */
 
 int lua_core_ClearBackground(lua_State *L){
-  Color * c = luaL_checkudata(L, 1, "ray_color");
+  Color * c = luaL_checkudata(L, 1, "Color");
   ClearBackground(*c);
   return 0;
 }
@@ -593,14 +592,14 @@ int lua_core_EndDrawing(lua_State *L){
 /*!MD
 #### BeginMode2D
 ```lua
-ray.core.BeginMode2D(ray_camera2d Camera)
+ray.core.BeginMode2D(Camera2D Camera)
 ```
 Initialize 2D mode with custom camera (2D).
-See [Camera2D](#Ray_camera2d)
+See [Camera2D](#Camera2D)
 */
 
 int lua_core_BeginMode2D(lua_State *L){
-  Camera2D * c = luaL_checkudata(L, 1, "ray_camera2d");
+  Camera2D * c = luaL_checkudata(L, 1, "Camera2D");
   BeginMode2D(*c);
   return 0;
 }
@@ -621,14 +620,14 @@ int lua_core_EndMode2D(lua_State *L){
 /*!MD
 #### BeginMode3D
 ```lua
-ray.core.BeginMode3D(ray_camera3d Camera)
+ray.core.BeginMode3D(Camera3D Camera)
 ```
 Initializes 3D mode with custom camera (3D).
-See [Camera3D](#Ray_camera3d)
+See [Camera3D](#Camera3D)
 */
 
 int lua_core_BeginMode3D(lua_State *L){
-  Camera3D * c = luaL_checkudata(L, 1, "ray_camera3d");
+  Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   BeginMode3D(*c);
   return 0;
 }
@@ -649,14 +648,14 @@ int lua_core_EndMode3D(lua_State *L){
 /*!MD
 #### BeginTextureMode
 ```lua
-ray.core.BeginTextureMode(ray_rendertexture Texture)
+ray.core.BeginTextureMode(RenderTexture Texture)
 ```
 Initializes render texture for drawing.
-See [RenderTexture](#Ray_rendertexture)
+See [RenderTexture](#RenderTexture)
 */
 
 int lua_core_BeginTextureMode(lua_State *L){
-  RenderTexture2D  * t = luaL_checkudata(L, 1, "ray_rendertexture");
+  RenderTexture2D  * t = luaL_checkudata(L, 1, "RenderTexture");
   BeginTextureMode(*t);
   return 0;
 }
@@ -708,73 +707,119 @@ int lua_core_EndScissorMode(lua_State *L){
 ### Screen-space-related functions
 #### GetMouseRay
 ```lua
-ray.core.GetMouseRay(ray_vector2 Vector, ray_camera3d Camera)
+-- variations
+Ray Ray = ray.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
+Vector2 Position, Vector2 Direction = ray.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
 ```
-Set background color (framebuffer clear color).
-See [Color](#Ray_color)
+Returns a ray trace from mouse position. See [Ray](Ray), [Vector2](Vector2).
 */
 
 int lua_core_GetMouseRay(lua_State *L){
-  Vector2  * v = luaL_checkudata(L, 1, "ray_vector2");
-  Camera3D * c = luaL_checkudata(L, 2, "ray_camera3d");
+  Vector2  * v = luaL_checkudata(L, 1, "Vector2");
+  Camera3D * c = luaL_checkudata(L, 2, "Camera3D");
   if (lua_isstring(L, 3) && luaL_checkstring(L, 3)[0] == 'v') {
     Ray r = GetMouseRay(*v, *c);
-    Vector3 * position  = luax_newobject(L, "ray_vector3", sizeof(Vector3));
-    Vector3 * direction = luax_newobject(L, "ray_vector3", sizeof(Vector3));
+    Vector3 * position  = luax_newobject(L, "Vector3", sizeof(Vector3));
+    Vector3 * direction = luax_newobject(L, "Vector3", sizeof(Vector3));
     *position  = r.position;
     *direction = r.direction;
     return 2;
   }
 
-  Ray * r = luax_newobject(L, "ray_object", sizeof(Ray));
+  Ray * r = luax_newobject(L, "Ray", sizeof(Ray));
   *r = GetMouseRay(*v, *c);
   return 1;
 }
 
+/*!MD
+#### GetCameraMatrix
+```lua
+Matrix View = ray.core.GetCameraMatrix(Camera3D Camera)
+```
+Returns camera transform matrix (view matrix). See [Matrix](Matrix)
+*/
+
 int lua_core_GetCameraMatrix(lua_State *L){
-  Camera3D * c = luaL_checkudata(L, 1, "ray_camera3d");
-  Matrix * m = luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
+  Matrix * m   = luax_newobject(L, "Matrix", sizeof(Matrix));
   *m = GetCameraMatrix(*c);
   return 1;
 }
 
+/*!MD
+#### GetCameraMatrix2D
+```lua
+Matrix View = ray.core.GetCameraMatrix2D(Camera2D Camera)
+```
+Returns camera 2d transform matrix. See [Matrix](Matrix), [Camera2D](Camera2D)
+*/
+
 int lua_core_GetCameraMatrix2D(lua_State *L){
-  Camera2D * c = luaL_checkudata(L, 1, "ray_camera2d");
-  Matrix   * m = luax_newobject(L, "ray_matrix", sizeof(Matrix));
+  Camera2D * c = luaL_checkudata(L, 1, "Camera2D");
+  Matrix   * m = luax_newobject(L, "Matrix", sizeof(Matrix));
   *m = GetCameraMatrix2D(*c);
   return 1;
 }
 
+/*!MD
+#### GetWorldToScreen
+```lua
+Vector2 ScreenV = Matrix ray.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
+```
+Returns the screen space position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+*/
+
 int lua_core_GetWorldToScreen(lua_State *L){
-  Vector3  * v = luaL_checkudata(L, 1, "ray_vector3");
-  Camera3D * c = luaL_checkudata(L, 2, "ray_camera3d");
-  Vector2 * p  = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector3  * v = luaL_checkudata(L, 1, "Vector3");
+  Camera3D * c = luaL_checkudata(L, 2, "Camera3D");
+  Vector2 * p  = luax_newobject(L, "Vector2", sizeof(Vector2));
   *p = GetWorldToScreen(*v, *c);
   return 1;
 }
 
+/*!MD
+#### GetWorldToScreenEx
+```lua
+Vector2 ScreenV = Matrix ray.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
+```
+Returns size position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+*/
 int lua_core_GetWorldToScreenEx(lua_State *L){
-  Vector3  * v = luaL_checkudata(L, 1, "ray_vector3");
-  Camera3D * c = luaL_checkudata(L, 2, "ray_camera3d");
+  Vector3  * v = luaL_checkudata(L, 1, "Vector3");
+  Camera3D * c = luaL_checkudata(L, 2, "Camera3D");
   int w = luaL_checkinteger(L, 3);
   int h = luaL_checkinteger(L, 4);
-  Vector2 * p  = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * p  = luax_newobject(L, "Vector2", sizeof(Vector2));
   *p = GetWorldToScreenEx(*v, *c, w, h);
   return 1;
 }
 
+/*!MD
+#### GetWorldToScreen2D
+```lua
+Vector2 ScreenV = Matrix ray.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
+```
+Returns the screen space position for a 2d camera world space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+*/
 int lua_core_GetWorldToScreen2D(lua_State *L){
-  Vector2  * v = luaL_checkudata(L, 1, "ray_vector2");
-  Camera2D * c = luaL_checkudata(L, 2, "ray_camera2d");
-  Vector2 * p  = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2  * v = luaL_checkudata(L, 1, "Vector2");
+  Camera2D * c = luaL_checkudata(L, 2, "Camera2D");
+  Vector2  * p = luax_newobject(L, "Vector2", sizeof(Vector2));
   *p = GetWorldToScreen2D(*v, *c);
   return 1;
 }
 
+/*!MD
+#### GetScreenToWorld2D
+```lua
+Vector2 ScreenV = Matrix ray.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
+```
+Returns the world space position for a 2d camera screen space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+*/
 int lua_core_GetScreenToWorld2D(lua_State *L){
-  Vector2  * v = luaL_checkudata(L, 1, "ray_vector2");
-  Camera2D * c = luaL_checkudata(L, 2, "ray_camera2d");
-  Vector2 *  p = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2  * v = luaL_checkudata(L, 1, "Vector2");
+  Camera2D * c = luaL_checkudata(L, 2, "Camera2D");
+  Vector2 *  p = luax_newobject(L, "Vector2", sizeof(Vector2));
   *p = GetScreenToWorld2D(*v, *c);
   return 1;
 }
@@ -794,39 +839,68 @@ int lua_core_SetTargetFPS(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### GetFPS
+```lua
+integer FPS = Matrix ray.core.GetFPS()
+```
+Returns current FPS
+*/
 int lua_core_GetFPS(lua_State *L){
   lua_pushinteger(L, GetFPS());
   return 1;
 }
 
+/*!MD
+#### GetFrameTime
+```lua
+float DT = Matrix ray.core.GetFrameTime()
+```
+Returns time in seconds for last frame drawn
+*/
 int lua_core_GetFrameTime(lua_State *L){
   lua_pushnumber(L, GetFrameTime());
   return 1;
 }
 
+/*!MD
+#### GetTime
+```lua
+float Time = Matrix ray.core.GetTime()
+```
+Returns elapsed time in seconds since InitWindow()
+*/
 int lua_core_GetTime(lua_State *L){
   lua_pushnumber(L, GetTime());
   return 1;
 }
 
-
 /*!MD
 ### Color-related functions
 #### ColorToInt
 ```lua
-integer iColor = ray.core.ColorToInt(ray_color Color)
+integer iColor = ray.core.ColorToInt(Color Color)
 ```
 Returns hexadecimal value for a Color
 */
-
 int lua_core_ColorToInt(lua_State *L){
-  Color * c = luaL_checkudata(L, 1, "ray_color");
+  Color * c = luaL_checkudata(L, 1, "Color");
   lua_pushnumber(L, ColorToInt(*c));
   return 1;
 }
 
+/*!MD
+#### ColorNormalize
+```lua
+-- variations
+Vector4 vColor = ray.core.ColorNormalize(Color Color)
+integer NR, integer NG, integer NB, integer NA = ray.core.ColorNormalize(Color Color, "n")
+table tColor = ray.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
+```
+Returns color normalized as float [0..1]. See [Vector4](Vector4), [Color](Color)
+*/
 int lua_core_ColorNormalize(lua_State *L){
-  Color   * c = luaL_checkudata(L, 1, "ray_color");
+  Color   * c = luaL_checkudata(L, 1, "Color");
   Vector4   v = ColorNormalize(*c);
 
    if (lua_isstring(L, 2)) {
@@ -848,15 +922,25 @@ int lua_core_ColorNormalize(lua_State *L){
      }
    }
 
-  Vector4 * res = luax_newobject(L, "ray_vector4", sizeof(Vector4));
+  Vector4 * res = luax_newobject(L, "Vector4", sizeof(Vector4));
   *res = v;
   return 1;
 }
 
+/*!MD
+#### ColorFromNormalized
+```lua
+-- variations
+Color Color = ray.core.ColorFromNormalized(Vector4 vColor)
+Color Color = ray.core.ColorFromNormalized(float R, float G, float B[, float A])
+Color Color = ray.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
+```
+Returns color from normalized values [0..1]. See [Vector4](Vector4), [Color](Color)
+*/
 int lua_core_ColorFromNormalized(lua_State *L){
-  Color   * c = luax_newobject(L, "ray_color", sizeof(Color));
-  if (luax_checkclass(L, 1, "ray_vector4")) {
-    Vector4 * v = luaL_checkudata(L, 1, "ray_vector4");
+  Color * c = luax_newobject(L, "Color", sizeof(Color));
+  if (luax_checkclass(L, 1, "Vector4")) {
+    Vector4 * v = luaL_checkudata(L, 1, "Vector4");
     *c = ColorFromNormalized(*v);
     return 1;
   }
@@ -879,13 +963,22 @@ int lua_core_ColorFromNormalized(lua_State *L){
     *c  = ColorFromNormalized(v);
     return 1;
   }
-  return luaL_typerror(L, 1, "ray_vector4 or table or number");
+  return luaL_typerror(L, 1, "Vector4 or table or number");
 }
 
+/*!MD
+#### ColorToHSV
+```lua
+-- variations
+Vector3 vColor = ray.core.ColorToHSV(Color Color)
+float Hue, float Saturation, float Value = ray.core.ColorToHSV(Color Color, "n")
+table hsvColor = ray.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
+```
+Returns HSV values for a Color. See [Vector3](Vector3), [Color](Color)
+*/
 int lua_core_ColorToHSV(lua_State *L){
-  Color   * c = luaL_checkudata(L, 1, "ray_color");
+  Color   * c = luaL_checkudata(L, 1, "Color");
   Vector3   v = ColorToHSV(*c);
-
    if (lua_isstring(L, 2)) {
      const char c = luaL_checkstring(L, 2)[0];
      if (c == 'n'){
@@ -903,15 +996,25 @@ int lua_core_ColorToHSV(lua_State *L){
      }
    }
 
-  Vector3 * res = luax_newobject(L, "ray_vector3", sizeof(Vector3));
+  Vector3 * res = luax_newobject(L, "Vector3", sizeof(Vector3));
   *res = v;
   return 1;
 }
 
+/*!MD
+#### ColorFromHSV
+```lua
+-- variations
+Color Color = ray.core.ColorFromHSV(Vector3 vColor)
+Color Color = ray.core.ColorFromHSV(float H, float S, float V)
+Color Color = ray.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
+```
+Returns a Color from HSV values. See [Vector3](Vector3), [Color](Color)
+*/
 int lua_core_ColorFromHSV(lua_State *L){
-  Color   * c = luax_newobject(L, "ray_color", sizeof(Color));
-  if (luax_checkclass(L, 1, "ray_vector3")) {
-    Vector3 * v = luaL_checkudata(L, 1, "ray_vector3");
+  Color   * c = luax_newobject(L, "Color", sizeof(Color));
+  if (luax_checkclass(L, 1, "Vector3")) {
+    Vector3 * v = luaL_checkudata(L, 1, "Vector3");
     *c = ColorFromHSV(*v);
     return 1;
   }
@@ -932,20 +1035,36 @@ int lua_core_ColorFromHSV(lua_State *L){
     *c  = ColorFromHSV(v);
     return 1;
   }
-  return luaL_typerror(L, 1, "ray_vector3 or table or number");
+  return luaL_typerror(L, 1, "Vector3 or table or number");
 }
 
+/*!MD
+#### GetColor
+```lua
+-- variations
+Color Color = ray.core.GetColor(integer hColor)
+```
+Returns a Color struct from hexadecimal value. See [Color](Color)
+*/
 int lua_core_GetColor(lua_State *L){
   int hex = luaL_checkinteger(L, 1);
-  Color * c = luax_newobject(L, "ray_color", sizeof(Color));
+  Color * c = luax_newobject(L, "Color", sizeof(Color));
   *c = GetColor(hex);
   return 1;
 }
 
+/*!MD
+#### Fade
+```lua
+-- variations
+Color fColor = ray.core.Fade(Color Color, float alpha)
+```
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](Color)
+*/
 int lua_core_Fade(lua_State *L){
-  Color * c = luaL_checkudata(L, 1, "ray_color");
-  float a   = luaL_checknumber(L, 2);
-  Color * r = luax_newobject(L, "ray_color", sizeof(Color));
+  Color * c = luaL_checkudata(L, 1, "Color");
+  float   a = luaL_checknumber(L, 2);
+  Color * r = luax_newobject(L, "Color", sizeof(Color));
   *r = Fade(*c, a);
   return 1;
 }
@@ -988,15 +1107,22 @@ int lua_core_SetConfigFlags(lua_State *L){
   return 0;
 }
 
-/*
-    LOG_ALL = 0,        // Display all logs
-    LOG_TRACE,
-    LOG_DEBUG,
-    LOG_INFO,
-    LOG_WARNING,
-    LOG_ERROR,
-    LOG_FATAL,
-    LOG_NONE            // Disable logging
+
+/*!MD
+#### SetTraceLogLevel
+```lua
+ray.core.SetTraceLogLevel(string Mode)
+```
+Set the current threshold (minimum) log level.
+Available Modes:
+`"ALL"     ` Set to run program in fullscreen
+`"TRACE"   ` Set to allow resizable window
+`"DEBUG"   ` Set to disable window decoration (frame and buttons)
+`"INFO"    ` Set to allow transparent window
+`"WARNING" ` Set to create the window initially hidden
+`"ERROR"   ` Set to allow windows running while minimized
+`"FATAL"   ` Set to try enabling MSAA 4X
+`"NONE"    ` Set to try enabling V-Sync on GPU
 */
 
 int lua_core_SetTraceLogLevel(lua_State *L){
@@ -1040,15 +1166,12 @@ int _lua_trace_callback_ref; // and reference to function
 void _lua_callback(int logType, const char * text, va_list args ){
   if (!_lua_trace_callback_ref) return;
   const char * level = "NONE";
-
-  switch(logType){
-  case(LOG_TRACE):   level = "TRACE";
-  case(LOG_DEBUG):   level = "DEBUG";
-  case(LOG_INFO):    level = "INFO";
-  case(LOG_WARNING): level = "WARNING";
-  case(LOG_ERROR):   level = "ERROR";
-  case(LOG_FATAL):   level = "FATAL";
-  }
+       if (logType == LOG_TRACE)   level = "TRACE";
+  else if (logType == LOG_DEBUG)   level = "DEBUG";
+  else if (logType == LOG_INFO)    level = "INFO";
+  else if (logType == LOG_WARNING) level = "WARNING";
+  else if (logType == LOG_ERROR)   level = "ERROR";
+  else if (logType == LOG_FATAL)   level = "FATAL";
 
   lua_rawgeti(_lua_state, LUA_REGISTRYINDEX, _lua_trace_callback_ref);
   lua_pushstring(_lua_state, level);
@@ -1300,19 +1423,37 @@ int lua_core_IsKeyUp(lua_State *L){
   return 1;
 }
 
-// TODO: CHECK AND FINISH
 int lua_core_GetKeyPressed(lua_State *L){
-  char _key[8];
-  int i = 0;
+  int key = GetKeyPressed();
+  if (!key) return 0;
+  lua_pushinteger(L, key);
+  return 1;
+}
+
+int lua_core_GetKeyPressedString(lua_State *L){
+  int len;
+  int key = GetKeyPressed();
+  if (!key) return 0;
+  const char * cutf8 = CodepointToUtf8(key, &len);
+  lua_pushstring(L, cutf8);
+  return 1;
+}
+
+int lua_core_GetAllKeysPressedString(lua_State *L){
+  int codepoints[20]; // max codepoint count per one GetKeyPressed
+  int len = 0;
   int key = GetKeyPressed();
   while(key){
-      i++;
-      printf("Pressed key: [%d]", key);
-      lua_pushnumber(L, key);
-      key = GetKeyPressed();
+    codepoints[len] = key;
+    len++;
+    if (len == 20) break;
+    key = GetKeyPressed();
   }
-
-  return i;
+  if (!len) return 0;
+  char * tutf8 = TextToUtf8(&codepoints, len);
+  lua_pushstring(L, tutf8);
+  RL_FREE(tutf8);
+  return 1;
 }
 
 int lua_core_SetExitKey(lua_State *L){
@@ -1444,14 +1585,14 @@ int lua_core_GetMousePosition(lua_State *L){
     lua_pushnumber(L, GetMouseY());
     return 2;
   }
-  Vector2 * v = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * v = luax_newobject(L, "Vector2", sizeof(Vector2));
   *v = GetMousePosition();
   return 1;
 }
 
 int lua_core_SetMousePosition(lua_State *L){
-  if (luax_checkclass(L, 1, "ray_vector2")){
-    Vector2 * v = luaL_checkudata(L, 1, "ray_vector2");
+  if (luax_checkclass(L, 1, "Vector2")){
+    Vector2 * v = luaL_checkudata(L, 1, "Vector2");
     SetMousePosition(v->x, v->y);
     return 0;
   }
@@ -1462,8 +1603,8 @@ int lua_core_SetMousePosition(lua_State *L){
 }
 
 int lua_core_SetMouseOffset(lua_State *L){
-  if (luax_checkclass(L, 1, "ray_vector2")){
-    Vector2 * v = luaL_checkudata(L, 1, "ray_vector2");
+  if (luax_checkclass(L, 1, "Vector2")){
+    Vector2 * v = luaL_checkudata(L, 1, "Vector2");
     SetMouseOffset(v->x, v->y);
     return 0;
   }
@@ -1474,8 +1615,8 @@ int lua_core_SetMouseOffset(lua_State *L){
 }
 
 int lua_core_SetMouseScale(lua_State *L){
-  if (luax_checkclass(L, 1, "ray_vector2")){
-    Vector2 * v = luaL_checkudata(L, 1, "ray_vector2");
+  if (luax_checkclass(L, 1, "Vector2")){
+    Vector2 * v = luaL_checkudata(L, 1, "Vector2");
     SetMouseScale(v->x, v->y);
     return 0;
   }
@@ -1523,25 +1664,24 @@ int lua_core_GetTouchPosition(lua_State *L){
     lua_pushnumber(L, v.y);
     return 2;
   }
-  Vector2 * lv = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * lv = luax_newobject(L, "Vector2", sizeof(Vector2));
   *lv = v;
   return 1;
 }
 
 int lua_core_GetTouches(lua_State *L){
-  int touch = luaL_checkinteger(L, 1);
   lua_newtable(L); // result
-  bool isNumbers = luax_optstring(L, 1, "\0")[0] == 'n';
+  bool useNumbers = (luax_optstring(L, 1, "\0")[0] == 'n');
   for (int i = 0; i < GetTouchPointsCount(); i++){
     lua_pushnumber(L, i + 1); // index
     Vector2 v = GetTouchPosition(i);
-    if (isNumbers){
-        lua_newtable(L);
+    if (useNumbers){
+        lua_newtable(L);  // result[i]
         luax_tnnumber(L, 1, v.x);
         luax_tnnumber(L, 1, v.y);
     }
     else{
-      Vector2 * lv = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+      Vector2 * lv = luax_newobject(L, "Vector2", sizeof(Vector2));   // result[i]
       *lv = v;
     }
     lua_rawset(L, -3);
@@ -1616,7 +1756,7 @@ int lua_core_GetGestureDetected(lua_State *L){
       lua_pushnumber(L, GetGestureDragAngle()); // 4
       return 4;
     }
-    Vector2 * lv = luax_newobject(L, "ray_vector2", sizeof(Vector2)); // 2
+    Vector2 * lv = luax_newobject(L, "Vector2", sizeof(Vector2)); // 2
     *lv = v;
     lua_pushnumber(L, GetGestureDragAngle()); // 3
     return 3;
@@ -1630,7 +1770,7 @@ int lua_core_GetGestureDetected(lua_State *L){
       lua_pushnumber(L, GetGesturePinchAngle()); // 4
       return 4;
     }
-    Vector2 * lv = luax_newobject(L, "ray_vector2", sizeof(Vector2)); // 2
+    Vector2 * lv = luax_newobject(L, "Vector2", sizeof(Vector2)); // 2
     *lv = v;
     lua_pushnumber(L, GetGesturePinchAngle()); // 3
     return 3;
@@ -1656,7 +1796,7 @@ int lua_core_GetGestureDragVector(lua_State *L){
     lua_pushnumber(L, v.y);
     return 2;
   }
-  Vector2 * lv = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * lv = luax_newobject(L, "Vector2", sizeof(Vector2));
   *lv = v;
   return 1;
 }
@@ -1673,7 +1813,7 @@ int lua_core_GetGesturePinchVector(lua_State *L){
     lua_pushnumber(L, v.y);
     return 2;
   }
-  Vector2 * lv = luax_newobject(L, "ray_vector2", sizeof(Vector2));
+  Vector2 * lv = luax_newobject(L, "Vector2", sizeof(Vector2));
   *lv = v;
   return 1;
 }
@@ -1687,7 +1827,7 @@ int lua_core_GetGesturePinchAngle(lua_State *L){
 ### Camera System Functions (Module: camera)
 #### SetCameraMode
 ```lua
-ray.core.SetCameraMode(ray_camera3d Camera, string Mode)
+ray.core.SetCameraMode(Camera3D Camera, string Mode)
 ```
 Set camera mode. Availabke modes: 
 * `"CUSTOM"` - default
@@ -1698,7 +1838,7 @@ Set camera mode. Availabke modes:
 */
 
 int lua_core_SetCameraMode(lua_State *L){
-  Camera3D * c = luaL_checkudata(L, 1, "ray_camera3d");
+  Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   int mode = CAMERA_CUSTOM;
 
    if (lua_isstring(L, 2)){
@@ -1715,7 +1855,7 @@ int lua_core_SetCameraMode(lua_State *L){
 }
 
 int lua_core_UpdateCamera(lua_State *L){
-  Camera3D * c = luaL_checkudata(L, 1, "ray_camera3d");
+  Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   UpdateCamera(c);
   return 0;
 }
@@ -1860,6 +2000,8 @@ luaL_Reg luaray_core[] = {
   {"IsKeyReleased",                lua_core_IsKeyReleased},
   {"IsKeyUp",                      lua_core_IsKeyUp},
   {"GetKeyPressed",                lua_core_GetKeyPressed},
+  {"GetKeyPressedString",          lua_core_GetKeyPressedString},
+  {"GetAllKeysPressedString",      lua_core_GetAllKeysPressedString},
   {"SetExitKey",                   lua_core_SetExitKey},
   // Input-related functions: gamepads
   {"IsGamepadAvailable",           lua_core_IsGamepadAvailable},
@@ -1915,7 +2057,7 @@ luaL_Reg luaray_core[] = {
 int lua_shapes_DrawPixel(lua_State* L) {
     int x = luaL_checknumber(L, 1);
     int y = luaL_checknumber(L, 2);
-    Color* c = (Color*)luaL_checkudata(L, 3, "ray_color");
+    Color* c = (Color*)luaL_checkudata(L, 3, "Color");
     DrawPixel(x, y, *c);
     return 0;
 }
@@ -1962,7 +2104,7 @@ int lua_text_DrawText(lua_State *L){
   int x = luaL_checknumber(L, 2);
   int y = luaL_checknumber(L, 3);
   int s = luaL_checknumber(L, 4);
-  Color * c = (Color *)luaL_checkudata(L, 5, "ray_color");
+  Color * c = (Color *)luaL_checkudata(L, 5, "Color");
   DrawText(text, x, y, s, *c);
   return 0;
 }
