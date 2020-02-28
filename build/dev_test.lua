@@ -1,32 +1,33 @@
-os.execute'chcp 65001' -- unicode in cmd
-local ray = require'raylib_luamore'
+local rl = require'raylib_luamore'
 
-ray.core.InitWindow(300, 300, "Hello")
-ray.core.SetTargetFPS(30)
+rl.core.InitWindow(300, 300, "Hello")
+rl.core.SetTargetFPS(30)
 
-local c1 = ray.Color(120, 200, 200)
-local c2 = ray.Color("darkpurple")
-local c3 = ray.Color({0xb, 0xbb, 0x21})
+local c1 = rl.Color(120, 200, 200)
+local c2 = rl.Color("darkpurple")
+local c3 = rl.Color({0xb, 0xbb, 0x21})
 
-local r = ray.Rectangle(20, 20, 20, 20);
-local v = ray.Vector2(10, 10)
+local r = rl.Rectangle(20, 20, 20, 20);
+local v = rl.Vector2(10, 10)
+
 function Main()
-	local text = ray.core.GetAllKeysPressedString()
-	if text then print(text) end
-	ray.core.BeginDrawing()
-		ray.core.ClearBackground(c1)
+	local text = rl.core.GetAllKeysPressedString()
+	if text then rl.core.TraceLog("DEBUG", text) end
+	if text == 'g' then rl.core.SetTraceLogCallback() end
+
+	rl.core.BeginDrawing()
+		rl.core.ClearBackground(c1)
 		local s = (math.sin(os.clock())/2 + 0.5) * 255
 		local t = os.clock() * 360
 		
 		c1:set(255 - s, _, s)
 		r:setPosition(20, s):draw(c3):setPosition(s, 20):draw(v, t, c2)
-		ray.text.DrawText("luamore\nRaylib", 20, 20, 20, c3)
-	ray.core.EndDrawing()
+		rl.text.DrawText("luamore\nRaylib", 20, 20, 20, c3)
+	rl.core.EndDrawing()
 end
 
-while not ray.core.WindowShouldClose() do
+while not rl.core.WindowShouldClose() do
 	Main()
 end
 
-ray.core.CloseWindow()
-os.exit()
+rl.core.CloseWindow()

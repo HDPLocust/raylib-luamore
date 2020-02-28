@@ -3,17 +3,153 @@
 
 
 /*!MD
-# Hello. 
-This is Lua binding for raylib.
-### All stuff provided by Snooze.
-
-(there should be a table of contents)
-* Core
-  * Core functions
+## Table of content
+* [Core]
+  * [InitWindow]
+  * [WindowShouldClose]
+  * [CloseWindow]
+  * [IsWindowReady]
+  * [IsWindowMinimized]
+  * [IsWindowResized]
+  * [IsWindowHidden]
+  * [ToggleFullscreen]
+  * [UnhideWindow]
+  * [HideWindow]
+  * [SetWindowIcon]
+  * [SetWindowTitle]
+  * [SetWindowPosition]
+  * [SetWindowMonitor]
+  * [SetWindowMinSize]
+  * [SetWindowSize]
+  * [GetWindowHandle]
+  * [GetScreenWidth]
+  * [GetScreenHeight]
+  * [GetScreenDimensions]
+  * [GetMonitorCount]
+  * [GetMonitorWidth]
+  * [GetMonitorHeight]
+  * [GetMonitorDimensions]
+  * [GetMonitorPhysicalWidth]
+  * [GetMonitorPhysicalHeight]
+  * [GetMonitorPhysicalDimensions]
+  * [GetMonitors]
+  * [GetWindowPosition]
+  * [GetMonitorName]
+  * [GetClipboardText]
+  * [SetClipboardText]
+  * [ShowCursor]
+  * [HideCursor]
+  * [IsCursorHidden]
+  * [EnableCursor]
+  * [DisableCursor]
+  * [ClearBackground]
+  * [BeginDrawing]
+  * [EndDrawing]
+  * [BeginMode2D]
+  * [EndMode2D]
+  * [BeginMode3D]
+  * [EndMode3D]
+  * [BeginTextureMode]
+  * [EndTextureMode]
+  * [BeginScissorMode]
+  * [EndScissorMode]
+  * [GetMouseRay]
+  * [GetCameraMatrix]
+  * [GetCameraMatrix2D]
+  * [GetWorldToScreen]
+  * [GetWorldToScreenEx]
+  * [GetWorldToScreen2D]
+  * [GetScreenToWorld2D]
+  * [SetTargetFPS]
+  * [GetFPS]
+  * [GetFrameTime]
+  * [GetTime]
+  * [ColorToInt]
+  * [ColorNormalize]
+  * [ColorFromNormalized]
+  * [ColorToHSV]
+  * [ColorFromHSV]
+  * [GetColor]
+  * [Fade]
+  * [SetConfigFlags]
+  * [SetTraceLogLevel]
+  * [SetTraceLogExit]
+  * [SetTraceLogCallback]
+  * [TraceLog]
+  * [TakeScreenshot]
+  * [GetRandomValue]
+  * [FileExists]
+  * [IsFileExtension]
+  * [DirectoryExists]
+  * [GetExtension]
+  * [GetFileName]
+  * [GetFileNameWithoutExt]
+  * [GetDirectoryPath]
+  * [GetPrevDirectoryPath]
+  * [GetWorkingDirectory]
+  * [GetDirectoryFiles]
+  * [ChangeDirectory]
+  * [IsFileDropped]
+  * [GetDroppedFiles]
+  * [GetFileModTime]
+  * [GetFileInfo]
+  * [CompressData]
+  * [DecompressData]
+  * [OpenURL]
+  * [StorageSaveValue]
+  * [StorageLoadValue]
+  * [IsKeyPressed]
+  * [IsKeyDown]
+  * [IsKeyReleased]
+  * [IsKeyUp]
+  * [GetKeyPressed]
+  * [GetKeyPressedString]
+  * [GetAllKeysPressedString]
+  * [SetExitKey]
+  * [IsGamepadAvailable]
+  * [IsGamepadName]
+  * [GetGamepadName]
+  * [IsGamepadButtonPressed]
+  * [IsGamepadButtonDown]
+  * [IsGamepadButtonReleased]
+  * [IsGamepadButtonUp]
+  * [GetGamepadButtonPressed]
+  * [GetGamepadAxisCount]
+  * [GetGamepadAxisMovement]
+  * [IsMouseButtonPressed]
+  * [IsMouseButtonDown]
+  * [IsMouseButtonReleased]
+  * [IsMouseButtonUp]
+  * [GetMouseX]
+  * [GetMouseY]
+  * [GetMousePosition]
+  * [SetMousePosition]
+  * [SetMouseOffset]
+  * [SetMouseScale]
+  * [GetMouseWheelMove]
+  * [GetTouchX]
+  * [GetTouchY]
+  * [GetTouch]
+  * [GetTouchPosition]
+  * [GetTouches]
+  * [SetGesturesEnabled]
+  * [IsGestureDetected]
+  * [GetGestureDetected]
+  * [GetTouchPointsCount]
+  * [GetGestureHoldDuration]
+  * [GetGestureDragVector]
+  * [GetGestureDragAngle]
+  * [GetGesturePinchVector]
+  * [GetGesturePinchAngle]
+  * [SetCameraMode]
+  * [UpdateCamera]
+  * [SetCameraPanControl]
+  * [SetCameraAltControl]
+  * [SetCameraSmoothZoomControl]
+  * [SetCameraMoveControls]
 * Text
   * Text functions
-
-etc
+  * ...
 */
 
 
@@ -24,7 +160,7 @@ etc
 
 #### Initialization
 ```lua
-local ray = require("raylib_luamore")
+local rl = require("raylib_luamore")
 ```
 */
 
@@ -32,7 +168,7 @@ local ray = require("raylib_luamore")
 ### Window-related functions:
 #### InitWindow
 ```lua
-ray.core.InitWindow(integer Width, integer Height, string Title)
+rl.core.InitWindow(integer Width, integer Height, string Title)
 ```
 Initialize window and OpenGL context
 Should be called before any widnow stuff is used.
@@ -49,7 +185,7 @@ int lua_core_InitWindow(lua_State *L){
 /*!MD
 #### WindowShouldClose
 ```lua
-boolean Status = ray.core.WindowShouldClose()
+boolean Status = rl.core.WindowShouldClose()
 ```
 Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](SetExitKey)
 */
@@ -62,7 +198,7 @@ int lua_core_WindowShouldClose(lua_State *L){
 /*!MD
 #### CloseWindow
 ```lua
-ray.core.CloseWindow()
+rl.core.CloseWindow()
 ```
 Close window and unload OpenGL context
 */
@@ -75,7 +211,7 @@ int lua_core_CloseWindow(lua_State *L){
 /*!MD
 #### IsWindowReady
 ```lua
-boolean Status = ray.core.IsWindowReady()
+boolean Status = rl.core.IsWindowReady()
 ```
 Check if window has been initialized successfully
 */
@@ -88,7 +224,7 @@ int lua_core_IsWindowReady(lua_State *L){
 /*!MD
 #### IsWindowMinimized
 ```lua
-boolean Status = ray.core.IsWindowMinimized()
+boolean Status = rl.core.IsWindowMinimized()
 ```
 Check if window has been minimized (or lost focus)
 */
@@ -101,7 +237,7 @@ int lua_core_IsWindowMinimized(lua_State *L){
 /*!MD
 #### IsWindowResized
 ```lua
-boolean Status = ray.core.IsWindowResized()
+boolean Status = rl.core.IsWindowResized()
 ```
 Check if window has been resized
 */
@@ -114,7 +250,7 @@ int lua_core_IsWindowResized(lua_State *L){
 /*!MD
 #### IsWindowHidden
 ```lua
-boolean Status = ray.core.IsWindowHidden()
+boolean Status = rl.core.IsWindowHidden()
 ```
 Check if window is currently hidden
 */
@@ -127,7 +263,7 @@ int lua_core_IsWindowHidden(lua_State *L){
 /*!MD
 #### ToggleFullscreen
 ```lua
-ray.core.ToggleFullscreen()
+rl.core.ToggleFullscreen()
 ```
 Toggle fullscreen mode (only PLATFORM_DESKTOP)
 */
@@ -140,7 +276,7 @@ int lua_core_ToggleFullscreen(lua_State *L){
 /*!MD
 #### UnhideWindow
 ```lua
-ray.core.UnhideWindow()
+rl.core.UnhideWindow()
 ```
 Show the window
 */
@@ -153,7 +289,7 @@ int lua_core_UnhideWindow(lua_State *L){
 /*!MD
 #### HideWindow
 ```lua
-ray.core.HideWindow()
+rl.core.HideWindow()
 ```
 Hide the window
 */
@@ -166,7 +302,7 @@ int lua_core_HideWindow(lua_State *L){
 /*!MD
 #### SetWindowIcon
 ```lua
-ray.core.SetWindowIcon(Image Icon)
+rl.core.SetWindowIcon(Image Icon)
 ```
 Set icon for window (only PLATFORM_DESKTOP)
 For additional info [Image]
@@ -181,7 +317,7 @@ int lua_core_SetWindowIcon(lua_State *L){
 /*!MD
 #### SetWindowTitle
 ```lua
-ray.core.SetWindowTitle(string Title)
+rl.core.SetWindowTitle(string Title)
 ```
 Set title for window (only PLATFORM_DESKTOP)
 */
@@ -194,7 +330,7 @@ int lua_core_SetWindowTitle(lua_State *L){
 /*!MD
 #### SetWindowPosition
 ```lua
-ray.core.SetWindowPosition(string Title)
+rl.core.SetWindowPosition(string Title)
 ```
 Set window position on screen (only PLATFORM_DESKTOP)
 */
@@ -207,7 +343,7 @@ int lua_core_SetWindowPosition(lua_State *L){
 /*!MD
 #### SetWindowMonitor
 ```lua
-ray.core.SetWindowMonitor(integer Monitor)
+rl.core.SetWindowMonitor(integer Monitor)
 ```
 Set monitor for the current window (fullscreen mode)
 */
@@ -220,9 +356,9 @@ int lua_core_SetWindowMonitor(lua_State *L){
 /*!MD
 #### SetWindowMinSize
 ```lua
-ray.core.SetWindowMinSize(integer Width, integer Height)
+rl.core.SetWindowMinSize(integer Width, integer Height)
 ```
-Set window minimum dimensions (for flag WINDOW_RESIZABLE)
+Set window minimum dimensions, for flag [WINDOW_RESIZABLE](SetConfigFlags)
 */
 
 int lua_core_SetWindowMinSize(lua_State *L){
@@ -233,7 +369,7 @@ int lua_core_SetWindowMinSize(lua_State *L){
 /*!MD
 #### SetWindowSize
 ```lua
-ray.core.SetWindowSize(integer Width, integer Height)
+rl.core.SetWindowSize(integer Width, integer Height)
 ```
 Set window dimensions
 */
@@ -246,10 +382,10 @@ int lua_core_SetWindowSize(lua_State *L){
 /*!MD
 #### GetWindowHandle
 ```lua
-userdata Handle = ray.core.GetWindowHandle()
+userdata Handle = rl.core.GetWindowHandle()
 ```
 Get native window handle
-Using for FFI or something
+Use for FFI or something
 */
 
 int lua_core_GetWindowHandle(lua_State *L){
@@ -261,7 +397,7 @@ int lua_core_GetWindowHandle(lua_State *L){
 /*!MD
 #### GetScreenWidth
 ```lua
-integer Width = ray.core.GetScreenWidth()
+integer Width = rl.core.GetScreenWidth()
 ```
 Get current screen width
 */
@@ -274,7 +410,7 @@ int lua_core_GetScreenWidth(lua_State *L){
 /*!MD
 #### GetScreenHeight
 ```lua
-integer Height = ray.core.GetScreenHeight()
+integer Height = rl.core.GetScreenHeight()
 ```
 Get current screen height
 */
@@ -287,7 +423,7 @@ int lua_core_GetScreenHeight(lua_State *L){
 /*!MD
 #### GetScreenDimensions
 ```lua
-integer Width, integer Height = ray.core.GetScreenDimensions()
+integer Width, integer Height = rl.core.GetScreenDimensions()
 ```
 Get current screen dimensions
 */
@@ -301,7 +437,7 @@ int lua_core_GetScreenDimensions(lua_State *L){
 /*!MD
 #### GetMonitorCount
 ```lua
-integer Count = ray.core.GetMonitorCount()
+integer Count = rl.core.GetMonitorCount()
 ```
 Get number of connected monitors
 */
@@ -314,7 +450,7 @@ int lua_core_GetMonitorCount(lua_State *L){
 /*!MD
 #### GetMonitorWidth
 ```lua
-integer Width = ray.core.GetMonitorWidth(integer Monitor)
+integer Width = rl.core.GetMonitorWidth(integer Monitor)
 ```
 Get selected monitor width
 */
@@ -327,7 +463,7 @@ int lua_core_GetMonitorWidth(lua_State *L){
 /*!MD
 #### GetMonitorHeight
 ```lua
-integer Height = ray.core.GetMonitorHeight(integer Monitor)
+integer Height = rl.core.GetMonitorHeight(integer Monitor)
 ```
 Get selected monitor height
 */
@@ -340,7 +476,7 @@ int lua_core_GetMonitorHeight(lua_State *L){
 /*!MD
 #### GetMonitorDimensions
 ```lua
-integer Width, integer Height = ray.core.GetMonitorDimensions(integer Monitor)
+integer Width, integer Height = rl.core.GetMonitorDimensions(integer Monitor)
 ```
 Get selected monitor dimensions
 */
@@ -354,7 +490,7 @@ int lua_core_GetMonitorDimensions(lua_State *L){
 /*!MD
 #### GetMonitorPhysicalWidth
 ```lua
-integer Width = ray.core.GetMonitorPhysicalWidth(integer Monitor)
+integer Width = rl.core.GetMonitorPhysicalWidth(integer Monitor)
 ```
 Get selected monitor physical width in millimetres
 */
@@ -367,7 +503,7 @@ int lua_core_GetMonitorPhysicalWidth(lua_State *L){
 /*!MD
 #### GetMonitorPhysicalHeight
 ```lua
-integer Height = ray.core.GetMonitorPhysicalHeight(integer Monitor)
+integer Height = rl.core.GetMonitorPhysicalHeight(integer Monitor)
 ```
 Get selected monitor physical height in millimetres
 */
@@ -380,7 +516,7 @@ int lua_core_GetMonitorPhysicalHeight(lua_State *L){
 /*!MD
 #### GetMonitorPhysicalDimensions
 ```lua
-integer Width, integer Height = ray.core.GetMonitorPhysicalDimensions(integer Monitor)
+integer Width, integer Height = rl.core.GetMonitorPhysicalDimensions(integer Monitor)
 ```
 Get selected monitor physical dimensions in millimetres
 */
@@ -394,9 +530,9 @@ int lua_core_GetMonitorPhysicalDimensions(lua_State *L){
 /*!MD
 #### GetMonitors
 ```lua
-table Monitors = ray.core.GetMonitors()
+table Monitors = rl.core.GetMonitors()
 ```
-Get all monitors and it's stats using this layout:
+Get all monitors and it's stats, using this layout:
 ```lua
 Monitors = {
     { -- first monitor info
@@ -430,7 +566,7 @@ int lua_core_GetMonitors(lua_State *L){
 /*!MD
 #### GetWindowPosition
 ```lua
-Vector2 Position = ray.core.GetWindowPosition()
+Vector2 Position = rl.core.GetWindowPosition()
 ```
 Get window position XY on monitor.
 See [Vector2](#Vector2)
@@ -445,7 +581,7 @@ int lua_core_GetWindowPosition(lua_State *L){
 /*!MD
 #### GetMonitorName
 ```lua
-string Name = ray.core.GetMonitorName()
+string Name = rl.core.GetMonitorName()
 ```
 Get the human-readable, UTF-8 encoded name of the primary monitor
 */
@@ -458,7 +594,7 @@ int lua_core_GetMonitorName(lua_State *L){
 /*!MD
 #### GetClipboardText
 ```lua
-string Text = ray.core.GetClipboardText()
+string Text = rl.core.GetClipboardText()
 ```
 Get clipboard text content
 */
@@ -471,7 +607,7 @@ int lua_core_GetClipboardText(lua_State *L){
 /*!MD
 #### SetClipboardText
 ```lua
-ray.core.SetClipboardText(string Text)
+rl.core.SetClipboardText(string Text)
 ```
 Set clipboard text content
 */
@@ -485,7 +621,7 @@ int lua_core_SetClipboardText(lua_State *L){
 ### Cursor-related functions
 #### ShowCursor
 ```lua
-ray.core.ShowCursor()
+rl.core.ShowCursor()
 ```
 Shows cursor
 */
@@ -498,7 +634,7 @@ int lua_core_ShowCursor(lua_State* L) {
 /*!MD
 #### HideCursor
 ```lua
-ray.core.HideCursor()
+rl.core.HideCursor()
 ```
 Hides cursor
 */
@@ -511,7 +647,7 @@ int lua_core_HideCursor(lua_State* L) {
 /*!MD
 #### IsCursorHidden
 ```lua
-boolean Status = ray.core.IsCursorHidden()
+boolean Status = rl.core.IsCursorHidden()
 ```
 Check if cursor is not visible
 */
@@ -524,7 +660,7 @@ int lua_core_IsCursorHidden(lua_State* L) {
 /*!MD
 #### EnableCursor
 ```lua
-ray.core.EnableCursor()
+rl.core.EnableCursor()
 ```
 Enables cursor (unlock cursor)
 */
@@ -537,7 +673,7 @@ int lua_core_EnableCursor(lua_State* L) {
 /*!MD
 #### DisableCursor
 ```lua
-ray.core.DisableCursor()
+rl.core.DisableCursor()
 ```
 Disables cursor (lock cursor)
 */
@@ -551,10 +687,9 @@ int lua_core_DisableCursor(lua_State* L) {
 ### Drawing-related functions
 #### ClearBackground
 ```lua
-ray.core.ClearBackground(Color Color)
+rl.core.ClearBackground(Color Color)
 ```
-Set background color (framebuffer clear color).
-See [Color](#Color)
+Set background color (framebuffer clear color). See [Color](#Color)
 */
 
 int lua_core_ClearBackground(lua_State *L){
@@ -566,7 +701,7 @@ int lua_core_ClearBackground(lua_State *L){
 /*!MD
 #### BeginDrawing
 ```lua
-ray.core.BeginDrawing()
+rl.core.BeginDrawing()
 ```
 Setup canvas (framebuffer) to start drawing
 */
@@ -579,7 +714,7 @@ int lua_core_BeginDrawing(lua_State *L){
 /*!MD
 #### EndDrawing
 ```lua
-ray.core.EndDrawing()
+rl.core.EndDrawing()
 ```
 End canvas drawing and swap buffers (double buffering)
 */
@@ -592,7 +727,7 @@ int lua_core_EndDrawing(lua_State *L){
 /*!MD
 #### BeginMode2D
 ```lua
-ray.core.BeginMode2D(Camera2D Camera)
+rl.core.BeginMode2D(Camera2D Camera)
 ```
 Initialize 2D mode with custom camera (2D).
 See [Camera2D](#Camera2D)
@@ -607,7 +742,7 @@ int lua_core_BeginMode2D(lua_State *L){
 /*!MD
 #### EndMode2D
 ```lua
-ray.core.EndMode2D()
+rl.core.EndMode2D()
 ```
 Ends 2D mode with custom camera
 */
@@ -620,7 +755,7 @@ int lua_core_EndMode2D(lua_State *L){
 /*!MD
 #### BeginMode3D
 ```lua
-ray.core.BeginMode3D(Camera3D Camera)
+rl.core.BeginMode3D(Camera3D Camera)
 ```
 Initializes 3D mode with custom camera (3D).
 See [Camera3D](#Camera3D)
@@ -635,7 +770,7 @@ int lua_core_BeginMode3D(lua_State *L){
 /*!MD
 #### EndMode3D
 ```lua
-ray.core.EndMode3D()
+rl.core.EndMode3D()
 ```
 Ends 3D mode and returns to default 2D orthographic mode
 */
@@ -648,7 +783,7 @@ int lua_core_EndMode3D(lua_State *L){
 /*!MD
 #### BeginTextureMode
 ```lua
-ray.core.BeginTextureMode(RenderTexture Texture)
+rl.core.BeginTextureMode(RenderTexture Texture)
 ```
 Initializes render texture for drawing.
 See [RenderTexture](#RenderTexture)
@@ -663,7 +798,7 @@ int lua_core_BeginTextureMode(lua_State *L){
 /*!MD
 #### EndTextureMode
 ```lua
-ray.core.EndTextureMode()
+rl.core.EndTextureMode()
 ```
 Ends drawing to render texture
 */
@@ -676,7 +811,7 @@ int lua_core_EndTextureMode(lua_State *L){
 /*!MD
 #### BeginScissorMode
 ```lua
-ray.core.BeginScissorMode(integer X, integer Y, integer Width, integer Height)
+rl.core.BeginScissorMode(integer X, integer Y, integer Width, integer Height)
 ```
 Begin scissor mode (define screen area for following drawing)
 */
@@ -693,7 +828,7 @@ int lua_core_BeginScissorMode(lua_State *L){
 /*!MD
 #### EndScissorMode
 ```lua
-ray.core.EndScissorMode()
+rl.core.EndScissorMode()
 ```
 End scissor mode
 */
@@ -707,9 +842,9 @@ int lua_core_EndScissorMode(lua_State *L){
 ### Screen-space-related functions
 #### GetMouseRay
 ```lua
--- variations
-Ray Ray = ray.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
-Vector2 Position, Vector2 Direction = ray.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
+-- variants
+Ray Ray = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
+Vector2 Position, Vector2 Direction = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
 ```
 Returns a ray trace from mouse position. See [Ray](Ray), [Vector2](Vector2).
 */
@@ -734,7 +869,7 @@ int lua_core_GetMouseRay(lua_State *L){
 /*!MD
 #### GetCameraMatrix
 ```lua
-Matrix View = ray.core.GetCameraMatrix(Camera3D Camera)
+Matrix View = rl.core.GetCameraMatrix(Camera3D Camera)
 ```
 Returns camera transform matrix (view matrix). See [Matrix](Matrix)
 */
@@ -749,7 +884,7 @@ int lua_core_GetCameraMatrix(lua_State *L){
 /*!MD
 #### GetCameraMatrix2D
 ```lua
-Matrix View = ray.core.GetCameraMatrix2D(Camera2D Camera)
+Matrix View = rl.core.GetCameraMatrix2D(Camera2D Camera)
 ```
 Returns camera 2d transform matrix. See [Matrix](Matrix), [Camera2D](Camera2D)
 */
@@ -764,7 +899,7 @@ int lua_core_GetCameraMatrix2D(lua_State *L){
 /*!MD
 #### GetWorldToScreen
 ```lua
-Vector2 ScreenV = Matrix ray.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
+Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
 Returns the screen space position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
 */
@@ -780,7 +915,7 @@ int lua_core_GetWorldToScreen(lua_State *L){
 /*!MD
 #### GetWorldToScreenEx
 ```lua
-Vector2 ScreenV = Matrix ray.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
+Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
 Returns size position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
 */
@@ -797,7 +932,7 @@ int lua_core_GetWorldToScreenEx(lua_State *L){
 /*!MD
 #### GetWorldToScreen2D
 ```lua
-Vector2 ScreenV = Matrix ray.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
+Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
 Returns the screen space position for a 2d camera world space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
 */
@@ -812,7 +947,7 @@ int lua_core_GetWorldToScreen2D(lua_State *L){
 /*!MD
 #### GetScreenToWorld2D
 ```lua
-Vector2 ScreenV = Matrix ray.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
+Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
 Returns the world space position for a 2d camera screen space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
 */
@@ -828,7 +963,7 @@ int lua_core_GetScreenToWorld2D(lua_State *L){
 ### Timing-related functions
 #### SetTargetFPS
 ```lua
-ray.core.SetTargetFPS(integer FPS)
+rl.core.SetTargetFPS(integer FPS)
 ```
 Set target FPS (maximum)
 */
@@ -842,7 +977,7 @@ int lua_core_SetTargetFPS(lua_State *L){
 /*!MD
 #### GetFPS
 ```lua
-integer FPS = Matrix ray.core.GetFPS()
+integer FPS = Matrix rl.core.GetFPS()
 ```
 Returns current FPS
 */
@@ -854,7 +989,7 @@ int lua_core_GetFPS(lua_State *L){
 /*!MD
 #### GetFrameTime
 ```lua
-float DT = Matrix ray.core.GetFrameTime()
+float DT = Matrix rl.core.GetFrameTime()
 ```
 Returns time in seconds for last frame drawn
 */
@@ -866,7 +1001,7 @@ int lua_core_GetFrameTime(lua_State *L){
 /*!MD
 #### GetTime
 ```lua
-float Time = Matrix ray.core.GetTime()
+float Time = Matrix rl.core.GetTime()
 ```
 Returns elapsed time in seconds since InitWindow()
 */
@@ -879,7 +1014,7 @@ int lua_core_GetTime(lua_State *L){
 ### Color-related functions
 #### ColorToInt
 ```lua
-integer iColor = ray.core.ColorToInt(Color Color)
+integer iColor = rl.core.ColorToInt(Color Color)
 ```
 Returns hexadecimal value for a Color
 */
@@ -892,10 +1027,10 @@ int lua_core_ColorToInt(lua_State *L){
 /*!MD
 #### ColorNormalize
 ```lua
--- variations
-Vector4 vColor = ray.core.ColorNormalize(Color Color)
-integer NR, integer NG, integer NB, integer NA = ray.core.ColorNormalize(Color Color, "n")
-table tColor = ray.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
+-- variants
+Vector4 vColor = rl.core.ColorNormalize(Color Color)
+integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Color, "n")
+table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
 Returns color normalized as float [0..1]. See [Vector4](Vector4), [Color](Color)
 */
@@ -930,10 +1065,10 @@ int lua_core_ColorNormalize(lua_State *L){
 /*!MD
 #### ColorFromNormalized
 ```lua
--- variations
-Color Color = ray.core.ColorFromNormalized(Vector4 vColor)
-Color Color = ray.core.ColorFromNormalized(float R, float G, float B[, float A])
-Color Color = ray.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
+-- variants
+Color Color = rl.core.ColorFromNormalized(Vector4 vColor)
+Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
+Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
 Returns color from normalized values [0..1]. See [Vector4](Vector4), [Color](Color)
 */
@@ -969,10 +1104,10 @@ int lua_core_ColorFromNormalized(lua_State *L){
 /*!MD
 #### ColorToHSV
 ```lua
--- variations
-Vector3 vColor = ray.core.ColorToHSV(Color Color)
-float Hue, float Saturation, float Value = ray.core.ColorToHSV(Color Color, "n")
-table hsvColor = ray.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
+-- variants
+Vector3 vColor = rl.core.ColorToHSV(Color Color)
+float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
+table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
 Returns HSV values for a Color. See [Vector3](Vector3), [Color](Color)
 */
@@ -1004,10 +1139,10 @@ int lua_core_ColorToHSV(lua_State *L){
 /*!MD
 #### ColorFromHSV
 ```lua
--- variations
-Color Color = ray.core.ColorFromHSV(Vector3 vColor)
-Color Color = ray.core.ColorFromHSV(float H, float S, float V)
-Color Color = ray.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
+-- variants
+Color Color = rl.core.ColorFromHSV(Vector3 vColor)
+Color Color = rl.core.ColorFromHSV(float H, float S, float V)
+Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
 Returns a Color from HSV values. See [Vector3](Vector3), [Color](Color)
 */
@@ -1041,8 +1176,8 @@ int lua_core_ColorFromHSV(lua_State *L){
 /*!MD
 #### GetColor
 ```lua
--- variations
-Color Color = ray.core.GetColor(integer hColor)
+-- variants
+Color Color = rl.core.GetColor(integer hColor)
 ```
 Returns a Color struct from hexadecimal value. See [Color](Color)
 */
@@ -1056,8 +1191,8 @@ int lua_core_GetColor(lua_State *L){
 /*!MD
 #### Fade
 ```lua
--- variations
-Color fColor = ray.core.Fade(Color Color, float alpha)
+-- variants
+Color fColor = rl.core.Fade(Color Color, float alpha)
 ```
 Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](Color)
 */
@@ -1073,7 +1208,7 @@ int lua_core_Fade(lua_State *L){
 ### Misc. functions
 #### SetConfigFlags
 ```lua
-ray.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
+rl.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
 ```
 Setup window configuration flags
 Available flags:
@@ -1107,22 +1242,21 @@ int lua_core_SetConfigFlags(lua_State *L){
   return 0;
 }
 
-
 /*!MD
 #### SetTraceLogLevel
 ```lua
-ray.core.SetTraceLogLevel(string Mode)
+rl.core.SetTraceLogLevel(string Mode)
 ```
 Set the current threshold (minimum) log level.
 Available Modes:
-* `"ALL"     ` Set to run program in fullscreen
-* `"TRACE"   ` Set to allow resizable window
-* `"DEBUG"   ` Set to disable window decoration (frame and buttons)
-* `"INFO"    ` Set to allow transparent window
-* `"WARNING" ` Set to create the window initially hidden
-* `"ERROR"   ` Set to allow windows running while minimized
-* `"FATAL"   ` Set to try enabling MSAA 4X
-* `"NONE"    ` Set to try enabling V-Sync on GPU
+* `"ALL"`     Set to run program in fullscreen
+* `"TRACE"`   Set to allow resizable window
+* `"DEBUG"`   Set to disable window decoration (frame and buttons)
+* `"INFO"`    Set to allow transparent window
+* `"WARNING"` Set to create the window initially hidden
+* `"ERROR"`   Set to allow windows running while minimized
+* `"FATAL"`   Set to try enabling MSAA 4X
+* `"NONE"`    Set to try enabling V-Sync on GPU
 */
 
 int lua_core_SetTraceLogLevel(lua_State *L){
@@ -1142,6 +1276,22 @@ int lua_core_SetTraceLogLevel(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### SetTraceLogExit
+```lua
+rl.core.SetTraceLogExit(string Mode)
+```
+Set the exit threshold (minimum) log level.
+Available Modes:
+* `"ALL"`     Set to run program in fullscreen
+* `"TRACE"`   Set to allow resizable window
+* `"DEBUG"`   Set to disable window decoration (frame and buttons)
+* `"INFO"`    Set to allow transparent window
+* `"WARNING"` Set to create the window initially hidden
+* `"ERROR"`   Set to allow windows running while minimized
+* `"FATAL"`   Set to try enabling MSAA 4X
+* `"NONE"`    Set to try enabling V-Sync on GPU
+*/
 int lua_core_SetTraceLogExit(lua_State *L){
   int flag = LOG_NONE;
   if (!lua_isstring(L, 1)){
@@ -1160,12 +1310,28 @@ int lua_core_SetTraceLogExit(lua_State *L){
 }
 
 
-lua_State * _lua_state;    // keeping lua_State that user for function
-int _lua_trace_callback_ref; // and reference to function
+/*!MD
+#### SetTraceLogCallback
+```lua
+rl.core.SetTraceLogCallback(function Log)
+```
+Set a trace log callback to enable custom logging. Log function example:
+```lua
+function Log(string logLevel, string Message)
+  local time = os.date("%H.%M.%S", os.time())
+  print(time .. " " .. logLevel .. ': ' .. Message)
+end
+```
+logLevel is string constant `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"` or `"FATAL"`.
+*/
+
+lua_State * _lua_state;      // keeping lua_State that user for function
+int         _lua_trace_ref;  // and reference to callback function
+
 // va_list are unused because we can't generate va_list dynamicly by Lua
 void _lua_callback(int logType, const char * text, va_list args ){
-  if (!_lua_trace_callback_ref) return;
-  const char * level = "NONE";
+  if (!_lua_trace_ref || !_lua_state) return;
+  const char * level = "DEBUG";
        if (logType == LOG_TRACE)   level = "TRACE";
   else if (logType == LOG_DEBUG)   level = "DEBUG";
   else if (logType == LOG_INFO)    level = "INFO";
@@ -1173,7 +1339,7 @@ void _lua_callback(int logType, const char * text, va_list args ){
   else if (logType == LOG_ERROR)   level = "ERROR";
   else if (logType == LOG_FATAL)   level = "FATAL";
 
-  lua_rawgeti(_lua_state, LUA_REGISTRYINDEX, _lua_trace_callback_ref);
+  lua_rawgeti(_lua_state, LUA_REGISTRYINDEX, _lua_trace_ref);
   lua_pushstring(_lua_state, level);
   lua_pushstring(_lua_state, text);
   lua_call(_lua_state, 2, 0);
@@ -1182,29 +1348,30 @@ void _lua_callback(int logType, const char * text, va_list args ){
 int lua_core_SetTraceLogCallback(lua_State *L){
   if (lua_isfunction(L, 1)){
     _lua_state = L;
-    _lua_trace_callback_ref = lua_ref(L, 1);
+    _lua_trace_ref = lua_ref(L, 1);
     SetTraceLogCallback(_lua_callback);
     return 0;
   }
-  lua_unref(L, _lua_trace_callback_ref);
-  _lua_state = NULL;
+  lua_unref(L, _lua_trace_ref);
+  _lua_state     = 0;
+  _lua_trace_ref = 0;
   SetTraceLogCallback(NULL);
+  SetTraceLogLevel(LOG_NONE);
+
   return 0;
 }
 
-int lua_core_TakeScreenshot(lua_State *L){
-  if (lua_isstring(L, 1)){
-    const char * fname = luaL_checkstring(L, 1);
-    TakeScreenshot(fname);
-    return 0;
-  }
-  return 0;
-}
-
+/*!MD
+#### TraceLog
+```lua
+rl.core.TraceLog(string logLevel, string Message)
+```
+Show trace log messages. logLevel is string constant `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"` or `"FATAL"`.
+*/
 int lua_core_TraceLog(lua_State *L){
   const char * s     = luaL_checkstring(L, 1);
   const char * text  = luaL_checkstring(L, 2);
-  int flag = LOG_INFO;
+  int flag = LOG_DEBUG;
          if (!strcmp(s, "TRACE"))   flag = LOG_TRACE;
     else if (!strcmp(s, "DEBUG"))   flag = LOG_DEBUG;
     else if (!strcmp(s, "INFO"))    flag = LOG_INFO;
@@ -1215,6 +1382,31 @@ int lua_core_TraceLog(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### TakeScreenshot
+```lua
+rl.core.TakeScreenshot(string fName)
+```
+Takes a screenshot of current screen (saved a .png).
+*/
+int lua_core_TakeScreenshot(lua_State *L){
+  if (lua_isstring(L, 1)){
+    const char * fname = luaL_checkstring(L, 1);
+    TakeScreenshot(fname);
+    return 0;
+  }
+  return 0;
+}
+
+/*!MD
+#### GetRandomValue
+```lua
+-- variat
+integer RndValue = rl.core.GetRandomValue(integer Min, integer Max) -- [Mix .. Max]
+integer RndValue = rl.core.GetRandomValue(integer Max)              -- [1   .. Max]
+```
+Returns a random value between min and max (both included).
+*/
 int lua_core_GetRandomValue(lua_State *L){
   int min = 1;
   int max = luaL_checkinteger(L, 1);
@@ -1230,17 +1422,23 @@ int lua_core_GetRandomValue(lua_State *L){
 ### Files management functions
 #### FileExists
 ```lua
-ray.core.FileExists(string Filename)
+boolean Status = rl.core.FileExists(string FileName)
 ```
-Check if file exists
+Check if file exists.
 */
-
 int lua_core_FileExists(lua_State *L){
   const char * fname = luaL_checkstring(L, 1);
   lua_pushboolean(L, FileExists(fname));
   return 1;
 }
 
+/*!MD
+#### IsFileExtension
+```lua
+boolean Status = rl.core.IsFileExtension(string FileName, string Ext)
+```
+Check file extension.
+*/
 int lua_core_IsFileExtension(lua_State *L){
   const char * fname = luaL_checkstring(L, 1);
   const char * fext  = luaL_checkstring(L, 2);
@@ -1248,120 +1446,281 @@ int lua_core_IsFileExtension(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### DirectoryExists
+```lua
+boolean Status = rl.core.DirectoryExists(string DirectoryPath)
+```
+Check if a directory path exists.
+*/
 int lua_core_DirectoryExists(lua_State *L){
   const char * dname = luaL_checkstring(L, 1);
   lua_pushboolean(L, DirectoryExists(dname));
   return 1;
 }
 
+/*!MD
+#### DirectoryExists
+```lua
+string Ext = rl.core.GetExtension(string FileName)
+```
+Get a extension for a filename string.
+*/
 int lua_core_GetExtension(lua_State *L){
   const char * fname = luaL_checkstring(L, 1);
   lua_pushstring(L, GetExtension(fname));
   return 1;
 }
 
+/*!MD
+#### GetFileName
+```lua
+string FileName = rl.core.GetFileName(string FilePath)
+```
+Get a filename for a path string.
+*/
 int lua_core_GetFileName(lua_State *L){
   const char * fpath = luaL_checkstring(L, 1);
   lua_pushstring(L, GetFileName(fpath));
   return 1;
 }
 
+/*!MD
+#### GetFileNameWithoutExt
+```lua
+string FileName = rl.core.GetFileNameWithoutExt(string FilePath)
+```
+Get filename string without extension.
+*/
 int lua_core_GetFileNameWithoutExt(lua_State *L){
   const char * fpath = luaL_checkstring(L, 1);
   lua_pushstring(L, GetFileNameWithoutExt(fpath));
   return 1;
 }
 
+/*!MD
+#### GetDirectoryPath
+```lua
+string DirectoryPath = rl.core.GetDirectoryPath(string FilePath)
+```
+Get full path for a given fileName with path.
+*/
 int lua_core_GetDirectoryPath(lua_State *L){
   const char * fpath = luaL_checkstring(L, 1);
   lua_pushstring(L, GetDirectoryPath(fpath));
   return 1;
 }
 
+/*!MD
+#### GetPrevDirectoryPath
+```lua
+string DirectoryPath = rl.core.GetPrevDirectoryPath(string FilePath)
+```
+Get previous directory path for a given path.
+*/
 int lua_core_GetPrevDirectoryPath(lua_State *L){
   const char * dpath = luaL_checkstring(L, 1);
   lua_pushstring(L, GetPrevDirectoryPath(dpath));
   return 1;
 }
 
+/*!MD
+#### GetWorkingDirectory
+```lua
+string DirectoryPath = rl.core.GetWorkingDirectory()
+```
+Get current working directory.
+*/
 int lua_core_GetWorkingDirectory(lua_State *L){
   lua_pushstring(L, GetWorkingDirectory());
   return 1;
 }
 
+/*!MD
+#### GetDirectoryFiles
+```lua
+table Files = rl.core.GetDirectoryFiles(string DirectoryPath)
+```
+Get filenames in a directory path. [ClearDirectoryFiles](ClearDirectoryFiles) is called automatically.
+Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`
+*/
 int lua_core_GetDirectoryFiles(lua_State *L){
   const char * dpath = luaL_checkstring(L, 1);
   int count;
   char ** paths = GetDirectoryFiles(dpath, &count);
   lua_newtable(L);
-  for (int i = 0; i < count; i++) lua_pushstring(L, paths[i]);
+  for (int i = 0; i < count; i++){
+    luax_tnstring(L, i + 1, paths[i]);
+  }
   ClearDirectoryFiles();
   return 1;
 }
 
+/*!MD
+#### ClearDirectoryFiles
+```lua
+rl.core.ClearDirectoryFiles()
+```
+Clear directory files paths buffers (free memory). Deprecated.
+*/
 int lua_core_ClearDirectoryFiles(lua_State *L){
   ClearDirectoryFiles();
   return 0;
 }
 
+/*!MD
+#### ChangeDirectory
+```lua
+boolean Status = rl.core.ChangeDirectory(string DirectoryPath)
+```
+Change working directory, returns true if success.
+*/
 int lua_core_ChangeDirectory(lua_State *L){
   const char * dpath = luaL_checkstring(L, 1);
   lua_pushboolean(L, ChangeDirectory(dpath));
   return 1;
 }
 
+/*!MD
+#### IsFileDropped
+```lua
+boolean Status = rl.core.IsFileDropped()
+```
+Check if a file has been dropped into window.
+*/
 int lua_core_IsFileDropped(lua_State *L){
   lua_pushboolean(L, IsFileDropped());
   return 1;
 }
 
+/*!MD
+#### GetDroppedFiles
+```lua
+table Files = rl.core.GetDroppedFiles()
+```
+Get dropped files names. [ClearDroppedFiles](ClearDroppedFiles) is called automatically.
+Table Files contains string names like `{"file1.png", "file2.lua", ...}`
+*/
 int lua_core_GetDroppedFiles(lua_State *L){
   int count;
   char ** files = GetDroppedFiles(&count);
   lua_newtable(L);
-  for (int i = 0; i < count; i++) lua_pushstring(L, files[i]);
+  for (int i = 0; i < count; i++) {
+      luax_tsstring(L, i + 1, files[i]);
+  }
   ClearDroppedFiles();
   return 1;
 }
 
+/*!MD
+#### ClearDirectoryFiles
+```lua
+rl.core.ClearDirectoryFiles()
+```
+Clear dropped files paths buffer (free memory). Deprecated.
+*/
 int lua_core_ClearDroppedFiles(lua_State *L){
   ClearDroppedFiles();
   return 0;
 }
 
+/*!MD
+#### GetFileModTime
+```lua
+integer Time = rl.core.GetFileModTime(string FilePath)
+```
+Get file modification time (last write timestamp).
+*/
 int lua_core_GetFileModTime(lua_State *L){
   const char * fpath = luaL_checkstring(L, 1);
   lua_pushnumber(L, GetFileModTime(fpath));
   return 1;
 }
 
+/*!MD
+#### GetFileInfo
+```lua
+table Info = rl.core.GetFileInfo(string FilePath)
+```
+Get file or directory info, using this layout:
+```lua
+Info = {
+  string  name,     -- filename string without extension
+  string  fullname, -- filename with ext
+  string  ext,      -- file extension
+  string  path      -- passed path
+  string  directory -- full path for a given file with path
+  integer modtime,  -- file modification time (last write time)
+  string  mode,     -- it is "directory" or "file"
+}
+```
+*/
 int lua_core_GetFileInfo(lua_State *L){
   const char * fpath = luaL_checkstring(L, 1);
+  if (!FileExists(fpath)){
+      lua_pushnil(L);
+      lua_pushfstring(L, "File [%s] is not exists", fpath);
+      return 2;
+  }
+
   lua_newtable(L);
+  luax_tsstring(L, "path",      fpath);
   luax_tsstring(L, "fullname",  GetFileName(fpath));
   luax_tsstring(L, "name",      GetFileNameWithoutExt(fpath));
   luax_tsstring(L, "ext",       GetExtension(fpath));
   luax_tsstring(L, "directory", GetDirectoryPath(fpath));
   luax_tsnumber(L, "modtime",   GetFileModTime(fpath));
+  luax_tsstring(L, "mode",      DirectoryExists(fpath) ? "directory" : "file");
   return 1;
 }
 
+/*!MD
+#### CompressData
+```lua
+string CompressedData = rl.core.CompressData(string Data)
+```
+Compress data (DEFLATE algorythm).
+*/
 int lua_core_CompressData(lua_State *L){
   int srclen, dstlen;
-  const char * src = luaL_checklstring(L, 1, &srclen);
-  const char * dst = CompressData((unsigned char *)src, srclen, &dstlen);
+  unsigned char * src = luaL_checklstring(L, 1, &srclen);
+  unsigned char * dst = CompressData(src, srclen, &dstlen);
+  if (!dst){
+    lua_pushnil(L);
+    lua_pushstring(L, "Zlib is not included");
+    return 2;
+  }
   lua_pushlstring(L, dst, dstlen);
   return 1;
 }
 
+/*!MD
+#### DecompressData
+```lua
+string Data = rl.core.DecompressData(string CompressedData)
+```
+Deompress data (DEFLATE algorythm).
+*/
 int lua_core_DecompressData(lua_State *L){
   int srclen, dstlen;
-  const char * src = luaL_checklstring(L, 1, &srclen);
-  const char * dst = DecompressData((unsigned char *)src, srclen, &dstlen);
+  unsigned char * src = luaL_checklstring(L, 1, &srclen);
+  unsigned char * dst = DecompressData(src, srclen, &dstlen);
+  if (!dst){
+    lua_pushnil(L);
+    lua_pushstring(L, "Compressed data is invalid");
+    return 2;
+  }
   lua_pushlstring(L, dst, dstlen);
   return 1;
 }
 
+/*!MD
+#### OpenURL
+```lua
+rl.core.OpenURL(string URL)
+```
+Open URL with default system browser (if available).
+*/
 int lua_core_OpenURL(lua_State *L){
   const char * url = luaL_checkstring(L, 1);
   OpenURL(url);
@@ -1372,11 +1731,10 @@ int lua_core_OpenURL(lua_State *L){
 ### Persistent storage management
 #### StorageSaveValue
 ```lua
-ray.core.StorageSaveValue(integer Position, integer Value)
+rl.core.StorageSaveValue(integer Position, integer Value)
 ```
 Save integer value to storage file (to defined position)
 */
-
 int lua_core_StorageSaveValue(lua_State *L){
   int key   = luaL_checkinteger(L, 1);
   int value = luaL_checkinteger(L, 2);
@@ -1384,6 +1742,13 @@ int lua_core_StorageSaveValue(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### StorageLoadValue
+```lua
+integer Value = rl.core.StorageLoadValue(integer Position)
+```
+Load integer value from storage file (from defined position)
+*/
 int lua_core_StorageLoadValue(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   lua_pushinteger(L, StorageLoadValue(key));
@@ -1394,35 +1759,62 @@ int lua_core_StorageLoadValue(lua_State *L){
 ### Input-related functions: keyb
 #### IsKeyPressed
 ```lua
-boolean State = ray.core.IsKeyPressed(integer Key)
+boolean State = rl.core.IsKeyPressed(integer Key)
 ```
 Detect if a key has been pressed once
 */
-
 int lua_core_IsKeyPressed(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   lua_pushboolean(L, IsKeyPressed(key));
   return 1;
 }
 
+/*!MD
+#### IsKeyDown
+```lua
+boolean State = rl.core.IsKeyDown(integer Key)
+```
+Detect if a key is being pressed
+*/
 int lua_core_IsKeyDown(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   lua_pushboolean(L, IsKeyDown(key));
   return 1;
 }
 
+/*!MD
+#### IsKeyReleased
+```lua
+boolean State = rl.core.IsKeyReleased(integer Key)
+```
+Detect if a key has been released once
+*/
 int lua_core_IsKeyReleased(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   lua_pushboolean(L, IsKeyReleased(key));
   return 1;
 }
 
+/*!MD
+#### IsKeyUp
+```lua
+boolean State = rl.core.IsKeyUp(integer Key)
+```
+Detect if a key is NOT being pressed
+*/
 int lua_core_IsKeyUp(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   lua_pushboolean(L, IsKeyUp(key));
   return 1;
 }
 
+/*!MD
+#### GetKeyPressed
+```lua
+integer Key = rl.core.GetKeyPressed()
+```
+Get latest key scancode pressed
+*/
 int lua_core_GetKeyPressed(lua_State *L){
   int key = GetKeyPressed();
   if (!key) return 0;
@@ -1430,6 +1822,13 @@ int lua_core_GetKeyPressed(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetKeyPressedString
+```lua
+string Char = rl.core.GetKeyPressedString()
+```
+Get user input utf8-string char
+*/
 int lua_core_GetKeyPressedString(lua_State *L){
   int len;
   int key = GetKeyPressed();
@@ -1439,6 +1838,13 @@ int lua_core_GetKeyPressedString(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetAllKeysPressedString
+```lua
+string Text = rl.core.GetAllKeysPressedString()
+```
+Get all user utf8-input chars
+*/
 int lua_core_GetAllKeysPressedString(lua_State *L){
   int codepoints[20]; // max codepoint count per one GetKeyPressed
   int len = 0;
@@ -1456,6 +1862,13 @@ int lua_core_GetAllKeysPressedString(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### SetExitKey
+```lua
+rl.core.SetExitKey(integer Key)
+```
+Set a custom key to exit program (default is ESC)
+*/
 int lua_core_SetExitKey(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   SetExitKey(key);
@@ -1466,73 +1879,135 @@ int lua_core_SetExitKey(lua_State *L){
 ### Input-related functions: gamepads
 #### IsGamepadAvailable
 ```lua
-boolean State = ray.core.IsGamepadAvailable(integer Gamepad)
+boolean State = rl.core.IsGamepadAvailable(integer Gamepad)
 ```
 Detect if a gamepad is available
 */
-
 int lua_core_IsGamepadAvailable(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
-  lua_pushboolean(L, IsGamepadAvailable(gamepad + 1));
+  lua_pushboolean(L, IsGamepadAvailable(gamepad - 1));
   return 1;
 }
 
+/*!MD
+#### IsGamepadName
+```lua
+boolean State = rl.core.IsGamepadName(integer Gamepad, string GamepadName)
+```
+Check gamepad name (if available)
+*/
 int lua_core_IsGamepadName(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
   const char * name = luaL_checkstring(L, 2);
-  lua_pushboolean(L, IsGamepadName(gamepad + 1, name));
+  lua_pushboolean(L, IsGamepadName(gamepad - 1, name));
   return 1;
 }
 
+/*!MD
+#### GetGamepadName
+```lua
+string GamepadName = rl.core.GetGamepadName(integer Gamepad)
+```
+Check gamepad name (if available)
+*/
 int lua_core_GetGamepadName(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
-  lua_pushstring(L, GetGamepadName(gamepad + 1));
+  lua_pushstring(L, GetGamepadName(gamepad - 1));
   return 1;
 }
 
+/*!MD
+#### IsGamepadButtonPressed
+```lua
+boolean Status = rl.core.IsGamepadButtonPressed(integer Gamepad)
+```
+Detect if a gamepad button has been pressed once
+*/
 int lua_core_IsGamepadButtonPressed(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
   int button  = luaL_checkinteger(L, 2);
-  lua_pushboolean(L, IsGamepadButtonPressed(gamepad + 1, button));
+  lua_pushboolean(L, IsGamepadButtonPressed(gamepad - 1, button));
   return 1;
 }
 
+/*!MD
+#### IsGamepadButtonDown
+```lua
+boolean Status = rl.core.IsGamepadButtonDown(integer Gamepad)
+```
+Detect if a gamepad button is being pressed
+*/
 int lua_core_IsGamepadButtonDown(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
   int button  = luaL_checkinteger(L, 2);
-  lua_pushboolean(L, IsGamepadButtonDown(gamepad + 1, button));
+  lua_pushboolean(L, IsGamepadButtonDown(gamepad - 1, button));
   return 1;
 }
 
+/*!MD
+#### IsGamepadButtonReleased
+```lua
+boolean Status = rl.core.IsGamepadButtonReleased(integer Gamepad)
+```
+Detect if a gamepad button has been released once
+*/
 int lua_core_IsGamepadButtonReleased(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
   int button  = luaL_checkinteger(L, 2);
-  lua_pushboolean(L, IsGamepadButtonReleased(gamepad + 1, button));
+  lua_pushboolean(L, IsGamepadButtonReleased(gamepad - 1, button));
   return 1;
 }
 
+/*!MD
+#### IsGamepadButtonUp
+```lua
+boolean Status = rl.core.IsGamepadButtonUp(integer Gamepad)
+```
+Detect if a gamepad button is NOT being pressed
+*/
 int lua_core_IsGamepadButtonUp(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
   int button  = luaL_checkinteger(L, 2);
-  lua_pushboolean(L, IsGamepadButtonUp(gamepad + 1, button));
+  lua_pushboolean(L, IsGamepadButtonUp(gamepad - 1, button));
   return 1;
 }
 
+/*!MD
+#### GetGamepadButtonPressed
+```lua
+integer Key = rl.core.GetGamepadButtonPressed()
+```
+Get the last gamepad button pressed
+*/
 int lua_core_GetGamepadButtonPressed(lua_State *L){
   lua_pushnumber(L, GetGamepadButtonPressed());
   return 1;
 }
 
+/*!MD
+#### GetGamepadAxisCount
+```lua
+integer Count = rl.core.GetGamepadAxisCount()
+```
+Return gamepad axis count for a gamepad
+*/
 int lua_core_GetGamepadAxisCount(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
-  lua_pushnumber(L, GetGamepadAxisCount(gamepad + 1));
+  lua_pushnumber(L, GetGamepadAxisCount(gamepad - 1));
   return 1;
 }
 
+/*!MD
+#### GetGamepadAxisMovement
+```lua
+float Movement = rl.core.GetGamepadAxisMovement(integer Gamepad)
+```
+Return axis movement value for a gamepad axis
+*/
 int lua_core_GetGamepadAxisMovement(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
   int axis    = luaL_checkinteger(L, 2);
-  lua_pushnumber(L, GetGamepadAxisMovement(gamepad + 1, axis));
+  lua_pushnumber(L, GetGamepadAxisMovement(gamepad - 1, axis - 1));
   return 1;
 }
 
@@ -1540,45 +2015,88 @@ int lua_core_GetGamepadAxisMovement(lua_State *L){
 ### Input-related functions: mouse
 #### IsMouseButtonPressed
 ```lua
-boolean State = ray.core.IsMouseButtonPressed(integer Button)
+boolean State = rl.core.IsMouseButtonPressed(integer Button)
 ```
 Detect if a mouse button has been pressed once
 */
-
 int lua_core_IsMouseButtonPressed(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
-  lua_pushboolean(L, IsMouseButtonPressed(button + 1));
+  lua_pushboolean(L, IsMouseButtonPressed(button - 1));
   return 1;
 }
 
+/*!MD
+#### IsMouseButtonDown
+```lua
+boolean State = rl.core.IsMouseButtonDown(integer Button)
+```
+Detect if a mouse button is being pressed
+*/
 int lua_core_IsMouseButtonDown(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
-  lua_pushboolean(L, IsMouseButtonDown(button + 1));
+  lua_pushboolean(L, IsMouseButtonDown(button - 1));
   return 1;
 }
 
+/*!MD
+#### IsMouseButtonReleased
+```lua
+boolean State = rl.core.IsMouseButtonReleased(integer Button)
+```
+Detect if a mouse button has been released once
+*/
 int lua_core_IsMouseButtonReleased(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
-  lua_pushboolean(L, IsMouseButtonReleased(button + 1));
+  lua_pushboolean(L, IsMouseButtonReleased(button - 1));
   return 1;
 }
 
+/*!MD
+#### IsMouseButtonUp
+```lua
+boolean State = rl.core.IsMouseButtonUp(integer Button)
+```
+Detect if a mouse button is NOT being pressed
+*/
 int lua_core_IsMouseButtonUp(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
-  lua_pushboolean(L, IsMouseButtonUp(button + 1));
+  lua_pushboolean(L, IsMouseButtonUp(button - 1));
   return 1;
 }
 
+/*!MD
+#### GetMouseX
+```lua
+integer X = rl.core.GetMouseX()
+```
+Returns mouse position X
+*/
 int lua_core_GetMouseX(lua_State *L){
   lua_pushnumber(L, GetMouseX());
   return 1;
 }
 
+/*!MD
+#### GetMouseY
+```lua
+integer Y = rl.core.GetMouseY()
+```
+Returns mouse position Y
+*/
 int lua_core_GetMouseY(lua_State *L){
   lua_pushnumber(L, GetMouseY());
   return 1;
 }
 
+/*!MD
+#### GetMousePosition
+```lua
+-- variants
+Vector2 Position     = rl.core.GetMousePosition()
+integer X, integer Y = rl.core.GetMousePosition('n')
+```
+Returns mouse position XY
+*/
 int lua_core_GetMousePosition(lua_State *L){
   if (luax_optstring(L, 1, "\0")[0] == 'n') {
     lua_pushnumber(L, GetMouseX());
@@ -1590,6 +2108,15 @@ int lua_core_GetMousePosition(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### SetMousePosition
+```lua
+-- variants
+rl.core.SetMousePosition(Vector2 Position)
+rl.core.SetMousePosition(integer X, integer Y)
+```
+Set mouse position XY
+*/
 int lua_core_SetMousePosition(lua_State *L){
   if (luax_checkclass(L, 1, "Vector2")){
     Vector2 * v = luaL_checkudata(L, 1, "Vector2");
@@ -1602,6 +2129,15 @@ int lua_core_SetMousePosition(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### SetMouseOffset
+```lua
+-- variants
+rl.core.SetMouseOffset(Vector2 Offset)
+rl.core.SetMouseOffset(integer X, integer Y)
+```
+Set mouse offset
+*/
 int lua_core_SetMouseOffset(lua_State *L){
   if (luax_checkclass(L, 1, "Vector2")){
     Vector2 * v = luaL_checkudata(L, 1, "Vector2");
@@ -1614,6 +2150,15 @@ int lua_core_SetMouseOffset(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### SetMouseScale
+```lua
+-- variants
+rl.core.SetMouseScale(Vector2 Scale)
+rl.core.SetMouseScale(integer X, integer Y)
+```
+Set mouse scaling
+*/
 int lua_core_SetMouseScale(lua_State *L){
   if (luax_checkclass(L, 1, "Vector2")){
     Vector2 * v = luaL_checkudata(L, 1, "Vector2");
@@ -1626,6 +2171,14 @@ int lua_core_SetMouseScale(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### GetMouseWheelMove
+```lua
+-- variants
+integer WheelMove = rl.core.GetMouseWheelMove()
+```
+Returns mouse wheel movement Y
+*/
 int lua_core_GetMouseWheelMove(lua_State *L){
   lua_pushnumber(L, GetMouseWheelMove());
   return 1;
@@ -1635,30 +2188,52 @@ int lua_core_GetMouseWheelMove(lua_State *L){
 ### Input-related functions: touch
 #### GetTouchX
 ```lua
-boolean State = ray.core.GetTouchX()
+integer X = rl.core.GetTouchX()
 ```
-Returns touch position X for touch point 0 (relative to screen size)
+Returns touch position X for touch point 1 (relative to screen size)
 */
-
 int lua_core_GetTouchX(lua_State *L){
   lua_pushnumber(L, GetTouchX());
   return 1;
 }
 
+/*!MD
+#### GetTouchY
+```lua
+integer Y = rl.core.GetTouchY()
+```
+Returns touch position Y for touch point 1 (relative to screen size)
+*/
 int lua_core_GetTouchY(lua_State *L){
   lua_pushnumber(L, GetTouchY());
   return 1;
 }
 
+/*!MD
+#### GetTouch
+```lua
+integer X, integer Y = rl.core.GetTouch()
+```
+Returns touch position XY for a touch point 1 (relative to screen size)
+*/
 int lua_core_GetTouch(lua_State *L){
   lua_pushnumber(L, GetTouchX());
   lua_pushnumber(L, GetTouchY());
   return 2;
 }
 
+/*!MD
+#### GetTouchPosition
+```lua
+-- veriants
+Vector2 Position     = rl.core.GetTouchPosition(integer Index)
+integer X, integer Y = rl.core.GetTouchPosition(integer Index, 'n')
+```
+Returns touch position XY for a touch point index (relative to screen size)
+*/
 int lua_core_GetTouchPosition(lua_State *L){
   int touch = luaL_checkinteger(L, 1);
-  Vector2 v = GetTouchPosition(touch + 1);
+  Vector2 v = GetTouchPosition(touch - 1);
   if (luax_optstring(L, 2, "\0")[0] == 'n') {
     lua_pushnumber(L, v.x);
     lua_pushnumber(L, v.y);
@@ -1669,6 +2244,15 @@ int lua_core_GetTouchPosition(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetTouches
+```lua
+-- veriants
+table Touches = rl.core.GetTouches(integer Index)      -- {Vector2 t1, Vector2 t2, ...}
+table Touches = rl.core.GetTouches(integer Index, 'n') -- {{integer X1, integer Y1}, {integer X2, integer Y2}, ...}
+```
+Returns all touches positions XY (relative to screen size)
+*/
 int lua_core_GetTouches(lua_State *L){
   lua_newtable(L); // result
   bool useNumbers = (luax_optstring(L, 1, "\0")[0] == 'n');
@@ -1689,13 +2273,31 @@ int lua_core_GetTouches(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### SetGesturesEnabled
+```lua
+rl.core.SetGesturesEnabled(string Mode1, string Mode2, ...)
+```
+Enable a set of gestures using modes.
+Available Modes:
+* `"NONE"` (default if no mode passed)
+* `"TAP"`
+* `"DOUBLETAP"`
+* `"HOLD"`
+* `"DRAG"`
+* `"SWIPE_RIGHT"`
+* `"SWIPE_LEFT"`
+* `"SWIPE_UP"`
+* `"SWIPE_DOWN"`
+* `"PINCH_IN"`
+* `"PINCH_OUT"`
+*/
 int lua_core_SetGesturesEnabled(lua_State *L){
   int flag = GESTURE_NONE;
   for (int i = 1; i <= lua_gettop(L); i++){
     if (lua_isstring(L, i)){
       const char * s = luaL_checkstring(L, i);
-           if (!strcmp(s, "NONE"))        flag |= GESTURE_NONE;
-      else if (!strcmp(s, "TAP"))         flag |= GESTURE_TAP;
+           if (!strcmp(s, "TAP"))         flag |= GESTURE_TAP;
       else if (!strcmp(s, "DOUBLETAP"))   flag |= GESTURE_DOUBLETAP;
       else if (!strcmp(s, "HOLD"))        flag |= GESTURE_HOLD;
       else if (!strcmp(s, "DRAG"))        flag |= GESTURE_DRAG;
@@ -1711,6 +2313,24 @@ int lua_core_SetGesturesEnabled(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### IsGestureDetected
+```lua
+boolean Status = rl.core.IsGestureDetected(string Mode)
+```
+Check if a gesture have been detected.
+Available Modes to check:
+* `"TAP"`
+* `"DOUBLETAP"`
+* `"HOLD"`
+* `"DRAG"`
+* `"SWIPE_RIGHT"`
+* `"SWIPE_LEFT"`
+* `"SWIPE_UP"`
+* `"SWIPE_DOWN"`
+* `"PINCH_IN"`
+* `"PINCH_OUT"`
+*/
 int lua_core_IsGestureDetected(lua_State *L){
   const char * s = luaL_checkstring(L, 1);
   int flag = GESTURE_NONE;
@@ -1728,6 +2348,22 @@ int lua_core_IsGestureDetected(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetGestureDetected
+```lua
+-- variants
+string Gesture, ~ A, ~ B, ~ C = rl.core.GetGestureDetected()
+string Gesture, ~ A, ~ B, ~ C = rl.core.GetGestureDetected('n')
+```
+Get latest detected gesture.
+A, B, and C is additional info for various gestures:
+* `"HOLD"` returns float GestureHoldDuration
+* `"DRAG"` returns Vector2 DragVector, float DragAngle if 'n' is not passed
+* `"DRAG"` returns integer DragVectorX, integer DragVectorY, float DragAngle if 'n' is passed
+* `"PINCH_IN"` returns Vector2 PinchVector, float PinchAngle if 'n' is not passed
+* `"PINCH_IN"` returns integer PinchVectorX, integer PinchVectorY, float PinchAngle if 'n' is passed
+* `"PINCH_OUT"` same as `"PINCH_IN"`.
+*/
 int lua_core_GetGestureDetected(lua_State *L){
   int flag = GetGestureDetected();
   const char * c = "NONE";
@@ -1779,16 +2415,39 @@ int lua_core_GetGestureDetected(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetTouchPointsCount
+```lua
+integer Count = rl.core.GetTouchPointsCount()
+```
+Get touch points count
+*/
 int lua_core_GetTouchPointsCount(lua_State *L){
   lua_pushnumber(L, GetTouchPointsCount());
   return 1;
 }
 
+/*!MD
+#### GetGestureHoldDuration
+```lua
+float Duration = rl.core.GetGestureHoldDuration()
+```
+Get gesture hold time in milliseconds
+*/
 int lua_core_GetGestureHoldDuration(lua_State *L){
   lua_pushnumber(L, GetGestureHoldDuration());
   return 1;
 }
 
+/*!MD
+#### GetGestureHoldDuration
+```lua
+-- variants
+Vector2 DragVector     = rl.core.GetGestureDragVector()
+integer vX, integer vY = rl.core.GetGestureDragVector('n')
+```
+Get gesture drag vector
+*/
 int lua_core_GetGestureDragVector(lua_State *L){
   Vector2 v = GetGestureDragVector();
   if (luax_optstring(L, 1, "\0")[0] == 'n'){
@@ -1801,11 +2460,27 @@ int lua_core_GetGestureDragVector(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetGestureDragAngle
+```lua
+float Angle = rl.core.GetGestureDragAngle()
+```
+Get gesture drag angle
+*/
 int lua_core_GetGestureDragAngle(lua_State *L){
   lua_pushnumber(L, GetGestureDragAngle());
   return 1;
 }
 
+/*!MD
+#### GetGesturePinchVector
+```lua
+-- variants
+Vector2 PinchVector    = rl.core.GetGesturePinchVector()
+integer dX, integer dY = rl.core.GetGesturePinchVector('n')
+```
+Get gesture pinch delta
+*/
 int lua_core_GetGesturePinchVector(lua_State *L){
   Vector2 v = GetGesturePinchVector();
   if (luax_optstring(L, 1, "\0")[0] == 'n'){
@@ -1818,6 +2493,13 @@ int lua_core_GetGesturePinchVector(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### GetGesturePinchAngle
+```lua
+float Angle = rl.core.GetGesturePinchAngle()
+```
+Get gesture pinch angle
+*/
 int lua_core_GetGesturePinchAngle(lua_State *L){
   lua_pushnumber(L, GetGesturePinchAngle());
   return 1;
@@ -1827,7 +2509,7 @@ int lua_core_GetGesturePinchAngle(lua_State *L){
 ### Camera System Functions (Module: camera)
 #### SetCameraMode
 ```lua
-ray.core.SetCameraMode(Camera3D Camera, string Mode)
+rl.core.SetCameraMode(Camera3D Camera, string Mode)
 ```
 Set camera mode. Availabke modes: 
 * `"CUSTOM"` - default
@@ -1836,7 +2518,6 @@ Set camera mode. Availabke modes:
 * `"FIRST_PERSON"`
 * `"THIRD_PERSON"`
 */
-
 int lua_core_SetCameraMode(lua_State *L){
   Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   int mode = CAMERA_CUSTOM;
@@ -1854,30 +2535,65 @@ int lua_core_SetCameraMode(lua_State *L){
   return 0;
 }
 
+/*!MD
+#### UpdateCamera
+```lua
+rl.core.UpdateCamera(Camera3D Camera)
+```
+Update camera position for selected mode
+*/
 int lua_core_UpdateCamera(lua_State *L){
   Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   UpdateCamera(c);
   return 0;
 }
 
+/*!MD
+#### SetCameraPanControl
+```lua
+rl.core.SetCameraPanControl(integer panKey)
+```
+Set camera pan key to combine with mouse movement (free camera)
+*/
 int lua_core_SetCameraPanControl(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   SetCameraPanControl(key);
   return 0;
 }
 
+/*!MD
+#### SetCameraAltControl
+```lua
+rl.core.SetCameraAltControl(integer altKey)
+```
+Set camera alt key to combine with mouse movement (free camera)
+*/
 int lua_core_SetCameraAltControl(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   SetCameraAltControl(key);
   return 0;
 }
 
+/*!MD
+#### SetCameraSmoothZoomControl
+```lua
+rl.core.SetCameraSmoothZoomControl(integer szKey)
+```
+Set camera smooth zoom key to combine with mouse (free camera)
+*/
 int lua_core_SetCameraSmoothZoomControl(lua_State *L){
   int key = luaL_checkinteger(L, 1);
   SetCameraSmoothZoomControl(key);
   return 0;
 }
 
+/*!MD
+#### SetCameraMoveControls
+```lua
+rl.core.SetCameraMoveControls(integer frontKey, integer backKey, integer rightKey, integer leftKey, integer upKey, integer downKey)
+```
+Set camera move controls (1st person and 3rd person cameras)
+*/
 int lua_core_SetCameraMoveControls(lua_State *L){
   int front = luaL_checkinteger(L, 1);
   int back  = luaL_checkinteger(L, 2);
@@ -1967,8 +2683,8 @@ luaL_Reg luaray_core[] = {
   {"SetTraceLogLevel",             lua_core_SetTraceLogLevel},
   {"SetTraceLogExit",              lua_core_SetTraceLogExit},
   {"SetTraceLogCallback",          lua_core_SetTraceLogCallback}, // typedef void (*TraceLogCallback)(int logType, const char *text, va_list args);
-  {"TakeScreenshot",               lua_core_TakeScreenshot},
   {"TraceLog",                     lua_core_TraceLog},
+  {"TakeScreenshot",               lua_core_TakeScreenshot},
   {"GetRandomValue",               lua_core_GetRandomValue},
   // Files management functions
   {"FileExists",                   lua_core_FileExists},
@@ -2126,7 +2842,6 @@ luaL_Reg luaray_text[] = {
 __declspec(dllexport)
 #endif
 int luaopen_raylib_luamore(lua_State *L) {
-  SetConfigFlags(FLAG_MSAA_4X_HINT);
   lua_newtable(L);
   lua_class_register(L);
   
