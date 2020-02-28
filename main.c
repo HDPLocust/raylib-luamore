@@ -152,7 +152,6 @@
   * ...
 */
 
-
 // Modules
 /*!MD
 ## Core
@@ -172,12 +171,14 @@ rl.core.InitWindow(integer Width, integer Height, string Title)
 ```
 Initialize window and OpenGL context
 Should be called before any widnow stuff is used.
+* Default Width is 800
+* Default Height is 600
+* Default Title is "Untitled"
 */
-
 int lua_core_InitWindow(lua_State *L){
-  int w = luaL_checknumber(L, 1);
-  int h = luaL_checknumber(L, 2);
-  const char * title = luaL_checkstring(L, 3);
+  int w = luax_optnumber(L, 1, 800);
+  int h = luax_optnumber(L, 2, 600);
+  const char * title = luax_optstring(L, 3, "Untitled");
   InitWindow(w, h, title);
   return 0;
 }
@@ -187,9 +188,9 @@ int lua_core_InitWindow(lua_State *L){
 ```lua
 boolean Status = rl.core.WindowShouldClose()
 ```
-Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](#SetExitKey)
+Check if ESCAPE-key pressed or Close icon pressed.
+See [SetExitKey](#SetExitKey).
 */
-
 int lua_core_WindowShouldClose(lua_State *L){
   lua_pushboolean(L, WindowShouldClose());
   return 1;
@@ -200,9 +201,8 @@ int lua_core_WindowShouldClose(lua_State *L){
 ```lua
 rl.core.CloseWindow()
 ```
-Close window and unload OpenGL context
+Close window and unload OpenGL context.
 */
-
 int lua_core_CloseWindow(lua_State *L){
   CloseWindow();
   return 0;
@@ -213,9 +213,8 @@ int lua_core_CloseWindow(lua_State *L){
 ```lua
 boolean Status = rl.core.IsWindowReady()
 ```
-Check if window has been initialized successfully
+Check if window has been initialized successfully.
 */
-
 int lua_core_IsWindowReady(lua_State *L){
   lua_pushboolean(L, IsWindowReady());
   return 1;
@@ -226,9 +225,8 @@ int lua_core_IsWindowReady(lua_State *L){
 ```lua
 boolean Status = rl.core.IsWindowMinimized()
 ```
-Check if window has been minimized (or lost focus)
+Check if window has been minimized (or lost focus).
 */
-
 int lua_core_IsWindowMinimized(lua_State *L){
   lua_pushboolean(L, IsWindowMinimized());
   return 1;
@@ -239,9 +237,8 @@ int lua_core_IsWindowMinimized(lua_State *L){
 ```lua
 boolean Status = rl.core.IsWindowResized()
 ```
-Check if window has been resized
+Check if window has been resized.
 */
-
 int lua_core_IsWindowResized(lua_State *L){
   lua_pushboolean(L, IsWindowResized());
   return 1;
@@ -252,9 +249,8 @@ int lua_core_IsWindowResized(lua_State *L){
 ```lua
 boolean Status = rl.core.IsWindowHidden()
 ```
-Check if window is currently hidden
+Check if window is currently hidden.
 */
-
 int lua_core_IsWindowHidden(lua_State *L){
   lua_pushboolean(L, IsWindowHidden());
   return 1;
@@ -265,9 +261,8 @@ int lua_core_IsWindowHidden(lua_State *L){
 ```lua
 rl.core.ToggleFullscreen()
 ```
-Toggle fullscreen mode (only PLATFORM_DESKTOP)
+Toggle fullscreen mode (only PLATFORM_DESKTOP).
 */
-
 int lua_core_ToggleFullscreen(lua_State *L){
   ToggleFullscreen();
   return 0;
@@ -278,9 +273,8 @@ int lua_core_ToggleFullscreen(lua_State *L){
 ```lua
 rl.core.UnhideWindow()
 ```
-Show the window
+Show the window.
 */
-
 int lua_core_UnhideWindow(lua_State *L){
   UnhideWindow();
   return 0;
@@ -291,9 +285,8 @@ int lua_core_UnhideWindow(lua_State *L){
 ```lua
 rl.core.HideWindow()
 ```
-Hide the window
+Hide the window.
 */
-
 int lua_core_HideWindow(lua_State *L){
   HideWindow();
   return 0;
@@ -304,10 +297,9 @@ int lua_core_HideWindow(lua_State *L){
 ```lua
 rl.core.SetWindowIcon(Image Icon)
 ```
-Set icon for window (only PLATFORM_DESKTOP)
-See [Image](#Image)
+Set icon for window (only PLATFORM_DESKTOP).
+See [Image](#Image).
 */
-
 int lua_core_SetWindowIcon(lua_State *L){
   Image* i = (Image*)luaL_checkudata(L, 1, "Image");
   SetWindowIcon(*i);
@@ -319,9 +311,8 @@ int lua_core_SetWindowIcon(lua_State *L){
 ```lua
 rl.core.SetWindowTitle(string Title)
 ```
-Set title for window (only PLATFORM_DESKTOP)
+Set title for window (only PLATFORM_DESKTOP).
 */
-
 int lua_core_SetWindowTitle(lua_State *L){
   SetWindowTitle(luaL_checkstring(L, 1));
   return 0;
@@ -332,9 +323,8 @@ int lua_core_SetWindowTitle(lua_State *L){
 ```lua
 rl.core.SetWindowPosition(string Title)
 ```
-Set window position on screen (only PLATFORM_DESKTOP)
+Set window position on screen (only PLATFORM_DESKTOP).
 */
-
 int lua_core_SetWindowPosition(lua_State *L){
   SetWindowPosition(luaL_checkinteger(L, 1), luaL_checkinteger(L, 2));
   return 0;
@@ -345,9 +335,8 @@ int lua_core_SetWindowPosition(lua_State *L){
 ```lua
 rl.core.SetWindowMonitor(integer Monitor)
 ```
-Set monitor for the current window (fullscreen mode)
+Set monitor for the current window (fullscreen mode).
 */
-
 int lua_core_SetWindowMonitor(lua_State *L){
   SetWindowMonitor(luaL_checkinteger(L, 1) - 1);
   return 0;
@@ -358,9 +347,8 @@ int lua_core_SetWindowMonitor(lua_State *L){
 ```lua
 rl.core.SetWindowMinSize(integer Width, integer Height)
 ```
-Set window minimum dimensions, for flag [WINDOW_RESIZABLE](#SetConfigFlags)
+Set window minimum dimensions, for flag ["WINDOW_RESIZABLE"](#SetConfigFlags).
 */
-
 int lua_core_SetWindowMinSize(lua_State *L){
   SetWindowMinSize(luaL_checkinteger(L, 1), luaL_checkinteger(L, 2));
   return 0;
@@ -371,9 +359,8 @@ int lua_core_SetWindowMinSize(lua_State *L){
 ```lua
 rl.core.SetWindowSize(integer Width, integer Height)
 ```
-Set window dimensions
+Set window dimensions.
 */
-
 int lua_core_SetWindowSize(lua_State *L){
   SetWindowSize(luaL_checkinteger(L, 1), luaL_checkinteger(L, 2));
   return 0;
@@ -384,10 +371,9 @@ int lua_core_SetWindowSize(lua_State *L){
 ```lua
 userdata Handle = rl.core.GetWindowHandle()
 ```
-Get native window handle
-Use for FFI or something
+Get native window handle.
+Use for FFI or something.
 */
-
 int lua_core_GetWindowHandle(lua_State *L){
   void* h = GetWindowHandle();
   lua_pushlightuserdata(L, h);
@@ -399,9 +385,8 @@ int lua_core_GetWindowHandle(lua_State *L){
 ```lua
 integer Width = rl.core.GetScreenWidth()
 ```
-Get current screen width
+Get current screen width.
 */
-
 int lua_core_GetScreenWidth(lua_State *L){
   lua_pushnumber(L, GetScreenWidth());
   return 1;
@@ -412,9 +397,8 @@ int lua_core_GetScreenWidth(lua_State *L){
 ```lua
 integer Height = rl.core.GetScreenHeight()
 ```
-Get current screen height
+Get current screen height.
 */
-
 int lua_core_GetScreenHeight(lua_State *L){
   lua_pushnumber(L, GetScreenHeight());
   return 1;
@@ -425,9 +409,8 @@ int lua_core_GetScreenHeight(lua_State *L){
 ```lua
 integer Width, integer Height = rl.core.GetScreenDimensions()
 ```
-Get current screen dimensions
+Get current screen dimensions.
 */
-
 int lua_core_GetScreenDimensions(lua_State *L){
   lua_pushnumber(L, GetScreenWidth());
   lua_pushnumber(L, GetScreenHeight());
@@ -439,9 +422,8 @@ int lua_core_GetScreenDimensions(lua_State *L){
 ```lua
 integer Count = rl.core.GetMonitorCount()
 ```
-Get number of connected monitors
+Get number of connected monitors.
 */
-
 int lua_core_GetMonitorCount(lua_State *L){
   lua_pushnumber(L, GetMonitorCount());
   return 1;
@@ -452,9 +434,8 @@ int lua_core_GetMonitorCount(lua_State *L){
 ```lua
 integer Width = rl.core.GetMonitorWidth(integer Monitor)
 ```
-Get selected monitor width
+Get selected monitor width.
 */
-
 int lua_core_GetMonitorWidth(lua_State *L){
   lua_pushnumber(L, GetMonitorWidth(luaL_checkinteger(L, 1) + 1));
   return 1;
@@ -465,9 +446,8 @@ int lua_core_GetMonitorWidth(lua_State *L){
 ```lua
 integer Height = rl.core.GetMonitorHeight(integer Monitor)
 ```
-Get selected monitor height
+Get selected monitor height.
 */
-
 int lua_core_GetMonitorHeight(lua_State *L){
   lua_pushnumber(L, GetMonitorHeight(luaL_checkinteger(L, 1) + 1));
   return 1;
@@ -478,9 +458,8 @@ int lua_core_GetMonitorHeight(lua_State *L){
 ```lua
 integer Width, integer Height = rl.core.GetMonitorDimensions(integer Monitor)
 ```
-Get selected monitor dimensions
+Get selected monitor dimensions.
 */
-
 int lua_core_GetMonitorDimensions(lua_State *L){
   lua_pushnumber(L,  GetMonitorWidth(luaL_checkinteger(L, 1) + 1));
   lua_pushnumber(L, GetMonitorHeight(luaL_checkinteger(L, 1) + 1));
@@ -492,9 +471,8 @@ int lua_core_GetMonitorDimensions(lua_State *L){
 ```lua
 integer Width = rl.core.GetMonitorPhysicalWidth(integer Monitor)
 ```
-Get selected monitor physical width in millimetres
+Get selected monitor physical width in millimetres.
 */
-
 int lua_core_GetMonitorPhysicalWidth(lua_State *L){
   lua_pushnumber(L, GetMonitorPhysicalWidth(luaL_checkinteger(L, 1) + 1));
   return 1;
@@ -505,9 +483,8 @@ int lua_core_GetMonitorPhysicalWidth(lua_State *L){
 ```lua
 integer Height = rl.core.GetMonitorPhysicalHeight(integer Monitor)
 ```
-Get selected monitor physical height in millimetres
+Get selected monitor physical height in millimetres.
 */
-
 int lua_core_GetMonitorPhysicalHeight(lua_State *L){
   lua_pushnumber(L, GetMonitorPhysicalHeight(luaL_checkinteger(L, 1) + 1));
   return 1;
@@ -518,9 +495,8 @@ int lua_core_GetMonitorPhysicalHeight(lua_State *L){
 ```lua
 integer Width, integer Height = rl.core.GetMonitorPhysicalDimensions(integer Monitor)
 ```
-Get selected monitor physical dimensions in millimetres
+Get selected monitor physical dimensions in millimetres.
 */
-
 int lua_core_GetMonitorPhysicalDimensions(lua_State *L){
   lua_pushnumber(L, GetMonitorPhysicalWidth(luaL_checkinteger(L, 1)  + 1));
   lua_pushnumber(L, GetMonitorPhysicalHeight(luaL_checkinteger(L, 1) + 1));
@@ -547,7 +523,6 @@ Monitors = {
   }
  ```
 */
-
 int lua_core_GetMonitors(lua_State *L){
   lua_newtable(L);
   for (int i = 0; i < GetMonitorCount(); i++) {
@@ -569,9 +544,8 @@ int lua_core_GetMonitors(lua_State *L){
 Vector2 Position = rl.core.GetWindowPosition()
 ```
 Get window position XY on monitor.
-See [Vector2](#Vector2)
+See [Vector2](#Vector2).
 */
-
 int lua_core_GetWindowPosition(lua_State *L){
   Vector2 * v = luax_newobject(L, "Vector2", sizeof(Vector2));
   *v = GetWindowPosition();
@@ -583,9 +557,8 @@ int lua_core_GetWindowPosition(lua_State *L){
 ```lua
 string Name = rl.core.GetMonitorName()
 ```
-Get the human-readable, UTF-8 encoded name of the primary monitor
+Get the human-readable, UTF-8 encoded name of the primary monitor.
 */
-
 int lua_core_GetMonitorName(lua_State *L){
   lua_pushstring(L, GetMonitorName(luaL_checkinteger(L, 1)));
   return 1;
@@ -596,9 +569,8 @@ int lua_core_GetMonitorName(lua_State *L){
 ```lua
 string Text = rl.core.GetClipboardText()
 ```
-Get clipboard text content
+Get clipboard text content.
 */
-
 int lua_core_GetClipboardText(lua_State *L){
   lua_pushstring(L, GetClipboardText());
   return 1;
@@ -609,9 +581,8 @@ int lua_core_GetClipboardText(lua_State *L){
 ```lua
 rl.core.SetClipboardText(string Text)
 ```
-Set clipboard text content
+Set clipboard text content.
 */
-
 int lua_core_SetClipboardText(lua_State *L){
   SetClipboardText(luaL_checkstring(L, 1));
   return 0;
@@ -623,9 +594,8 @@ int lua_core_SetClipboardText(lua_State *L){
 ```lua
 rl.core.ShowCursor()
 ```
-Shows cursor
+Shows cursor.
 */
-
 int lua_core_ShowCursor(lua_State* L) {
   ShowCursor();
   return 0;
@@ -636,9 +606,8 @@ int lua_core_ShowCursor(lua_State* L) {
 ```lua
 rl.core.HideCursor()
 ```
-Hides cursor
+Hides cursor.
 */
-
 int lua_core_HideCursor(lua_State* L) {
   HideCursor();
   return 0;
@@ -649,9 +618,8 @@ int lua_core_HideCursor(lua_State* L) {
 ```lua
 boolean Status = rl.core.IsCursorHidden()
 ```
-Check if cursor is not visible
+Check if cursor is not visible.
 */
-
 int lua_core_IsCursorHidden(lua_State* L) {
   lua_pushboolean(L, IsCursorHidden());
   return 1;
@@ -662,9 +630,8 @@ int lua_core_IsCursorHidden(lua_State* L) {
 ```lua
 rl.core.EnableCursor()
 ```
-Enables cursor (unlock cursor)
+Enables cursor (unlock cursor).
 */
-
 int lua_core_EnableCursor(lua_State* L) {
   EnableCursor();
   return 0;
@@ -675,9 +642,8 @@ int lua_core_EnableCursor(lua_State* L) {
 ```lua
 rl.core.DisableCursor()
 ```
-Disables cursor (lock cursor)
+Disables cursor (lock cursor).
 */
-
 int lua_core_DisableCursor(lua_State* L) {
   DisableCursor();
   return 0;
@@ -689,9 +655,9 @@ int lua_core_DisableCursor(lua_State* L) {
 ```lua
 rl.core.ClearBackground(Color Color)
 ```
-Set background color (framebuffer clear color). See [Color](#Color)
+Set background color (framebuffer clear color).
+See [Color](#Color).
 */
-
 int lua_core_ClearBackground(lua_State *L){
   Color * c = luaL_checkudata(L, 1, "Color");
   ClearBackground(*c);
@@ -705,7 +671,6 @@ rl.core.BeginDrawing()
 ```
 Setup canvas (framebuffer) to start drawing
 */
-
 int lua_core_BeginDrawing(lua_State *L){
   BeginDrawing();
   return 0;
@@ -716,9 +681,8 @@ int lua_core_BeginDrawing(lua_State *L){
 ```lua
 rl.core.EndDrawing()
 ```
-End canvas drawing and swap buffers (double buffering)
+End canvas drawing and swap buffers (double buffering).
 */
-
 int lua_core_EndDrawing(lua_State *L){
   EndDrawing();
   return 0;
@@ -730,9 +694,8 @@ int lua_core_EndDrawing(lua_State *L){
 rl.core.BeginMode2D(Camera2D Camera)
 ```
 Initialize 2D mode with custom camera (2D).
-See [Camera2D](#Camera2D)
+See [Camera2D](#Camera2D).
 */
-
 int lua_core_BeginMode2D(lua_State *L){
   Camera2D * c = luaL_checkudata(L, 1, "Camera2D");
   BeginMode2D(*c);
@@ -744,9 +707,8 @@ int lua_core_BeginMode2D(lua_State *L){
 ```lua
 rl.core.EndMode2D()
 ```
-Ends 2D mode with custom camera
+Ends 2D mode with custom camera.
 */
-
 int lua_core_EndMode2D(lua_State *L){
   EndMode2D();
   return 0;
@@ -758,9 +720,8 @@ int lua_core_EndMode2D(lua_State *L){
 rl.core.BeginMode3D(Camera3D Camera)
 ```
 Initializes 3D mode with custom camera (3D).
-See [Camera3D](#Camera3D)
+See [Camera3D](#Camera3D).
 */
-
 int lua_core_BeginMode3D(lua_State *L){
   Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   BeginMode3D(*c);
@@ -772,9 +733,8 @@ int lua_core_BeginMode3D(lua_State *L){
 ```lua
 rl.core.EndMode3D()
 ```
-Ends 3D mode and returns to default 2D orthographic mode
+Ends 3D mode and returns to default 2D orthographic mode.
 */
-
 int lua_core_EndMode3D(lua_State *L){
   EndMode3D();
   return 0;
@@ -786,9 +746,8 @@ int lua_core_EndMode3D(lua_State *L){
 rl.core.BeginTextureMode(RenderTexture Texture)
 ```
 Initializes render texture for drawing.
-See [RenderTexture](#RenderTexture)
+See [RenderTexture](#RenderTexture).
 */
-
 int lua_core_BeginTextureMode(lua_State *L){
   RenderTexture2D  * t = luaL_checkudata(L, 1, "RenderTexture");
   BeginTextureMode(*t);
@@ -800,9 +759,8 @@ int lua_core_BeginTextureMode(lua_State *L){
 ```lua
 rl.core.EndTextureMode()
 ```
-Ends drawing to render texture
+Ends drawing to render texture.
 */
-
 int lua_core_EndTextureMode(lua_State *L){
   EndTextureMode();
   return 0;
@@ -813,9 +771,8 @@ int lua_core_EndTextureMode(lua_State *L){
 ```lua
 rl.core.BeginScissorMode(integer X, integer Y, integer Width, integer Height)
 ```
-Begin scissor mode (define screen area for following drawing)
+Begin scissor mode (define screen area for following drawing).
 */
-
 int lua_core_BeginScissorMode(lua_State *L){
   int x = luaL_checkinteger(L, 1);
   int y = luaL_checkinteger(L, 2);
@@ -830,9 +787,8 @@ int lua_core_BeginScissorMode(lua_State *L){
 ```lua
 rl.core.EndScissorMode()
 ```
-End scissor mode
+End scissor mode.
 */
-
 int lua_core_EndScissorMode(lua_State *L){
   EndScissorMode();
   return 0;
@@ -846,9 +802,9 @@ int lua_core_EndScissorMode(lua_State *L){
 Ray Ray = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
 Vector2 Position, Vector2 Direction = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
 ```
-Returns a ray trace from mouse position. See [Ray](#Ray), [Vector2](#Vector2).
+Returns a ray trace from mouse position.
+See [Ray](#Ray), [Vector2](#Vector2).
 */
-
 int lua_core_GetMouseRay(lua_State *L){
   Vector2  * v = luaL_checkudata(L, 1, "Vector2");
   Camera3D * c = luaL_checkudata(L, 2, "Camera3D");
@@ -871,9 +827,9 @@ int lua_core_GetMouseRay(lua_State *L){
 ```lua
 Matrix View = rl.core.GetCameraMatrix(Camera3D Camera)
 ```
-Returns camera transform matrix (view matrix). See [Matrix](#Matrix)
+Returns camera transform matrix (view matrix).
+See [Matrix](#Matrix).
 */
-
 int lua_core_GetCameraMatrix(lua_State *L){
   Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
   Matrix * m   = luax_newobject(L, "Matrix", sizeof(Matrix));
@@ -886,24 +842,23 @@ int lua_core_GetCameraMatrix(lua_State *L){
 ```lua
 Matrix View = rl.core.GetCameraMatrix2D(Camera2D Camera)
 ```
-Returns camera 2d transform matrix. See [Matrix](#Matrix), [Camera2D](#Camera2D)
+Returns camera 2d transform matrix.
+See [Matrix](#Matrix), [Camera2D](#Camera2D).
 */
-
 int lua_core_GetCameraMatrix2D(lua_State *L){
   Camera2D * c = luaL_checkudata(L, 1, "Camera2D");
   Matrix   * m = luax_newobject(L, "Matrix", sizeof(Matrix));
   *m = GetCameraMatrix2D(*c);
   return 1;
 }
-
 /*!MD
 #### GetWorldToScreen
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
-Returns the screen space position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
+Returns the screen space position for a 3d world space position.
+See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
 */
-
 int lua_core_GetWorldToScreen(lua_State *L){
   Vector3  * v = luaL_checkudata(L, 1, "Vector3");
   Camera3D * c = luaL_checkudata(L, 2, "Camera3D");
@@ -917,7 +872,8 @@ int lua_core_GetWorldToScreen(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
-Returns size position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
+Returns size position for a 3d world space position.
+See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
 */
 int lua_core_GetWorldToScreenEx(lua_State *L){
   Vector3  * v = luaL_checkudata(L, 1, "Vector3");
@@ -934,7 +890,8 @@ int lua_core_GetWorldToScreenEx(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the screen space position for a 2d camera world space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
+Returns the screen space position for a 2d camera world space position.
+See [Vector2](#Vector2), [Camera2D](#Camera2D).
 */
 int lua_core_GetWorldToScreen2D(lua_State *L){
   Vector2  * v = luaL_checkudata(L, 1, "Vector2");
@@ -949,7 +906,8 @@ int lua_core_GetWorldToScreen2D(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the world space position for a 2d camera screen space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
+Returns the world space position for a 2d camera screen space position.
+See [Vector2](#Vector2), [Camera2D](#Camera2D).
 */
 int lua_core_GetScreenToWorld2D(lua_State *L){
   Vector2  * v = luaL_checkudata(L, 1, "Vector2");
@@ -965,9 +923,8 @@ int lua_core_GetScreenToWorld2D(lua_State *L){
 ```lua
 rl.core.SetTargetFPS(integer FPS)
 ```
-Set target FPS (maximum)
+Set target FPS (maximum).
 */
-
 int lua_core_SetTargetFPS(lua_State *L){
   int fps = luaL_checkinteger(L, 1);
   SetTargetFPS(fps);
@@ -1032,7 +989,8 @@ Vector4 vColor = rl.core.ColorNormalize(Color Color)
 integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Color, "n")
 table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
-Returns color normalized as float [0..1]. See [Vector4](#Vector4), [Color](#Color)
+Returns color normalized as float [0..1].
+See [Vector4](#Vector4), [Color](#Color)
 */
 int lua_core_ColorNormalize(lua_State *L){
   Color   * c = luaL_checkudata(L, 1, "Color");
@@ -1070,7 +1028,8 @@ Color Color = rl.core.ColorFromNormalized(Vector4 vColor)
 Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
 Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
-Returns color from normalized values [0..1]. See [Vector4](#Vector4), [Color](#Color)
+Returns color from normalized values [0..1].
+See [Vector4](#Vector4), [Color](#Color)
 */
 int lua_core_ColorFromNormalized(lua_State *L){
   Color * c = luax_newobject(L, "Color", sizeof(Color));
@@ -1109,7 +1068,8 @@ Vector3 vColor = rl.core.ColorToHSV(Color Color)
 float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
 table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
-Returns HSV values for a Color. See [Vector3](#Vector3), [Color](#Color)
+Returns HSV values for a Color.
+See [Vector3](#Vector3), [Color](#Color)
 */
 int lua_core_ColorToHSV(lua_State *L){
   Color   * c = luaL_checkudata(L, 1, "Color");
@@ -1144,7 +1104,8 @@ Color Color = rl.core.ColorFromHSV(Vector3 vColor)
 Color Color = rl.core.ColorFromHSV(float H, float S, float V)
 Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
-Returns a Color from HSV values. See [Vector3](#Vector3), [Color](#Color)
+Returns a Color from HSV values.
+See [Vector3](#Vector3), [Color](#Color)
 */
 int lua_core_ColorFromHSV(lua_State *L){
   Color   * c = luax_newobject(L, "Color", sizeof(Color));
@@ -1179,7 +1140,8 @@ int lua_core_ColorFromHSV(lua_State *L){
 -- variants
 Color Color = rl.core.GetColor(integer hColor)
 ```
-Returns a Color struct from hexadecimal value. See [Color](#Color)
+Returns a Color struct from hexadecimal value.
+See [Color](#Color)
 */
 int lua_core_GetColor(lua_State *L){
   int hex = luaL_checkinteger(L, 1);
@@ -1194,7 +1156,8 @@ int lua_core_GetColor(lua_State *L){
 -- variants
 Color fColor = rl.core.Fade(Color Color, float alpha)
 ```
-Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](#Color)
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f.
+See [Color](#Color)
 */
 int lua_core_Fade(lua_State *L){
   Color * c = luaL_checkudata(L, 1, "Color");
@@ -1212,14 +1175,14 @@ rl.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
 ```
 Setup window configuration flags
 Available flags:
-* `"FULLSCREEN_MODE"   ` Set to run program in fullscreen
-* `"WINDOW_RESIZABLE"  ` Set to allow resizable window
+* `"FULLSCREEN_MODE"`    Set to run program in fullscreen
+* `"WINDOW_RESIZABLE"`   Set to allow resizable window
 * `"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
 * `"WINDOW_TRANSPARENT"` Set to allow transparent window
-* `"WINDOW_HIDDEN"     ` Set to create the window initially hidden
-* `"WINDOW_ALWAYS_RUN" ` Set to allow windows running while minimized
-* `"MSAA_4X_HINT"      ` Set to try enabling MSAA 4X
-* `"VSYNC_HINT"        ` Set to try enabling V-Sync on GPU
+* `"WINDOW_HIDDEN"`      Set to create the window initially hidden
+* `"WINDOW_ALWAYS_RUN"`  Set to allow windows running while minimized
+* `"MSAA_4X_HINT"`       Set to try enabling MSAA 4X
+* `"VSYNC_HINT"`         Set to try enabling V-Sync on GPU
 */
 
 int lua_core_SetConfigFlags(lua_State *L){
@@ -1613,9 +1576,9 @@ int lua_core_GetDroppedFiles(lua_State *L){
 }
 
 /*!MD
-#### ClearDirectoryFiles
+#### ClearDroppedFiles
 ```lua
-rl.core.ClearDirectoryFiles()
+rl.core.ClearDroppedFiles()
 ```
 Clear dropped files paths buffer (free memory). Deprecated.
 */

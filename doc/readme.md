@@ -164,190 +164,194 @@ rl.core.InitWindow(integer Width, integer Height, string Title)
 ```
 Initialize window and OpenGL context
 Should be called before any widnow stuff is used.
+* Default Width is 800
+* Default Height is 600
+* Default Title is "Untitled"
 
 
 #### WindowShouldClose
 ```lua
 boolean Status = rl.core.WindowShouldClose()
 ```
-Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](#SetExitKey)
+Check if ESCAPE-key pressed or Close icon pressed.
+See [SetExitKey](#SetExitKey).
 
 
 #### CloseWindow
 ```lua
 rl.core.CloseWindow()
 ```
-Close window and unload OpenGL context
+Close window and unload OpenGL context.
 
 
 #### IsWindowReady
 ```lua
 boolean Status = rl.core.IsWindowReady()
 ```
-Check if window has been initialized successfully
+Check if window has been initialized successfully.
 
 
 #### IsWindowMinimized
 ```lua
 boolean Status = rl.core.IsWindowMinimized()
 ```
-Check if window has been minimized (or lost focus)
+Check if window has been minimized (or lost focus).
 
 
 #### IsWindowResized
 ```lua
 boolean Status = rl.core.IsWindowResized()
 ```
-Check if window has been resized
+Check if window has been resized.
 
 
 #### IsWindowHidden
 ```lua
 boolean Status = rl.core.IsWindowHidden()
 ```
-Check if window is currently hidden
+Check if window is currently hidden.
 
 
 #### ToggleFullscreen
 ```lua
 rl.core.ToggleFullscreen()
 ```
-Toggle fullscreen mode (only PLATFORM_DESKTOP)
+Toggle fullscreen mode (only PLATFORM_DESKTOP).
 
 
 #### UnhideWindow
 ```lua
 rl.core.UnhideWindow()
 ```
-Show the window
+Show the window.
 
 
 #### HideWindow
 ```lua
 rl.core.HideWindow()
 ```
-Hide the window
+Hide the window.
 
 
 #### SetWindowIcon
 ```lua
 rl.core.SetWindowIcon(Image Icon)
 ```
-Set icon for window (only PLATFORM_DESKTOP)
-See [Image](#Image)
+Set icon for window (only PLATFORM_DESKTOP).
+See [Image](#Image).
 
 
 #### SetWindowTitle
 ```lua
 rl.core.SetWindowTitle(string Title)
 ```
-Set title for window (only PLATFORM_DESKTOP)
+Set title for window (only PLATFORM_DESKTOP).
 
 
 #### SetWindowPosition
 ```lua
 rl.core.SetWindowPosition(string Title)
 ```
-Set window position on screen (only PLATFORM_DESKTOP)
+Set window position on screen (only PLATFORM_DESKTOP).
 
 
 #### SetWindowMonitor
 ```lua
 rl.core.SetWindowMonitor(integer Monitor)
 ```
-Set monitor for the current window (fullscreen mode)
+Set monitor for the current window (fullscreen mode).
 
 
 #### SetWindowMinSize
 ```lua
 rl.core.SetWindowMinSize(integer Width, integer Height)
 ```
-Set window minimum dimensions, for flag [WINDOW_RESIZABLE](#SetConfigFlags)
+Set window minimum dimensions, for flag ["WINDOW_RESIZABLE"](#SetConfigFlags).
 
 
 #### SetWindowSize
 ```lua
 rl.core.SetWindowSize(integer Width, integer Height)
 ```
-Set window dimensions
+Set window dimensions.
 
 
 #### GetWindowHandle
 ```lua
 userdata Handle = rl.core.GetWindowHandle()
 ```
-Get native window handle
-Use for FFI or something
+Get native window handle.
+Use for FFI or something.
 
 
 #### GetScreenWidth
 ```lua
 integer Width = rl.core.GetScreenWidth()
 ```
-Get current screen width
+Get current screen width.
 
 
 #### GetScreenHeight
 ```lua
 integer Height = rl.core.GetScreenHeight()
 ```
-Get current screen height
+Get current screen height.
 
 
 #### GetScreenDimensions
 ```lua
 integer Width, integer Height = rl.core.GetScreenDimensions()
 ```
-Get current screen dimensions
+Get current screen dimensions.
 
 
 #### GetMonitorCount
 ```lua
 integer Count = rl.core.GetMonitorCount()
 ```
-Get number of connected monitors
+Get number of connected monitors.
 
 
 #### GetMonitorWidth
 ```lua
 integer Width = rl.core.GetMonitorWidth(integer Monitor)
 ```
-Get selected monitor width
+Get selected monitor width.
 
 
 #### GetMonitorHeight
 ```lua
 integer Height = rl.core.GetMonitorHeight(integer Monitor)
 ```
-Get selected monitor height
+Get selected monitor height.
 
 
 #### GetMonitorDimensions
 ```lua
 integer Width, integer Height = rl.core.GetMonitorDimensions(integer Monitor)
 ```
-Get selected monitor dimensions
+Get selected monitor dimensions.
 
 
 #### GetMonitorPhysicalWidth
 ```lua
 integer Width = rl.core.GetMonitorPhysicalWidth(integer Monitor)
 ```
-Get selected monitor physical width in millimetres
+Get selected monitor physical width in millimetres.
 
 
 #### GetMonitorPhysicalHeight
 ```lua
 integer Height = rl.core.GetMonitorPhysicalHeight(integer Monitor)
 ```
-Get selected monitor physical height in millimetres
+Get selected monitor physical height in millimetres.
 
 
 #### GetMonitorPhysicalDimensions
 ```lua
 integer Width, integer Height = rl.core.GetMonitorPhysicalDimensions(integer Monitor)
 ```
-Get selected monitor physical dimensions in millimetres
+Get selected monitor physical dimensions in millimetres.
 
 
 #### GetMonitors
@@ -375,28 +379,28 @@ Monitors = {
 Vector2 Position = rl.core.GetWindowPosition()
 ```
 Get window position XY on monitor.
-See [Vector2](#Vector2)
+See [Vector2](#Vector2).
 
 
 #### GetMonitorName
 ```lua
 string Name = rl.core.GetMonitorName()
 ```
-Get the human-readable, UTF-8 encoded name of the primary monitor
+Get the human-readable, UTF-8 encoded name of the primary monitor.
 
 
 #### GetClipboardText
 ```lua
 string Text = rl.core.GetClipboardText()
 ```
-Get clipboard text content
+Get clipboard text content.
 
 
 #### SetClipboardText
 ```lua
 rl.core.SetClipboardText(string Text)
 ```
-Set clipboard text content
+Set clipboard text content.
 
 
 ### Cursor-related functions
@@ -404,35 +408,35 @@ Set clipboard text content
 ```lua
 rl.core.ShowCursor()
 ```
-Shows cursor
+Shows cursor.
 
 
 #### HideCursor
 ```lua
 rl.core.HideCursor()
 ```
-Hides cursor
+Hides cursor.
 
 
 #### IsCursorHidden
 ```lua
 boolean Status = rl.core.IsCursorHidden()
 ```
-Check if cursor is not visible
+Check if cursor is not visible.
 
 
 #### EnableCursor
 ```lua
 rl.core.EnableCursor()
 ```
-Enables cursor (unlock cursor)
+Enables cursor (unlock cursor).
 
 
 #### DisableCursor
 ```lua
 rl.core.DisableCursor()
 ```
-Disables cursor (lock cursor)
+Disables cursor (lock cursor).
 
 
 ### Drawing-related functions
@@ -440,7 +444,8 @@ Disables cursor (lock cursor)
 ```lua
 rl.core.ClearBackground(Color Color)
 ```
-Set background color (framebuffer clear color). See [Color](#Color)
+Set background color (framebuffer clear color).
+See [Color](#Color).
 
 
 #### BeginDrawing
@@ -454,7 +459,7 @@ Setup canvas (framebuffer) to start drawing
 ```lua
 rl.core.EndDrawing()
 ```
-End canvas drawing and swap buffers (double buffering)
+End canvas drawing and swap buffers (double buffering).
 
 
 #### BeginMode2D
@@ -462,14 +467,14 @@ End canvas drawing and swap buffers (double buffering)
 rl.core.BeginMode2D(Camera2D Camera)
 ```
 Initialize 2D mode with custom camera (2D).
-See [Camera2D](#Camera2D)
+See [Camera2D](#Camera2D).
 
 
 #### EndMode2D
 ```lua
 rl.core.EndMode2D()
 ```
-Ends 2D mode with custom camera
+Ends 2D mode with custom camera.
 
 
 #### BeginMode3D
@@ -477,14 +482,14 @@ Ends 2D mode with custom camera
 rl.core.BeginMode3D(Camera3D Camera)
 ```
 Initializes 3D mode with custom camera (3D).
-See [Camera3D](#Camera3D)
+See [Camera3D](#Camera3D).
 
 
 #### EndMode3D
 ```lua
 rl.core.EndMode3D()
 ```
-Ends 3D mode and returns to default 2D orthographic mode
+Ends 3D mode and returns to default 2D orthographic mode.
 
 
 #### BeginTextureMode
@@ -492,28 +497,28 @@ Ends 3D mode and returns to default 2D orthographic mode
 rl.core.BeginTextureMode(RenderTexture Texture)
 ```
 Initializes render texture for drawing.
-See [RenderTexture](#RenderTexture)
+See [RenderTexture](#RenderTexture).
 
 
 #### EndTextureMode
 ```lua
 rl.core.EndTextureMode()
 ```
-Ends drawing to render texture
+Ends drawing to render texture.
 
 
 #### BeginScissorMode
 ```lua
 rl.core.BeginScissorMode(integer X, integer Y, integer Width, integer Height)
 ```
-Begin scissor mode (define screen area for following drawing)
+Begin scissor mode (define screen area for following drawing).
 
 
 #### EndScissorMode
 ```lua
 rl.core.EndScissorMode()
 ```
-End scissor mode
+End scissor mode.
 
 
 ### Screen-space-related functions
@@ -523,49 +528,56 @@ End scissor mode
 Ray Ray = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
 Vector2 Position, Vector2 Direction = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
 ```
-Returns a ray trace from mouse position. See [Ray](#Ray), [Vector2](#Vector2).
+Returns a ray trace from mouse position.
+See [Ray](#Ray), [Vector2](#Vector2).
 
 
 #### GetCameraMatrix
 ```lua
 Matrix View = rl.core.GetCameraMatrix(Camera3D Camera)
 ```
-Returns camera transform matrix (view matrix). See [Matrix](#Matrix)
+Returns camera transform matrix (view matrix).
+See [Matrix](#Matrix).
 
 
 #### GetCameraMatrix2D
 ```lua
 Matrix View = rl.core.GetCameraMatrix2D(Camera2D Camera)
 ```
-Returns camera 2d transform matrix. See [Matrix](#Matrix), [Camera2D](#Camera2D)
+Returns camera 2d transform matrix.
+See [Matrix](#Matrix), [Camera2D](#Camera2D).
 
 
 #### GetWorldToScreen
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
-Returns the screen space position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
+Returns the screen space position for a 3d world space position.
+See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
 
 
 #### GetWorldToScreenEx
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
-Returns size position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
+Returns size position for a 3d world space position.
+See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
 
 
 #### GetWorldToScreen2D
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the screen space position for a 2d camera world space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
+Returns the screen space position for a 2d camera world space position.
+See [Vector2](#Vector2), [Camera2D](#Camera2D).
 
 
 #### GetScreenToWorld2D
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the world space position for a 2d camera screen space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
+Returns the world space position for a 2d camera screen space position.
+See [Vector2](#Vector2), [Camera2D](#Camera2D).
 
 
 ### Timing-related functions
@@ -573,7 +585,7 @@ Returns the world space position for a 2d camera screen space position.  See [Ve
 ```lua
 rl.core.SetTargetFPS(integer FPS)
 ```
-Set target FPS (maximum)
+Set target FPS (maximum).
 
 
 #### GetFPS
@@ -612,7 +624,8 @@ Vector4 vColor = rl.core.ColorNormalize(Color Color)
 integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Color, "n")
 table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
-Returns color normalized as float [0..1]. See [Vector4](#Vector4), [Color](#Color)
+Returns color normalized as float [0..1].
+See [Vector4](#Vector4), [Color](#Color)
 
 
 #### ColorFromNormalized
@@ -622,7 +635,8 @@ Color Color = rl.core.ColorFromNormalized(Vector4 vColor)
 Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
 Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
-Returns color from normalized values [0..1]. See [Vector4](#Vector4), [Color](#Color)
+Returns color from normalized values [0..1].
+See [Vector4](#Vector4), [Color](#Color)
 
 
 #### ColorToHSV
@@ -632,7 +646,8 @@ Vector3 vColor = rl.core.ColorToHSV(Color Color)
 float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
 table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
-Returns HSV values for a Color. See [Vector3](#Vector3), [Color](#Color)
+Returns HSV values for a Color.
+See [Vector3](#Vector3), [Color](#Color)
 
 
 #### ColorFromHSV
@@ -642,7 +657,8 @@ Color Color = rl.core.ColorFromHSV(Vector3 vColor)
 Color Color = rl.core.ColorFromHSV(float H, float S, float V)
 Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
-Returns a Color from HSV values. See [Vector3](#Vector3), [Color](#Color)
+Returns a Color from HSV values.
+See [Vector3](#Vector3), [Color](#Color)
 
 
 #### GetColor
@@ -650,7 +666,8 @@ Returns a Color from HSV values. See [Vector3](#Vector3), [Color](#Color)
 -- variants
 Color Color = rl.core.GetColor(integer hColor)
 ```
-Returns a Color struct from hexadecimal value. See [Color](#Color)
+Returns a Color struct from hexadecimal value.
+See [Color](#Color)
 
 
 #### Fade
@@ -658,7 +675,8 @@ Returns a Color struct from hexadecimal value. See [Color](#Color)
 -- variants
 Color fColor = rl.core.Fade(Color Color, float alpha)
 ```
-Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](#Color)
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f.
+See [Color](#Color)
 
 
 ### Misc. functions
@@ -668,14 +686,14 @@ rl.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
 ```
 Setup window configuration flags
 Available flags:
-* `"FULLSCREEN_MODE"   ` Set to run program in fullscreen
-* `"WINDOW_RESIZABLE"  ` Set to allow resizable window
+* `"FULLSCREEN_MODE"`    Set to run program in fullscreen
+* `"WINDOW_RESIZABLE"`   Set to allow resizable window
 * `"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
 * `"WINDOW_TRANSPARENT"` Set to allow transparent window
-* `"WINDOW_HIDDEN"     ` Set to create the window initially hidden
-* `"WINDOW_ALWAYS_RUN" ` Set to allow windows running while minimized
-* `"MSAA_4X_HINT"      ` Set to try enabling MSAA 4X
-* `"VSYNC_HINT"        ` Set to try enabling V-Sync on GPU
+* `"WINDOW_HIDDEN"`      Set to create the window initially hidden
+* `"WINDOW_ALWAYS_RUN"`  Set to allow windows running while minimized
+* `"MSAA_4X_HINT"`       Set to try enabling MSAA 4X
+* `"VSYNC_HINT"`         Set to try enabling V-Sync on GPU
 
 
 #### SetTraceLogLevel
@@ -848,9 +866,9 @@ Get dropped files names. [ClearDroppedFiles](#ClearDroppedFiles) is called autom
 Table Files contains string names like `{"file1.png", "file2.lua", ...}`
 
 
-#### ClearDirectoryFiles
+#### ClearDroppedFiles
 ```lua
-rl.core.ClearDirectoryFiles()
+rl.core.ClearDroppedFiles()
 ```
 Clear dropped files paths buffer (free memory). Deprecated.
 
