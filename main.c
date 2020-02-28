@@ -4,149 +4,149 @@
 
 /*!MD
 ## Table of content
-* [Core]
-  * [InitWindow]
-  * [WindowShouldClose]
-  * [CloseWindow]
-  * [IsWindowReady]
-  * [IsWindowMinimized]
-  * [IsWindowResized]
-  * [IsWindowHidden]
-  * [ToggleFullscreen]
-  * [UnhideWindow]
-  * [HideWindow]
-  * [SetWindowIcon]
-  * [SetWindowTitle]
-  * [SetWindowPosition]
-  * [SetWindowMonitor]
-  * [SetWindowMinSize]
-  * [SetWindowSize]
-  * [GetWindowHandle]
-  * [GetScreenWidth]
-  * [GetScreenHeight]
-  * [GetScreenDimensions]
-  * [GetMonitorCount]
-  * [GetMonitorWidth]
-  * [GetMonitorHeight]
-  * [GetMonitorDimensions]
-  * [GetMonitorPhysicalWidth]
-  * [GetMonitorPhysicalHeight]
-  * [GetMonitorPhysicalDimensions]
-  * [GetMonitors]
-  * [GetWindowPosition]
-  * [GetMonitorName]
-  * [GetClipboardText]
-  * [SetClipboardText]
-  * [ShowCursor]
-  * [HideCursor]
-  * [IsCursorHidden]
-  * [EnableCursor]
-  * [DisableCursor]
-  * [ClearBackground]
-  * [BeginDrawing]
-  * [EndDrawing]
-  * [BeginMode2D]
-  * [EndMode2D]
-  * [BeginMode3D]
-  * [EndMode3D]
-  * [BeginTextureMode]
-  * [EndTextureMode]
-  * [BeginScissorMode]
-  * [EndScissorMode]
-  * [GetMouseRay]
-  * [GetCameraMatrix]
-  * [GetCameraMatrix2D]
-  * [GetWorldToScreen]
-  * [GetWorldToScreenEx]
-  * [GetWorldToScreen2D]
-  * [GetScreenToWorld2D]
-  * [SetTargetFPS]
-  * [GetFPS]
-  * [GetFrameTime]
-  * [GetTime]
-  * [ColorToInt]
-  * [ColorNormalize]
-  * [ColorFromNormalized]
-  * [ColorToHSV]
-  * [ColorFromHSV]
-  * [GetColor]
-  * [Fade]
-  * [SetConfigFlags]
-  * [SetTraceLogLevel]
-  * [SetTraceLogExit]
-  * [SetTraceLogCallback]
-  * [TraceLog]
-  * [TakeScreenshot]
-  * [GetRandomValue]
-  * [FileExists]
-  * [IsFileExtension]
-  * [DirectoryExists]
-  * [GetExtension]
-  * [GetFileName]
-  * [GetFileNameWithoutExt]
-  * [GetDirectoryPath]
-  * [GetPrevDirectoryPath]
-  * [GetWorkingDirectory]
-  * [GetDirectoryFiles]
-  * [ChangeDirectory]
-  * [IsFileDropped]
-  * [GetDroppedFiles]
-  * [GetFileModTime]
-  * [GetFileInfo]
-  * [CompressData]
-  * [DecompressData]
-  * [OpenURL]
-  * [StorageSaveValue]
-  * [StorageLoadValue]
-  * [IsKeyPressed]
-  * [IsKeyDown]
-  * [IsKeyReleased]
-  * [IsKeyUp]
-  * [GetKeyPressed]
-  * [GetKeyPressedString]
-  * [GetAllKeysPressedString]
-  * [SetExitKey]
-  * [IsGamepadAvailable]
-  * [IsGamepadName]
-  * [GetGamepadName]
-  * [IsGamepadButtonPressed]
-  * [IsGamepadButtonDown]
-  * [IsGamepadButtonReleased]
-  * [IsGamepadButtonUp]
-  * [GetGamepadButtonPressed]
-  * [GetGamepadAxisCount]
-  * [GetGamepadAxisMovement]
-  * [IsMouseButtonPressed]
-  * [IsMouseButtonDown]
-  * [IsMouseButtonReleased]
-  * [IsMouseButtonUp]
-  * [GetMouseX]
-  * [GetMouseY]
-  * [GetMousePosition]
-  * [SetMousePosition]
-  * [SetMouseOffset]
-  * [SetMouseScale]
-  * [GetMouseWheelMove]
-  * [GetTouchX]
-  * [GetTouchY]
-  * [GetTouch]
-  * [GetTouchPosition]
-  * [GetTouches]
-  * [SetGesturesEnabled]
-  * [IsGestureDetected]
-  * [GetGestureDetected]
-  * [GetTouchPointsCount]
-  * [GetGestureHoldDuration]
-  * [GetGestureDragVector]
-  * [GetGestureDragAngle]
-  * [GetGesturePinchVector]
-  * [GetGesturePinchAngle]
-  * [SetCameraMode]
-  * [UpdateCamera]
-  * [SetCameraPanControl]
-  * [SetCameraAltControl]
-  * [SetCameraSmoothZoomControl]
-  * [SetCameraMoveControls]
+* [Core](#Core)
+  * [InitWindow](#InitWindow)
+  * [WindowShouldClose](#WindowShouldClose)
+  * [CloseWindow](#CloseWindow)
+  * [IsWindowReady](#IsWindowReady)
+  * [IsWindowMinimized](#IsWindowMinimized)
+  * [IsWindowResized](#IsWindowResized)
+  * [IsWindowHidden](#IsWindowHidden)
+  * [ToggleFullscreen](#ToggleFullscreen)
+  * [UnhideWindow](#UnhideWindow)
+  * [HideWindow](#HideWindow)
+  * [SetWindowIcon](#SetWindowIcon)
+  * [SetWindowTitle](#SetWindowTitle)
+  * [SetWindowPosition](#SetWindowPosition)
+  * [SetWindowMonitor](#SetWindowMonitor)
+  * [SetWindowMinSize](#SetWindowMinSize)
+  * [SetWindowSize](#SetWindowSize)
+  * [GetWindowHandle](#GetWindowHandle)
+  * [GetScreenWidth](#GetScreenWidth)
+  * [GetScreenHeight](#GetScreenHeight)
+  * [GetScreenDimensions](#GetScreenDimensions)
+  * [GetMonitorCount](#GetMonitorCount)
+  * [GetMonitorWidth](#GetMonitorWidth)
+  * [GetMonitorHeight](#GetMonitorHeight)
+  * [GetMonitorDimensions](#GetMonitorDimensions)
+  * [GetMonitorPhysicalWidth](#GetMonitorPhysicalWidth)
+  * [GetMonitorPhysicalHeight](#GetMonitorPhysicalHeight)
+  * [GetMonitorPhysicalDimensions](#GetMonitorPhysicalDimensions)
+  * [GetMonitors](#GetMonitors)
+  * [GetWindowPosition](#GetWindowPosition)
+  * [GetMonitorName](#GetMonitorName)
+  * [GetClipboardText](#GetClipboardText)
+  * [SetClipboardText](#SetClipboardText)
+  * [ShowCursor](#ShowCursor)
+  * [HideCursor](#HideCursor)
+  * [IsCursorHidden](#IsCursorHidden)
+  * [EnableCursor](#EnableCursor)
+  * [DisableCursor](#DisableCursor)
+  * [ClearBackground](#ClearBackground)
+  * [BeginDrawing](#BeginDrawing)
+  * [EndDrawing](#EndDrawing)
+  * [BeginMode2D](#BeginMode2D)
+  * [EndMode2D](#EndMode2D)
+  * [BeginMode3D](#BeginMode3D)
+  * [EndMode3D](#EndMode3D)
+  * [BeginTextureMode](#BeginTextureMode)
+  * [EndTextureMode](#EndTextureMode)
+  * [BeginScissorMode](#BeginScissorMode)
+  * [EndScissorMode](#EndScissorMode)
+  * [GetMouseRay](#GetMouseRay)
+  * [GetCameraMatrix](#GetCameraMatrix)
+  * [GetCameraMatrix2D](#GetCameraMatrix2D)
+  * [GetWorldToScreen](#GetWorldToScreen)
+  * [GetWorldToScreenEx](#GetWorldToScreenEx)
+  * [GetWorldToScreen2D](#GetWorldToScreen2D)
+  * [GetScreenToWorld2D](#GetScreenToWorld2D)
+  * [SetTargetFPS](#SetTargetFPS)
+  * [GetFPS](#GetFPS)
+  * [GetFrameTime](#GetFrameTime)
+  * [GetTime](#GetTime)
+  * [ColorToInt](#ColorToInt)
+  * [ColorNormalize](#ColorNormalize)
+  * [ColorFromNormalized](#ColorFromNormalized)
+  * [ColorToHSV](#ColorToHSV)
+  * [ColorFromHSV](#ColorFromHSV)
+  * [GetColor](#GetColor)
+  * [Fade](#Fade)
+  * [SetConfigFlags](#SetConfigFlags)
+  * [SetTraceLogLevel](#SetTraceLogLevel)
+  * [SetTraceLogExit](#SetTraceLogExit)
+  * [SetTraceLogCallback](#SetTraceLogCallback)
+  * [TraceLog](#TraceLog)
+  * [TakeScreenshot](#TakeScreenshot)
+  * [GetRandomValue](#GetRandomValue)
+  * [FileExists](#FileExists)
+  * [IsFileExtension](#IsFileExtension)
+  * [DirectoryExists](#DirectoryExists)
+  * [GetExtension](#GetExtension)
+  * [GetFileName](#GetFileName)
+  * [GetFileNameWithoutExt](#GetFileNameWithoutExt)
+  * [GetDirectoryPath](#GetDirectoryPath)
+  * [GetPrevDirectoryPath](#GetPrevDirectoryPath)
+  * [GetWorkingDirectory](#GetWorkingDirectory)
+  * [GetDirectoryFiles](#GetDirectoryFiles)
+  * [ChangeDirectory](#ChangeDirectory)
+  * [IsFileDropped](#IsFileDropped)
+  * [GetDroppedFiles](#GetDroppedFiles)
+  * [GetFileModTime](#GetFileModTime)
+  * [GetFileInfo](#GetFileInfo)
+  * [CompressData](#CompressData)
+  * [DecompressData](#DecompressData)
+  * [OpenURL](#OpenURL)
+  * [StorageSaveValue](#StorageSaveValue)
+  * [StorageLoadValue](#StorageLoadValue)
+  * [IsKeyPressed](#IsKeyPressed)
+  * [IsKeyDown](#IsKeyDown)
+  * [IsKeyReleased](#IsKeyReleased)
+  * [IsKeyUp](#IsKeyUp)
+  * [GetKeyPressed](#GetKeyPressed)
+  * [GetKeyPressedString](#GetKeyPressedString)
+  * [GetAllKeysPressedString](#GetAllKeysPressedString)
+  * [SetExitKey](#SetExitKey)
+  * [IsGamepadAvailable](#IsGamepadAvailable)
+  * [IsGamepadName](#IsGamepadName)
+  * [GetGamepadName](#GetGamepadName)
+  * [IsGamepadButtonPressed](#IsGamepadButtonPressed)
+  * [IsGamepadButtonDown](#IsGamepadButtonDown)
+  * [IsGamepadButtonReleased](#IsGamepadButtonReleased)
+  * [IsGamepadButtonUp](#IsGamepadButtonUp)
+  * [GetGamepadButtonPressed](#GetGamepadButtonPressed)
+  * [GetGamepadAxisCount](#GetGamepadAxisCount)
+  * [GetGamepadAxisMovement](#GetGamepadAxisMovement)
+  * [IsMouseButtonPressed](#IsMouseButtonPressed)
+  * [IsMouseButtonDown](#IsMouseButtonDown)
+  * [IsMouseButtonReleased](#IsMouseButtonReleased)
+  * [IsMouseButtonUp](#IsMouseButtonUp)
+  * [GetMouseX](#GetMouseX)
+  * [GetMouseY](#GetMouseY)
+  * [GetMousePosition](#GetMousePosition)
+  * [SetMousePosition](#SetMousePosition)
+  * [SetMouseOffset](#SetMouseOffset)
+  * [SetMouseScale](#SetMouseScale)
+  * [GetMouseWheelMove](#GetMouseWheelMove)
+  * [GetTouchX](#GetTouchX)
+  * [GetTouchY](#GetTouchY)
+  * [GetTouch](#GetTouch)
+  * [GetTouchPosition](#GetTouchPosition)
+  * [GetTouches](#GetTouches)
+  * [SetGesturesEnabled](#SetGesturesEnabled)
+  * [IsGestureDetected](#IsGestureDetected)
+  * [GetGestureDetected](#GetGestureDetected)
+  * [GetTouchPointsCount](#GetTouchPointsCount)
+  * [GetGestureHoldDuration](#GetGestureHoldDuration)
+  * [GetGestureDragVector](#GetGestureDragVector)
+  * [GetGestureDragAngle](#GetGestureDragAngle)
+  * [GetGesturePinchVector](#GetGesturePinchVector)
+  * [GetGesturePinchAngle](#GetGesturePinchAngle)
+  * [SetCameraMode](#SetCameraMode)
+  * [UpdateCamera](#UpdateCamera)
+  * [SetCameraPanControl](#SetCameraPanControl)
+  * [SetCameraAltControl](#SetCameraAltControl)
+  * [SetCameraSmoothZoomControl](#SetCameraSmoothZoomControl)
+  * [SetCameraMoveControls](#SetCameraMoveControls)
 * Text
   * Text functions
   * ...
@@ -187,7 +187,7 @@ int lua_core_InitWindow(lua_State *L){
 ```lua
 boolean Status = rl.core.WindowShouldClose()
 ```
-Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](SetExitKey)
+Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](#SetExitKey)
 */
 
 int lua_core_WindowShouldClose(lua_State *L){
@@ -305,7 +305,7 @@ int lua_core_HideWindow(lua_State *L){
 rl.core.SetWindowIcon(Image Icon)
 ```
 Set icon for window (only PLATFORM_DESKTOP)
-For additional info [Image]
+See [Image](#Image)
 */
 
 int lua_core_SetWindowIcon(lua_State *L){
@@ -358,7 +358,7 @@ int lua_core_SetWindowMonitor(lua_State *L){
 ```lua
 rl.core.SetWindowMinSize(integer Width, integer Height)
 ```
-Set window minimum dimensions, for flag [WINDOW_RESIZABLE](SetConfigFlags)
+Set window minimum dimensions, for flag [WINDOW_RESIZABLE](#SetConfigFlags)
 */
 
 int lua_core_SetWindowMinSize(lua_State *L){
@@ -846,7 +846,7 @@ int lua_core_EndScissorMode(lua_State *L){
 Ray Ray = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
 Vector2 Position, Vector2 Direction = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
 ```
-Returns a ray trace from mouse position. See [Ray](Ray), [Vector2](Vector2).
+Returns a ray trace from mouse position. See [Ray](#Ray), [Vector2](#Vector2).
 */
 
 int lua_core_GetMouseRay(lua_State *L){
@@ -871,7 +871,7 @@ int lua_core_GetMouseRay(lua_State *L){
 ```lua
 Matrix View = rl.core.GetCameraMatrix(Camera3D Camera)
 ```
-Returns camera transform matrix (view matrix). See [Matrix](Matrix)
+Returns camera transform matrix (view matrix). See [Matrix](#Matrix)
 */
 
 int lua_core_GetCameraMatrix(lua_State *L){
@@ -886,7 +886,7 @@ int lua_core_GetCameraMatrix(lua_State *L){
 ```lua
 Matrix View = rl.core.GetCameraMatrix2D(Camera2D Camera)
 ```
-Returns camera 2d transform matrix. See [Matrix](Matrix), [Camera2D](Camera2D)
+Returns camera 2d transform matrix. See [Matrix](#Matrix), [Camera2D](#Camera2D)
 */
 
 int lua_core_GetCameraMatrix2D(lua_State *L){
@@ -901,7 +901,7 @@ int lua_core_GetCameraMatrix2D(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
-Returns the screen space position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+Returns the screen space position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
 */
 
 int lua_core_GetWorldToScreen(lua_State *L){
@@ -917,7 +917,7 @@ int lua_core_GetWorldToScreen(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
-Returns size position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+Returns size position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
 */
 int lua_core_GetWorldToScreenEx(lua_State *L){
   Vector3  * v = luaL_checkudata(L, 1, "Vector3");
@@ -934,7 +934,7 @@ int lua_core_GetWorldToScreenEx(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the screen space position for a 2d camera world space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+Returns the screen space position for a 2d camera world space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
 */
 int lua_core_GetWorldToScreen2D(lua_State *L){
   Vector2  * v = luaL_checkudata(L, 1, "Vector2");
@@ -949,7 +949,7 @@ int lua_core_GetWorldToScreen2D(lua_State *L){
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the world space position for a 2d camera screen space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+Returns the world space position for a 2d camera screen space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
 */
 int lua_core_GetScreenToWorld2D(lua_State *L){
   Vector2  * v = luaL_checkudata(L, 1, "Vector2");
@@ -1032,7 +1032,7 @@ Vector4 vColor = rl.core.ColorNormalize(Color Color)
 integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Color, "n")
 table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
-Returns color normalized as float [0..1]. See [Vector4](Vector4), [Color](Color)
+Returns color normalized as float [0..1]. See [Vector4](#Vector4), [Color](#Color)
 */
 int lua_core_ColorNormalize(lua_State *L){
   Color   * c = luaL_checkudata(L, 1, "Color");
@@ -1070,7 +1070,7 @@ Color Color = rl.core.ColorFromNormalized(Vector4 vColor)
 Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
 Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
-Returns color from normalized values [0..1]. See [Vector4](Vector4), [Color](Color)
+Returns color from normalized values [0..1]. See [Vector4](#Vector4), [Color](#Color)
 */
 int lua_core_ColorFromNormalized(lua_State *L){
   Color * c = luax_newobject(L, "Color", sizeof(Color));
@@ -1109,7 +1109,7 @@ Vector3 vColor = rl.core.ColorToHSV(Color Color)
 float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
 table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
-Returns HSV values for a Color. See [Vector3](Vector3), [Color](Color)
+Returns HSV values for a Color. See [Vector3](#Vector3), [Color](#Color)
 */
 int lua_core_ColorToHSV(lua_State *L){
   Color   * c = luaL_checkudata(L, 1, "Color");
@@ -1144,7 +1144,7 @@ Color Color = rl.core.ColorFromHSV(Vector3 vColor)
 Color Color = rl.core.ColorFromHSV(float H, float S, float V)
 Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
-Returns a Color from HSV values. See [Vector3](Vector3), [Color](Color)
+Returns a Color from HSV values. See [Vector3](#Vector3), [Color](#Color)
 */
 int lua_core_ColorFromHSV(lua_State *L){
   Color   * c = luax_newobject(L, "Color", sizeof(Color));
@@ -1179,7 +1179,7 @@ int lua_core_ColorFromHSV(lua_State *L){
 -- variants
 Color Color = rl.core.GetColor(integer hColor)
 ```
-Returns a Color struct from hexadecimal value. See [Color](Color)
+Returns a Color struct from hexadecimal value. See [Color](#Color)
 */
 int lua_core_GetColor(lua_State *L){
   int hex = luaL_checkinteger(L, 1);
@@ -1194,7 +1194,7 @@ int lua_core_GetColor(lua_State *L){
 -- variants
 Color fColor = rl.core.Fade(Color Color, float alpha)
 ```
-Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](Color)
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](#Color)
 */
 int lua_core_Fade(lua_State *L){
   Color * c = luaL_checkudata(L, 1, "Color");
@@ -1541,7 +1541,7 @@ int lua_core_GetWorkingDirectory(lua_State *L){
 ```lua
 table Files = rl.core.GetDirectoryFiles(string DirectoryPath)
 ```
-Get filenames in a directory path. [ClearDirectoryFiles](ClearDirectoryFiles) is called automatically.
+Get filenames in a directory path. [ClearDirectoryFiles](#ClearDirectoryFiles) is called automatically.
 Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`
 */
 int lua_core_GetDirectoryFiles(lua_State *L){
@@ -1598,7 +1598,7 @@ int lua_core_IsFileDropped(lua_State *L){
 ```lua
 table Files = rl.core.GetDroppedFiles()
 ```
-Get dropped files names. [ClearDroppedFiles](ClearDroppedFiles) is called automatically.
+Get dropped files names. [ClearDroppedFiles](#ClearDroppedFiles) is called automatically.
 Table Files contains string names like `{"file1.png", "file2.lua", ...}`
 */
 int lua_core_GetDroppedFiles(lua_State *L){

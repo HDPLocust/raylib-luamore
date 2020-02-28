@@ -5,9 +5,9 @@
 ### Initialization
 ```lua
 -- variants
-Vector2 vec = rl.Vector2(number x, number y) --> vec2[x, y]
-Vector2 vec = rl.Vector2(number x)           --> vec2[x, x]
-Vector2 vec = rl.Vector2(table t)            --> vec2[ t[1], t[2] ]
+Vector2 Vec = rl.Vector2(number x, number y) --> vec2[x, y]
+Vector2 Vec = rl.Vector2(number x)           --> vec2[x, x]
+Vector2 Vec = rl.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
 Creates new Vector2 object.
 */
@@ -38,7 +38,7 @@ int lua_class_vector2_new(lua_State *L){
 
 #### Clone
 ```lua
-Vector2 = Vector2:clone()
+Vector2 Vec2 = Vector2:clone()
 ```
 Clones Vector2 object.
 */
@@ -76,8 +76,8 @@ int lua_class_vector2_Get(lua_State *L){
 #### Set
 ```lua
 -- variants
-float x, float y = Vector2:get()
-table t = Vector2:get('t') --> {x, y}
+Vector2:set(float x, float y)
+Vector2:set(table t) -- [x, y]
 ```
 Set Vector2 components.
 */
@@ -332,7 +332,17 @@ luaL_Reg luaray_class_vector2[] = {
   {NULL, NULL}
 };
 
-// Vector3
+/*!MD
+## Vector3
+### Initialization
+```lua
+-- variants
+Vector3 Vec3 = rl.Vector3(number x, number y, , number z) --> vec3[x, y, z]
+Vector3 Vec3 = rl.Vector3(number x)                       --> vec3[x, x, x]
+Vector3 Vec3 = rl.Vector3(table t)                        --> vec3[ t[1], t[2], t[3] ]
+```
+Creates new Vector3 object.
+*/
 int lua_class_vector3_new(lua_State *L){
   Vector3 * v = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if (lua_isnumber(L, 1)) {
@@ -791,7 +801,17 @@ luaL_Reg luaray_class_vector3[] = {
   {NULL, NULL}
 };
 
-// Matrix
+
+/*!MD
+## Matrix
+### Initialization
+```lua
+-- variants
+Matrix Mat = rl.Matrix(number m1, number m2, ..., number m16) --> Matrix[m1, m2, ... m16]
+Matrix Mat = rl.Matrix(table t)                        --> Matrix[ t[1], t[2], ... t[16] ]
+```
+Creates new Matrix object.
+*/
 Matrix * _ptr_matrix_Fill(lua_State *L, Matrix * m, int t){
   if (lua_istable(L, t)){
     for (int i = 0; i < 16; i++) lua_rawgeti (L, t, i + 1);
@@ -1440,8 +1460,17 @@ luaL_Reg luaray_class_matrix[] = {
   {NULL, NULL}
 };
 
-
-// Vector4
+/*!MD
+## Vector4
+### Initialization
+```lua
+-- variants
+Vector4 Vec4 = rl.Vector4(number x, number y, number z,  number w) --> Vec4[x, y, z, w]
+Vector4 Vec4 = rl.Vector4(number x)                       --> Vec4[x, x, x, x]
+Vector4 Vec4 = rl.Vector4(table t)                        --> Vec4[ t[1], t[2], t[3], t[4] ]
+```
+Creates new Vector4 object.
+*/
 int lua_class_vector4_new(lua_State *L){
   Vector4 * v = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
   if (lua_isnumber(L, 1)) {
@@ -2055,7 +2084,45 @@ luaL_Reg luaray_class_vector4[] = {
   {NULL, NULL}
 };
 
-// Color
+
+/*!MD
+## Color
+### Initialization
+```lua
+-- variants
+Color Color = rl.Color(number r, number g, number b,  number a) --> Color[r, g, b, a]
+Color Color = rl.Color(table t)                                 --> Color[ t[1], t[2], t[3], t[4] ]
+Color Color = rl.Color(string Color)
+```
+Creates new Color object.
+Available string colors:
+* `"lightgray"  -> { 200, 200, 200 }`
+* `"gray"       -> { 130, 130, 130 }`
+* `"darkgray"   -> { 80,  80,  80  }`
+* `"yellow"     -> { 253, 249, 0   }`
+* `"gold"       -> { 255, 203, 0   }`
+* `"orange"     -> { 255, 161, 0   }`
+* `"pink"       -> { 255, 109, 194 }`
+* `"red"        -> { 230, 41,  55  }`
+* `"maroon"     -> { 190, 33,  55  }`
+* `"green"      -> { 0,   228, 48  }`
+* `"lime"       -> { 0,   158, 47  }`
+* `"darkgreen"  -> { 0,   117, 44  }`
+* `"skyblue"    -> { 102, 191, 255 }`
+* `"blue"       -> { 0,   121, 241 }`
+* `"darkblue"   -> { 0,   82,  172 }`
+* `"purple"     -> { 200, 122, 255 }`
+* `"violet"     -> { 135, 60,  190 }`
+* `"darkpurple" -> { 112, 31,  126 }`
+* `"beige"      -> { 211, 176, 131 }`
+* `"brown"      -> { 127, 106, 79  }`
+* `"darkbrown"  -> { 76,  63,  47  }`
+* `"white"      -> { 255, 255, 255 }`
+* `"black"      -> { 0,   0,   0   }`
+* `"blank"      -> { 0,   0,   0   }`
+* `"magenta"    -> { 255, 0,   255 }`
+* `"raywhite"   -> { 245, 245, 245 }`
+*/
 int lua_class_color_new(lua_State *L){
   Color * c = (Color *)luax_newobject(L, "Color", sizeof(Color));
 
@@ -2267,7 +2334,15 @@ luaL_Reg luaray_class_color[] = {
 };
 
 
-// Rectangle
+/*!MD
+## Rectangle
+### Initialization
+```lua
+-- variants
+Rectangle Rect = rl.Rectangle(number x, number y, number width,  number height)
+Rectangle Rect = rl.Rectangle(table t) --> Rectangle[ x = t[1], y = t[2], width = t[3], height = t[4] ]
+```
+*/
 int lua_class_rectangle_new(lua_State *L){
   Rectangle * r = (Rectangle *)luax_newobject(L, "Rectangle", sizeof(Rectangle));
   int top = lua_gettop(L);
@@ -2483,6 +2558,210 @@ luaL_Reg luaray_class_rectangle[] = {
   {NULL, NULL}
 };
 
+
+/*!MD
+## Image
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Texture
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## RenderTexture
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## NPatchInfo
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## CharInfo
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Font
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## Camera3D
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Camera2D
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## Mesh
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Shader
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## MaterialMap
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Material
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## Model
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Transform
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## BoneInfo
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## ModelAnimation
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## Ray
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## RayHitInfo
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## BoundingBox
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Wave
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Sound
+### Initialization
+```lua
+--
+```
+*/
+
+/*!MD
+## Music
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## AudioStream
+### Initialization
+```lua
+--
+```
+*/
+
+
+/*!MD
+## VrDeviceInfo
+### Initialization
+```lua
+--
+```
+*/
+
+
 // register table should be on top of stack
 void lua_class_register(lua_State * L){
   luax_newclass(L,   "Vector2",   luaray_class_vector2);
@@ -2503,39 +2782,3 @@ void lua_class_register(lua_State * L){
   luax_newclass(L,   "Rectangle", luaray_class_rectangle);
   luax_tsfunction(L, "Rectangle",     lua_class_rectangle_new);
 }
-
-// DONE:
-// Vector2
-// Vector3
-// Matrix
-// Vector4 (Quaternion)
-// Color
-
-// IN PROCESS
-// Rectangle
-
-// TODO:
-// Image
-// Texture
-// RenderTexture
-// NPatchInfo
-// CharInfo
-// Font
-// Camera
-// Camera2D
-// Mesh
-// Shader
-// MaterialMap
-// Material
-// Model
-// Transform
-// BoneInfo
-// ModelAnimation
-// Ray
-// RayHitInfo
-// BoundingBox
-// Wave
-// Sound
-// Music
-// AudioStream
-// VrDeviceInfo

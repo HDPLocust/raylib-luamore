@@ -1,156 +1,151 @@
 
-# Hello. 
-This is Lua binding for raylib.
-### All stuff provided by Snooze.
-
-(there should be a table of contents)
-* [Core]
-  * [InitWindow]
-  * [WindowShouldClose]
-  * [CloseWindow]
-  * [IsWindowReady]
-  * [IsWindowMinimized]
-  * [IsWindowResized]
-  * [IsWindowHidden]
-  * [ToggleFullscreen]
-  * [UnhideWindow]
-  * [HideWindow]
-  * [SetWindowIcon]
-  * [SetWindowTitle]
-  * [SetWindowPosition]
-  * [SetWindowMonitor]
-  * [SetWindowMinSize]
-  * [SetWindowSize]
-  * [GetWindowHandle]
-  * [GetScreenWidth]
-  * [GetScreenHeight]
-  * [GetScreenDimensions]
-  * [GetMonitorCount]
-  * [GetMonitorWidth]
-  * [GetMonitorHeight]
-  * [GetMonitorDimensions]
-  * [GetMonitorPhysicalWidth]
-  * [GetMonitorPhysicalHeight]
-  * [GetMonitorPhysicalDimensions]
-  * [GetMonitors]
-  * [GetWindowPosition]
-  * [GetMonitorName]
-  * [GetClipboardText]
-  * [SetClipboardText]
-  * [ShowCursor]
-  * [HideCursor]
-  * [IsCursorHidden]
-  * [EnableCursor]
-  * [DisableCursor]
-  * [ClearBackground]
-  * [BeginDrawing]
-  * [EndDrawing]
-  * [BeginMode2D]
-  * [EndMode2D]
-  * [BeginMode3D]
-  * [EndMode3D]
-  * [BeginTextureMode]
-  * [EndTextureMode]
-  * [BeginScissorMode]
-  * [EndScissorMode]
-  * [GetMouseRay]
-  * [GetCameraMatrix]
-  * [GetCameraMatrix2D]
-  * [GetWorldToScreen]
-  * [GetWorldToScreenEx]
-  * [GetWorldToScreen2D]
-  * [GetScreenToWorld2D]
-  * [SetTargetFPS]
-  * [GetFPS]
-  * [GetFrameTime]
-  * [GetTime]
-  * [ColorToInt]
-  * [ColorNormalize]
-  * [ColorFromNormalized]
-  * [ColorToHSV]
-  * [ColorFromHSV]
-  * [GetColor]
-  * [Fade]
-  * [SetConfigFlags]
-  * [SetTraceLogLevel]
-  * [SetTraceLogExit]
-  * [SetTraceLogCallback]
-  * [TraceLog]
-  * [TakeScreenshot]
-  * [GetRandomValue]
-  * [FileExists]
-  * [IsFileExtension]
-  * [DirectoryExists]
-  * [GetExtension]
-  * [GetFileName]
-  * [GetFileNameWithoutExt]
-  * [GetDirectoryPath]
-  * [GetPrevDirectoryPath]
-  * [GetWorkingDirectory]
-  * [GetDirectoryFiles]
-  * [ChangeDirectory]
-  * [IsFileDropped]
-  * [GetDroppedFiles]
-  * [GetFileModTime]
-  * [GetFileInfo]
-  * [CompressData]
-  * [DecompressData]
-  * [OpenURL]
-  * [StorageSaveValue]
-  * [StorageLoadValue]
-  * [IsKeyPressed]
-  * [IsKeyDown]
-  * [IsKeyReleased]
-  * [IsKeyUp]
-  * [GetKeyPressed]
-  * [GetKeyPressedString]
-  * [GetAllKeysPressedString]
-  * [SetExitKey]
-  * [IsGamepadAvailable]
-  * [IsGamepadName]
-  * [GetGamepadName]
-  * [IsGamepadButtonPressed]
-  * [IsGamepadButtonDown]
-  * [IsGamepadButtonReleased]
-  * [IsGamepadButtonUp]
-  * [GetGamepadButtonPressed]
-  * [GetGamepadAxisCount]
-  * [GetGamepadAxisMovement]
-  * [IsMouseButtonPressed]
-  * [IsMouseButtonDown]
-  * [IsMouseButtonReleased]
-  * [IsMouseButtonUp]
-  * [GetMouseX]
-  * [GetMouseY]
-  * [GetMousePosition]
-  * [SetMousePosition]
-  * [SetMouseOffset]
-  * [SetMouseScale]
-  * [GetMouseWheelMove]
-  * [GetTouchX]
-  * [GetTouchY]
-  * [GetTouch]
-  * [GetTouchPosition]
-  * [GetTouches]
-  * [SetGesturesEnabled]
-  * [IsGestureDetected]
-  * [GetGestureDetected]
-  * [GetTouchPointsCount]
-  * [GetGestureHoldDuration]
-  * [GetGestureDragVector]
-  * [GetGestureDragAngle]
-  * [GetGesturePinchVector]
-  * [GetGesturePinchAngle]
-  * [SetCameraMode]
-  * [UpdateCamera]
-  * [SetCameraPanControl]
-  * [SetCameraAltControl]
-  * [SetCameraSmoothZoomControl]
-  * [SetCameraMoveControls]
+## Table of content
+* [Core](#Core)
+  * [InitWindow](#InitWindow)
+  * [WindowShouldClose](#WindowShouldClose)
+  * [CloseWindow](#CloseWindow)
+  * [IsWindowReady](#IsWindowReady)
+  * [IsWindowMinimized](#IsWindowMinimized)
+  * [IsWindowResized](#IsWindowResized)
+  * [IsWindowHidden](#IsWindowHidden)
+  * [ToggleFullscreen](#ToggleFullscreen)
+  * [UnhideWindow](#UnhideWindow)
+  * [HideWindow](#HideWindow)
+  * [SetWindowIcon](#SetWindowIcon)
+  * [SetWindowTitle](#SetWindowTitle)
+  * [SetWindowPosition](#SetWindowPosition)
+  * [SetWindowMonitor](#SetWindowMonitor)
+  * [SetWindowMinSize](#SetWindowMinSize)
+  * [SetWindowSize](#SetWindowSize)
+  * [GetWindowHandle](#GetWindowHandle)
+  * [GetScreenWidth](#GetScreenWidth)
+  * [GetScreenHeight](#GetScreenHeight)
+  * [GetScreenDimensions](#GetScreenDimensions)
+  * [GetMonitorCount](#GetMonitorCount)
+  * [GetMonitorWidth](#GetMonitorWidth)
+  * [GetMonitorHeight](#GetMonitorHeight)
+  * [GetMonitorDimensions](#GetMonitorDimensions)
+  * [GetMonitorPhysicalWidth](#GetMonitorPhysicalWidth)
+  * [GetMonitorPhysicalHeight](#GetMonitorPhysicalHeight)
+  * [GetMonitorPhysicalDimensions](#GetMonitorPhysicalDimensions)
+  * [GetMonitors](#GetMonitors)
+  * [GetWindowPosition](#GetWindowPosition)
+  * [GetMonitorName](#GetMonitorName)
+  * [GetClipboardText](#GetClipboardText)
+  * [SetClipboardText](#SetClipboardText)
+  * [ShowCursor](#ShowCursor)
+  * [HideCursor](#HideCursor)
+  * [IsCursorHidden](#IsCursorHidden)
+  * [EnableCursor](#EnableCursor)
+  * [DisableCursor](#DisableCursor)
+  * [ClearBackground](#ClearBackground)
+  * [BeginDrawing](#BeginDrawing)
+  * [EndDrawing](#EndDrawing)
+  * [BeginMode2D](#BeginMode2D)
+  * [EndMode2D](#EndMode2D)
+  * [BeginMode3D](#BeginMode3D)
+  * [EndMode3D](#EndMode3D)
+  * [BeginTextureMode](#BeginTextureMode)
+  * [EndTextureMode](#EndTextureMode)
+  * [BeginScissorMode](#BeginScissorMode)
+  * [EndScissorMode](#EndScissorMode)
+  * [GetMouseRay](#GetMouseRay)
+  * [GetCameraMatrix](#GetCameraMatrix)
+  * [GetCameraMatrix2D](#GetCameraMatrix2D)
+  * [GetWorldToScreen](#GetWorldToScreen)
+  * [GetWorldToScreenEx](#GetWorldToScreenEx)
+  * [GetWorldToScreen2D](#GetWorldToScreen2D)
+  * [GetScreenToWorld2D](#GetScreenToWorld2D)
+  * [SetTargetFPS](#SetTargetFPS)
+  * [GetFPS](#GetFPS)
+  * [GetFrameTime](#GetFrameTime)
+  * [GetTime](#GetTime)
+  * [ColorToInt](#ColorToInt)
+  * [ColorNormalize](#ColorNormalize)
+  * [ColorFromNormalized](#ColorFromNormalized)
+  * [ColorToHSV](#ColorToHSV)
+  * [ColorFromHSV](#ColorFromHSV)
+  * [GetColor](#GetColor)
+  * [Fade](#Fade)
+  * [SetConfigFlags](#SetConfigFlags)
+  * [SetTraceLogLevel](#SetTraceLogLevel)
+  * [SetTraceLogExit](#SetTraceLogExit)
+  * [SetTraceLogCallback](#SetTraceLogCallback)
+  * [TraceLog](#TraceLog)
+  * [TakeScreenshot](#TakeScreenshot)
+  * [GetRandomValue](#GetRandomValue)
+  * [FileExists](#FileExists)
+  * [IsFileExtension](#IsFileExtension)
+  * [DirectoryExists](#DirectoryExists)
+  * [GetExtension](#GetExtension)
+  * [GetFileName](#GetFileName)
+  * [GetFileNameWithoutExt](#GetFileNameWithoutExt)
+  * [GetDirectoryPath](#GetDirectoryPath)
+  * [GetPrevDirectoryPath](#GetPrevDirectoryPath)
+  * [GetWorkingDirectory](#GetWorkingDirectory)
+  * [GetDirectoryFiles](#GetDirectoryFiles)
+  * [ChangeDirectory](#ChangeDirectory)
+  * [IsFileDropped](#IsFileDropped)
+  * [GetDroppedFiles](#GetDroppedFiles)
+  * [GetFileModTime](#GetFileModTime)
+  * [GetFileInfo](#GetFileInfo)
+  * [CompressData](#CompressData)
+  * [DecompressData](#DecompressData)
+  * [OpenURL](#OpenURL)
+  * [StorageSaveValue](#StorageSaveValue)
+  * [StorageLoadValue](#StorageLoadValue)
+  * [IsKeyPressed](#IsKeyPressed)
+  * [IsKeyDown](#IsKeyDown)
+  * [IsKeyReleased](#IsKeyReleased)
+  * [IsKeyUp](#IsKeyUp)
+  * [GetKeyPressed](#GetKeyPressed)
+  * [GetKeyPressedString](#GetKeyPressedString)
+  * [GetAllKeysPressedString](#GetAllKeysPressedString)
+  * [SetExitKey](#SetExitKey)
+  * [IsGamepadAvailable](#IsGamepadAvailable)
+  * [IsGamepadName](#IsGamepadName)
+  * [GetGamepadName](#GetGamepadName)
+  * [IsGamepadButtonPressed](#IsGamepadButtonPressed)
+  * [IsGamepadButtonDown](#IsGamepadButtonDown)
+  * [IsGamepadButtonReleased](#IsGamepadButtonReleased)
+  * [IsGamepadButtonUp](#IsGamepadButtonUp)
+  * [GetGamepadButtonPressed](#GetGamepadButtonPressed)
+  * [GetGamepadAxisCount](#GetGamepadAxisCount)
+  * [GetGamepadAxisMovement](#GetGamepadAxisMovement)
+  * [IsMouseButtonPressed](#IsMouseButtonPressed)
+  * [IsMouseButtonDown](#IsMouseButtonDown)
+  * [IsMouseButtonReleased](#IsMouseButtonReleased)
+  * [IsMouseButtonUp](#IsMouseButtonUp)
+  * [GetMouseX](#GetMouseX)
+  * [GetMouseY](#GetMouseY)
+  * [GetMousePosition](#GetMousePosition)
+  * [SetMousePosition](#SetMousePosition)
+  * [SetMouseOffset](#SetMouseOffset)
+  * [SetMouseScale](#SetMouseScale)
+  * [GetMouseWheelMove](#GetMouseWheelMove)
+  * [GetTouchX](#GetTouchX)
+  * [GetTouchY](#GetTouchY)
+  * [GetTouch](#GetTouch)
+  * [GetTouchPosition](#GetTouchPosition)
+  * [GetTouches](#GetTouches)
+  * [SetGesturesEnabled](#SetGesturesEnabled)
+  * [IsGestureDetected](#IsGestureDetected)
+  * [GetGestureDetected](#GetGestureDetected)
+  * [GetTouchPointsCount](#GetTouchPointsCount)
+  * [GetGestureHoldDuration](#GetGestureHoldDuration)
+  * [GetGestureDragVector](#GetGestureDragVector)
+  * [GetGestureDragAngle](#GetGestureDragAngle)
+  * [GetGesturePinchVector](#GetGesturePinchVector)
+  * [GetGesturePinchAngle](#GetGesturePinchAngle)
+  * [SetCameraMode](#SetCameraMode)
+  * [UpdateCamera](#UpdateCamera)
+  * [SetCameraPanControl](#SetCameraPanControl)
+  * [SetCameraAltControl](#SetCameraAltControl)
+  * [SetCameraSmoothZoomControl](#SetCameraSmoothZoomControl)
+  * [SetCameraMoveControls](#SetCameraMoveControls)
 * Text
   * Text functions
-
-etc
+  * ...
 
 
 ## Core
@@ -175,7 +170,7 @@ Should be called before any widnow stuff is used.
 ```lua
 boolean Status = rl.core.WindowShouldClose()
 ```
-Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](SetExitKey)
+Check if ESCAPE-key pressed or Close icon pressed. See [SetExitKey](#SetExitKey)
 
 
 #### CloseWindow
@@ -239,7 +234,7 @@ Hide the window
 rl.core.SetWindowIcon(Image Icon)
 ```
 Set icon for window (only PLATFORM_DESKTOP)
-For additional info [Image]
+See [Image](#Image)
 
 
 #### SetWindowTitle
@@ -267,7 +262,7 @@ Set monitor for the current window (fullscreen mode)
 ```lua
 rl.core.SetWindowMinSize(integer Width, integer Height)
 ```
-Set window minimum dimensions, for flag [WINDOW_RESIZABLE](SetConfigFlags)
+Set window minimum dimensions, for flag [WINDOW_RESIZABLE](#SetConfigFlags)
 
 
 #### SetWindowSize
@@ -528,49 +523,49 @@ End scissor mode
 Ray Ray = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera)
 Vector2 Position, Vector2 Direction = rl.core.GetMouseRay(Vector2 Vector, Camera3D Camera, "v")
 ```
-Returns a ray trace from mouse position. See [Ray](Ray), [Vector2](Vector2).
+Returns a ray trace from mouse position. See [Ray](#Ray), [Vector2](#Vector2).
 
 
 #### GetCameraMatrix
 ```lua
 Matrix View = rl.core.GetCameraMatrix(Camera3D Camera)
 ```
-Returns camera transform matrix (view matrix). See [Matrix](Matrix)
+Returns camera transform matrix (view matrix). See [Matrix](#Matrix)
 
 
 #### GetCameraMatrix2D
 ```lua
 Matrix View = rl.core.GetCameraMatrix2D(Camera2D Camera)
 ```
-Returns camera 2d transform matrix. See [Matrix](Matrix), [Camera2D](Camera2D)
+Returns camera 2d transform matrix. See [Matrix](#Matrix), [Camera2D](#Camera2D)
 
 
 #### GetWorldToScreen
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
-Returns the screen space position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+Returns the screen space position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
 
 
 #### GetWorldToScreenEx
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
-Returns size position for a 3d world space position.  See [Vector2](Vector2), [Vector3](Vector3), [Camera3D](Camera3D)
+Returns size position for a 3d world space position.  See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D)
 
 
 #### GetWorldToScreen2D
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the screen space position for a 2d camera world space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+Returns the screen space position for a 2d camera world space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
 
 
 #### GetScreenToWorld2D
 ```lua
 Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
-Returns the world space position for a 2d camera screen space position.  See [Vector2](Vector2), [Camera2D](Camera2D)
+Returns the world space position for a 2d camera screen space position.  See [Vector2](#Vector2), [Camera2D](#Camera2D)
 
 
 ### Timing-related functions
@@ -617,7 +612,7 @@ Vector4 vColor = rl.core.ColorNormalize(Color Color)
 integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Color, "n")
 table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
-Returns color normalized as float [0..1]. See [Vector4](Vector4), [Color](Color)
+Returns color normalized as float [0..1]. See [Vector4](#Vector4), [Color](#Color)
 
 
 #### ColorFromNormalized
@@ -627,7 +622,7 @@ Color Color = rl.core.ColorFromNormalized(Vector4 vColor)
 Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
 Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
-Returns color from normalized values [0..1]. See [Vector4](Vector4), [Color](Color)
+Returns color from normalized values [0..1]. See [Vector4](#Vector4), [Color](#Color)
 
 
 #### ColorToHSV
@@ -637,7 +632,7 @@ Vector3 vColor = rl.core.ColorToHSV(Color Color)
 float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
 table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
-Returns HSV values for a Color. See [Vector3](Vector3), [Color](Color)
+Returns HSV values for a Color. See [Vector3](#Vector3), [Color](#Color)
 
 
 #### ColorFromHSV
@@ -647,7 +642,7 @@ Color Color = rl.core.ColorFromHSV(Vector3 vColor)
 Color Color = rl.core.ColorFromHSV(float H, float S, float V)
 Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
-Returns a Color from HSV values. See [Vector3](Vector3), [Color](Color)
+Returns a Color from HSV values. See [Vector3](#Vector3), [Color](#Color)
 
 
 #### GetColor
@@ -655,7 +650,7 @@ Returns a Color from HSV values. See [Vector3](Vector3), [Color](Color)
 -- variants
 Color Color = rl.core.GetColor(integer hColor)
 ```
-Returns a Color struct from hexadecimal value. See [Color](Color)
+Returns a Color struct from hexadecimal value. See [Color](#Color)
 
 
 #### Fade
@@ -663,7 +658,7 @@ Returns a Color struct from hexadecimal value. See [Color](Color)
 -- variants
 Color fColor = rl.core.Fade(Color Color, float alpha)
 ```
-Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](Color)
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f. See [Color](#Color)
 
 
 ### Misc. functions
@@ -820,7 +815,7 @@ Get current working directory.
 ```lua
 table Files = rl.core.GetDirectoryFiles(string DirectoryPath)
 ```
-Get filenames in a directory path. [ClearDirectoryFiles](ClearDirectoryFiles) is called automatically.
+Get filenames in a directory path. [ClearDirectoryFiles](#ClearDirectoryFiles) is called automatically.
 Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`
 
 
@@ -849,7 +844,7 @@ Check if a file has been dropped into window.
 ```lua
 table Files = rl.core.GetDroppedFiles()
 ```
-Get dropped files names. [ClearDroppedFiles](ClearDroppedFiles) is called automatically.
+Get dropped files names. [ClearDroppedFiles](#ClearDroppedFiles) is called automatically.
 Table Files contains string names like `{"file1.png", "file2.lua", ...}`
 
 
@@ -1057,12 +1052,222 @@ boolean State = rl.core.IsMouseButtonPressed(integer Button)
 Detect if a mouse button has been pressed once
 
 
+#### IsMouseButtonDown
+```lua
+boolean State = rl.core.IsMouseButtonDown(integer Button)
+```
+Detect if a mouse button is being pressed
+
+
+#### IsMouseButtonReleased
+```lua
+boolean State = rl.core.IsMouseButtonReleased(integer Button)
+```
+Detect if a mouse button has been released once
+
+
+#### IsMouseButtonUp
+```lua
+boolean State = rl.core.IsMouseButtonUp(integer Button)
+```
+Detect if a mouse button is NOT being pressed
+
+
+#### GetMouseX
+```lua
+integer X = rl.core.GetMouseX()
+```
+Returns mouse position X
+
+
+#### GetMouseY
+```lua
+integer Y = rl.core.GetMouseY()
+```
+Returns mouse position Y
+
+
+#### GetMousePosition
+```lua
+-- variants
+Vector2 Position     = rl.core.GetMousePosition()
+integer X, integer Y = rl.core.GetMousePosition('n')
+```
+Returns mouse position XY
+
+
+#### SetMousePosition
+```lua
+-- variants
+rl.core.SetMousePosition(Vector2 Position)
+rl.core.SetMousePosition(integer X, integer Y)
+```
+Set mouse position XY
+
+
+#### SetMouseOffset
+```lua
+-- variants
+rl.core.SetMouseOffset(Vector2 Offset)
+rl.core.SetMouseOffset(integer X, integer Y)
+```
+Set mouse offset
+
+
+#### SetMouseScale
+```lua
+-- variants
+rl.core.SetMouseScale(Vector2 Scale)
+rl.core.SetMouseScale(integer X, integer Y)
+```
+Set mouse scaling
+
+
+#### GetMouseWheelMove
+```lua
+-- variants
+integer WheelMove = rl.core.GetMouseWheelMove()
+```
+Returns mouse wheel movement Y
+
+
 ### Input-related functions: touch
 #### GetTouchX
 ```lua
-boolean State = rl.core.GetTouchX()
+integer X = rl.core.GetTouchX()
 ```
-Returns touch position X for touch point 0 (relative to screen size)
+Returns touch position X for touch point 1 (relative to screen size)
+
+
+#### GetTouchY
+```lua
+integer Y = rl.core.GetTouchY()
+```
+Returns touch position Y for touch point 1 (relative to screen size)
+
+
+#### GetTouch
+```lua
+integer X, integer Y = rl.core.GetTouch()
+```
+Returns touch position XY for a touch point 1 (relative to screen size)
+
+
+#### GetTouchPosition
+```lua
+-- veriants
+Vector2 Position     = rl.core.GetTouchPosition(integer Index)
+integer X, integer Y = rl.core.GetTouchPosition(integer Index, 'n')
+```
+Returns touch position XY for a touch point index (relative to screen size)
+
+
+#### GetTouches
+```lua
+-- veriants
+table Touches = rl.core.GetTouches(integer Index)      -- {Vector2 t1, Vector2 t2, ...}
+table Touches = rl.core.GetTouches(integer Index, 'n') -- {{integer X1, integer Y1}, {integer X2, integer Y2}, ...}
+```
+Returns all touches positions XY (relative to screen size)
+
+
+#### SetGesturesEnabled
+```lua
+rl.core.SetGesturesEnabled(string Mode1, string Mode2, ...)
+```
+Enable a set of gestures using modes.
+Available Modes:
+* `"NONE"` (default if no mode passed)
+* `"TAP"`
+* `"DOUBLETAP"`
+* `"HOLD"`
+* `"DRAG"`
+* `"SWIPE_RIGHT"`
+* `"SWIPE_LEFT"`
+* `"SWIPE_UP"`
+* `"SWIPE_DOWN"`
+* `"PINCH_IN"`
+* `"PINCH_OUT"`
+
+
+#### IsGestureDetected
+```lua
+boolean Status = rl.core.IsGestureDetected(string Mode)
+```
+Check if a gesture have been detected.
+Available Modes to check:
+* `"TAP"`
+* `"DOUBLETAP"`
+* `"HOLD"`
+* `"DRAG"`
+* `"SWIPE_RIGHT"`
+* `"SWIPE_LEFT"`
+* `"SWIPE_UP"`
+* `"SWIPE_DOWN"`
+* `"PINCH_IN"`
+* `"PINCH_OUT"`
+
+
+#### GetGestureDetected
+```lua
+-- variants
+string Gesture, ~ A, ~ B, ~ C = rl.core.GetGestureDetected()
+string Gesture, ~ A, ~ B, ~ C = rl.core.GetGestureDetected('n')
+```
+Get latest detected gesture.
+A, B, and C is additional info for various gestures:
+* `"HOLD"` returns float GestureHoldDuration
+* `"DRAG"` returns Vector2 DragVector, float DragAngle if 'n' is not passed
+* `"DRAG"` returns integer DragVectorX, integer DragVectorY, float DragAngle if 'n' is passed
+* `"PINCH_IN"` returns Vector2 PinchVector, float PinchAngle if 'n' is not passed
+* `"PINCH_IN"` returns integer PinchVectorX, integer PinchVectorY, float PinchAngle if 'n' is passed
+* `"PINCH_OUT"` same as `"PINCH_IN"`.
+
+
+#### GetTouchPointsCount
+```lua
+integer Count = rl.core.GetTouchPointsCount()
+```
+Get touch points count
+
+
+#### GetGestureHoldDuration
+```lua
+float Duration = rl.core.GetGestureHoldDuration()
+```
+Get gesture hold time in milliseconds
+
+
+#### GetGestureHoldDuration
+```lua
+-- variants
+Vector2 DragVector     = rl.core.GetGestureDragVector()
+integer vX, integer vY = rl.core.GetGestureDragVector('n')
+```
+Get gesture drag vector
+
+
+#### GetGestureDragAngle
+```lua
+float Angle = rl.core.GetGestureDragAngle()
+```
+Get gesture drag angle
+
+
+#### GetGesturePinchVector
+```lua
+-- variants
+Vector2 PinchVector    = rl.core.GetGesturePinchVector()
+integer dX, integer dY = rl.core.GetGesturePinchVector('n')
+```
+Get gesture pinch delta
+
+
+#### GetGesturePinchAngle
+```lua
+float Angle = rl.core.GetGesturePinchAngle()
+```
+Get gesture pinch angle
 
 
 ### Camera System Functions (Module: camera)
@@ -1078,15 +1283,50 @@ Set camera mode. Availabke modes:
 * `"THIRD_PERSON"`
 
 
+#### UpdateCamera
+```lua
+rl.core.UpdateCamera(Camera3D Camera)
+```
+Update camera position for selected mode
+
+
+#### SetCameraPanControl
+```lua
+rl.core.SetCameraPanControl(integer panKey)
+```
+Set camera pan key to combine with mouse movement (free camera)
+
+
+#### SetCameraAltControl
+```lua
+rl.core.SetCameraAltControl(integer altKey)
+```
+Set camera alt key to combine with mouse movement (free camera)
+
+
+#### SetCameraSmoothZoomControl
+```lua
+rl.core.SetCameraSmoothZoomControl(integer szKey)
+```
+Set camera smooth zoom key to combine with mouse (free camera)
+
+
+#### SetCameraMoveControls
+```lua
+rl.core.SetCameraMoveControls(integer frontKey, integer backKey, integer rightKey, integer leftKey, integer upKey, integer downKey)
+```
+Set camera move controls (1st person and 3rd person cameras)
+
+
 # Classes
 
 ## Vector2
 ### Initialization
 ```lua
 -- variants
-Vector2 vec = rl.Vector2(number x, number y) --> vec2[x, y]
-Vector2 vec = rl.Vector2(number x)           --> vec2[x, x]
-Vector2 vec = rl.Vector2(table t)            --> vec2[ t[1], t[2] ]
+Vector2 Vec = rl.Vector2(number x, number y) --> vec2[x, y]
+Vector2 Vec = rl.Vector2(number x)           --> vec2[x, x]
+Vector2 Vec = rl.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
 Creates new Vector2 object.
 
@@ -1095,7 +1335,7 @@ Creates new Vector2 object.
 
 #### Clone
 ```lua
-Vector2 = Vector2:clone()
+Vector2 Vec2 = Vector2:clone()
 ```
 Clones Vector2 object.
 
@@ -1112,7 +1352,254 @@ Get Vector2 components.
 #### Set
 ```lua
 -- variants
-float x, float y = Vector2:get()
-table t = Vector2:get('t') --> {x, y}
+Vector2:set(float x, float y)
+Vector2:set(table t) -- [x, y]
 ```
 Set Vector2 components.
+
+
+## Vector3
+### Initialization
+```lua
+-- variants
+Vector3 Vec3 = rl.Vector3(number x, number y, , number z) --> vec3[x, y, z]
+Vector3 Vec3 = rl.Vector3(number x)                       --> vec3[x, x, x]
+Vector3 Vec3 = rl.Vector3(table t)                        --> vec3[ t[1], t[2], t[3] ]
+```
+Creates new Vector3 object.
+
+
+## Matrix
+### Initialization
+```lua
+-- variants
+Matrix Mat = rl.Matrix(number m1, number m2, ..., number m16) --> Matrix[m1, m2, ... m16]
+Matrix Mat = rl.Matrix(table t)                        --> Matrix[ t[1], t[2], ... t[16] ]
+```
+Creates new Matrix object.
+
+
+## Vector4
+### Initialization
+```lua
+-- variants
+Vector4 Vec4 = rl.Vector4(number x, number y, number z,  number w) --> Vec4[x, y, z, w]
+Vector4 Vec4 = rl.Vector4(number x)                       --> Vec4[x, x, x, x]
+Vector4 Vec4 = rl.Vector4(table t)                        --> Vec4[ t[1], t[2], t[3], t[4] ]
+```
+Creates new Vector4 object.
+
+
+## Color
+### Initialization
+```lua
+-- variants
+Color Color = rl.Color(number r, number g, number b,  number a) --> Color[r, g, b, a]
+Color Color = rl.Color(table t)                                 --> Color[ t[1], t[2], t[3], t[4] ]
+Color Color = rl.Color(string Color)
+```
+Creates new Color object.
+Available string colors:
+* `"lightgray"  -> { 200, 200, 200 }`
+* `"gray"       -> { 130, 130, 130 }`
+* `"darkgray"   -> { 80,  80,  80  }`
+* `"yellow"     -> { 253, 249, 0   }`
+* `"gold"       -> { 255, 203, 0   }`
+* `"orange"     -> { 255, 161, 0   }`
+* `"pink"       -> { 255, 109, 194 }`
+* `"red"        -> { 230, 41,  55  }`
+* `"maroon"     -> { 190, 33,  55  }`
+* `"green"      -> { 0,   228, 48  }`
+* `"lime"       -> { 0,   158, 47  }`
+* `"darkgreen"  -> { 0,   117, 44  }`
+* `"skyblue"    -> { 102, 191, 255 }`
+* `"blue"       -> { 0,   121, 241 }`
+* `"darkblue"   -> { 0,   82,  172 }`
+* `"purple"     -> { 200, 122, 255 }`
+* `"violet"     -> { 135, 60,  190 }`
+* `"darkpurple" -> { 112, 31,  126 }`
+* `"beige"      -> { 211, 176, 131 }`
+* `"brown"      -> { 127, 106, 79  }`
+* `"darkbrown"  -> { 76,  63,  47  }`
+* `"white"      -> { 255, 255, 255 }`
+* `"black"      -> { 0,   0,   0   }`
+* `"blank"      -> { 0,   0,   0   }`
+* `"magenta"    -> { 255, 0,   255 }`
+* `"raywhite"   -> { 245, 245, 245 }`
+
+
+## Rectangle
+### Initialization
+```lua
+-- variants
+Rectangle Rect = rl.Rectangle(number x, number y, number width,  number height)
+Rectangle Rect = rl.Rectangle(table t) --> Rectangle[ x = t[1], y = t[2], width = t[3], height = t[4] ]
+```
+
+
+## Image
+### Initialization
+```lua
+--
+```
+
+
+## Texture
+### Initialization
+```lua
+--
+```
+
+
+## RenderTexture
+### Initialization
+```lua
+--
+```
+
+
+## NPatchInfo
+### Initialization
+```lua
+--
+```
+
+
+## CharInfo
+### Initialization
+```lua
+--
+```
+
+
+## Font
+### Initialization
+```lua
+--
+```
+
+
+## Camera3D
+### Initialization
+```lua
+--
+```
+
+
+## Camera2D
+### Initialization
+```lua
+--
+```
+
+
+## Mesh
+### Initialization
+```lua
+--
+```
+
+
+## Shader
+### Initialization
+```lua
+--
+```
+
+
+## MaterialMap
+### Initialization
+```lua
+--
+```
+
+
+## Material
+### Initialization
+```lua
+--
+```
+
+
+## Model
+### Initialization
+```lua
+--
+```
+
+
+## Transform
+### Initialization
+```lua
+--
+```
+
+
+## BoneInfo
+### Initialization
+```lua
+--
+```
+
+
+## ModelAnimation
+### Initialization
+```lua
+--
+```
+
+
+## Ray
+### Initialization
+```lua
+--
+```
+
+
+## RayHitInfo
+### Initialization
+```lua
+--
+```
+
+
+## BoundingBox
+### Initialization
+```lua
+--
+```
+
+
+## Wave
+### Initialization
+```lua
+--
+```
+
+
+## Sound
+### Initialization
+```lua
+--
+```
+
+
+## Music
+### Initialization
+```lua
+--
+```
+
+
+## AudioStream
+### Initialization
+```lua
+--
+```
+
+
+## VrDeviceInfo
+### Initialization
+```lua
+--
+```
