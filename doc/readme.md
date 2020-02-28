@@ -1505,34 +1505,34 @@ Color Color = rl.Color(string Color)
 Creates new Color object.
 Available string colors:
 
-| string name   | color value         | hexadecimal                                  |
-| :------------ | :------------------ | :--------------------------------------------|
-| `"lightgray"` | `{ 200, 200, 200 }` | <span style='color: #c8c8c8;'>#c8c8c8</span> |
-| `"gray"`      | `{ 130, 130, 130 }` | <span style='color: #828282;'>#828282</span> |
-| `"darkgray"`  | `{ 80,  80,  80  }` | <span style='color: #505050;'>#505050</span> |
-| `"yellow"`    | `{ 253, 249, 0   }` | <span style='color: #fdf900;'>#fdf900</span> |
-| `"gold"`      | `{ 255, 203, 0   }` | <span style='color: #ffcb00;'>#ffcb00</span> |
-| `"orange"`    | `{ 255, 161, 0   }` | <span style='color: #ffa100;'>#ffa100</span> |
-| `"pink"`      | `{ 255, 109, 194 }` | <span style='color: #ff6dc2;'>#ff6dc2</span> |
-| `"red"`       | `{ 230, 41,  55  }` | <span style='color: #e62937;'>#e62937</span> |
-| `"maroon"`    | `{ 190, 33,  55  }` | <span style='color: #be2137;'>#be2137</span> |
-| `"green"`     | `{ 0,   228, 48  }` | <span style='color: #00e430;'>#00e430</span> |
-| `"lime"`      | `{ 0,   158, 47  }` | <span style='color: #009e2f;'>#009e2f</span> |
-| `"darkgreen"` | `{ 0,   117, 44  }` | <span style='color: #00752c;'>#00752c</span> |
-| `"skyblue"`   | `{ 102, 191, 255 }` | <span style='color: #66bfff;'>#66bfff</span> |
-| `"blue"`      | `{ 0,   121, 241 }` | <span style='color: #0079f1;'>#0079f1</span> |
-| `"darkblue"`  | `{ 0,   82,  172 }` | <span style='color: #0052ac;'>#0052ac</span> |
-| `"purple"`    | `{ 200, 122, 255 }` | <span style='color: #c87aff;'>#c87aff</span> |
-| `"violet"`    | `{ 135, 60,  190 }` | <span style='color: #873cbe;'>#873cbe</span> |
-| `"darkpurple"`| `{ 112, 31,  126 }` | <span style='color: #701f7e;'>#701f7e</span> |
-| `"beige"`     | `{ 211, 176, 131 }` | <span style='color: #d3b083;'>#d3b083</span> |
-| `"brown"`     | `{ 127, 106, 79  }` | <span style='color: #7f6a4f;'>#7f6a4f</span> |
-| `"darkbrown"` | `{ 76,  63,  47  }` | <span style='color: #4c3f2f;'>#4c3f2f</span> |
-| `"white"`     | `{ 255, 255, 255 }` | <span style='color: #ffffff;'>#ffffff</span> |
-| `"black"`     | `{ 0,   0,   0   }` | <span style='color: #000000;'>#000000</span> |
-| `"blank"`     | `{ 0,   0,   0   }` | <span style='color: #000000;'>#000000</span> |
-| `"magenta"`   | `{ 255, 0,   255 }` | <span style='color: #ff00ff;'>#ff00ff</span> |
-| `"raywhite"`  | `{ 245, 245, 245 }` | <span style='color: #f5f5f5;'>#f5f5f5</span> |
+| string name   | color value         | hexadecimal
+| :------------ | :------------------ | :--------
+| `"lightgray"` | `{ 200, 200, 200 }` | `#c8c8c8`
+| `"gray"`      | `{ 130, 130, 130 }` | `#828282`
+| `"darkgray"`  | `{ 80,  80,  80  }` | `#505050`
+| `"yellow"`    | `{ 253, 249, 0   }` | `#fdf900`
+| `"gold"`      | `{ 255, 203, 0   }` | `#ffcb00`
+| `"orange"`    | `{ 255, 161, 0   }` | `#ffa100`
+| `"pink"`      | `{ 255, 109, 194 }` | `#ff6dc2`
+| `"red"`       | `{ 230, 41,  55  }` | `#e62937`
+| `"maroon"`    | `{ 190, 33,  55  }` | `#be2137`
+| `"green"`     | `{ 0,   228, 48  }` | `#00e430`
+| `"lime"`      | `{ 0,   158, 47  }` | `#009e2f`
+| `"darkgreen"` | `{ 0,   117, 44  }` | `#00752c`
+| `"skyblue"`   | `{ 102, 191, 255 }` | `#66bfff`
+| `"blue"`      | `{ 0,   121, 241 }` | `#0079f1`
+| `"darkblue"`  | `{ 0,   82,  172 }` | `#0052ac`
+| `"purple"`    | `{ 200, 122, 255 }` | `#c87aff`
+| `"violet"`    | `{ 135, 60,  190 }` | `#873cbe`
+| `"darkpurple"`| `{ 112, 31,  126 }` | `#701f7e`
+| `"beige"`     | `{ 211, 176, 131 }` | `#d3b083`
+| `"brown"`     | `{ 127, 106, 79  }` | `#7f6a4f`
+| `"darkbrown"` | `{ 76,  63,  47  }` | `#4c3f2f`
+| `"white"`     | `{ 255, 255, 255 }` | `#ffffff`
+| `"black"`     | `{ 0,   0,   0   }` | `#000000`
+| `"blank"`     | `{ 0,   0,   0   }` | `#000000`
+| `"magenta"`   | `{ 255, 0,   255 }` | `#ff00ff`
+| `"raywhite"`  | `{ 245, 245, 245 }` | `#f5f5f5`
 
 
 
