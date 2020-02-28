@@ -1,5 +1,11 @@
 local rl = require'raylib_luamore'
 
+local function Log(level, msg)
+  print("LOG: ", level, msg)
+end
+rl.core.SetLog
+
+
 rl.core.InitWindow(300, 300, "Hello")
 rl.core.SetTargetFPS(30)
 

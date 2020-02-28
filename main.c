@@ -4,152 +4,227 @@
 
 /*!MD
 ## Table of content
-* [Core](#Core)
-  * [InitWindow](#InitWindow)
-  * [WindowShouldClose](#WindowShouldClose)
-  * [CloseWindow](#CloseWindow)
-  * [IsWindowReady](#IsWindowReady)
-  * [IsWindowMinimized](#IsWindowMinimized)
-  * [IsWindowResized](#IsWindowResized)
-  * [IsWindowHidden](#IsWindowHidden)
-  * [ToggleFullscreen](#ToggleFullscreen)
-  * [UnhideWindow](#UnhideWindow)
-  * [HideWindow](#HideWindow)
-  * [SetWindowIcon](#SetWindowIcon)
-  * [SetWindowTitle](#SetWindowTitle)
-  * [SetWindowPosition](#SetWindowPosition)
-  * [SetWindowMonitor](#SetWindowMonitor)
-  * [SetWindowMinSize](#SetWindowMinSize)
-  * [SetWindowSize](#SetWindowSize)
-  * [GetWindowHandle](#GetWindowHandle)
-  * [GetScreenWidth](#GetScreenWidth)
-  * [GetScreenHeight](#GetScreenHeight)
-  * [GetScreenDimensions](#GetScreenDimensions)
-  * [GetMonitorCount](#GetMonitorCount)
-  * [GetMonitorWidth](#GetMonitorWidth)
-  * [GetMonitorHeight](#GetMonitorHeight)
-  * [GetMonitorDimensions](#GetMonitorDimensions)
-  * [GetMonitorPhysicalWidth](#GetMonitorPhysicalWidth)
-  * [GetMonitorPhysicalHeight](#GetMonitorPhysicalHeight)
-  * [GetMonitorPhysicalDimensions](#GetMonitorPhysicalDimensions)
-  * [GetMonitors](#GetMonitors)
-  * [GetWindowPosition](#GetWindowPosition)
-  * [GetMonitorName](#GetMonitorName)
-  * [GetClipboardText](#GetClipboardText)
-  * [SetClipboardText](#SetClipboardText)
-  * [ShowCursor](#ShowCursor)
-  * [HideCursor](#HideCursor)
-  * [IsCursorHidden](#IsCursorHidden)
-  * [EnableCursor](#EnableCursor)
-  * [DisableCursor](#DisableCursor)
-  * [ClearBackground](#ClearBackground)
-  * [BeginDrawing](#BeginDrawing)
-  * [EndDrawing](#EndDrawing)
-  * [BeginMode2D](#BeginMode2D)
-  * [EndMode2D](#EndMode2D)
-  * [BeginMode3D](#BeginMode3D)
-  * [EndMode3D](#EndMode3D)
-  * [BeginTextureMode](#BeginTextureMode)
-  * [EndTextureMode](#EndTextureMode)
-  * [BeginScissorMode](#BeginScissorMode)
-  * [EndScissorMode](#EndScissorMode)
-  * [GetMouseRay](#GetMouseRay)
-  * [GetCameraMatrix](#GetCameraMatrix)
-  * [GetCameraMatrix2D](#GetCameraMatrix2D)
-  * [GetWorldToScreen](#GetWorldToScreen)
-  * [GetWorldToScreenEx](#GetWorldToScreenEx)
-  * [GetWorldToScreen2D](#GetWorldToScreen2D)
-  * [GetScreenToWorld2D](#GetScreenToWorld2D)
-  * [SetTargetFPS](#SetTargetFPS)
-  * [GetFPS](#GetFPS)
-  * [GetFrameTime](#GetFrameTime)
-  * [GetTime](#GetTime)
-  * [ColorToInt](#ColorToInt)
-  * [ColorNormalize](#ColorNormalize)
-  * [ColorFromNormalized](#ColorFromNormalized)
-  * [ColorToHSV](#ColorToHSV)
-  * [ColorFromHSV](#ColorFromHSV)
-  * [GetColor](#GetColor)
-  * [Fade](#Fade)
-  * [SetConfigFlags](#SetConfigFlags)
-  * [SetTraceLogLevel](#SetTraceLogLevel)
-  * [SetTraceLogExit](#SetTraceLogExit)
-  * [SetTraceLogCallback](#SetTraceLogCallback)
-  * [TraceLog](#TraceLog)
-  * [TakeScreenshot](#TakeScreenshot)
-  * [GetRandomValue](#GetRandomValue)
-  * [FileExists](#FileExists)
-  * [IsFileExtension](#IsFileExtension)
-  * [DirectoryExists](#DirectoryExists)
-  * [GetExtension](#GetExtension)
-  * [GetFileName](#GetFileName)
-  * [GetFileNameWithoutExt](#GetFileNameWithoutExt)
-  * [GetDirectoryPath](#GetDirectoryPath)
-  * [GetPrevDirectoryPath](#GetPrevDirectoryPath)
-  * [GetWorkingDirectory](#GetWorkingDirectory)
-  * [GetDirectoryFiles](#GetDirectoryFiles)
-  * [ChangeDirectory](#ChangeDirectory)
-  * [IsFileDropped](#IsFileDropped)
-  * [GetDroppedFiles](#GetDroppedFiles)
-  * [GetFileModTime](#GetFileModTime)
-  * [GetFileInfo](#GetFileInfo)
-  * [CompressData](#CompressData)
-  * [DecompressData](#DecompressData)
-  * [OpenURL](#OpenURL)
-  * [StorageSaveValue](#StorageSaveValue)
-  * [StorageLoadValue](#StorageLoadValue)
-  * [IsKeyPressed](#IsKeyPressed)
-  * [IsKeyDown](#IsKeyDown)
-  * [IsKeyReleased](#IsKeyReleased)
-  * [IsKeyUp](#IsKeyUp)
-  * [GetKeyPressed](#GetKeyPressed)
-  * [GetKeyPressedString](#GetKeyPressedString)
-  * [GetAllKeysPressedString](#GetAllKeysPressedString)
-  * [SetExitKey](#SetExitKey)
-  * [IsGamepadAvailable](#IsGamepadAvailable)
-  * [IsGamepadName](#IsGamepadName)
-  * [GetGamepadName](#GetGamepadName)
-  * [IsGamepadButtonPressed](#IsGamepadButtonPressed)
-  * [IsGamepadButtonDown](#IsGamepadButtonDown)
-  * [IsGamepadButtonReleased](#IsGamepadButtonReleased)
-  * [IsGamepadButtonUp](#IsGamepadButtonUp)
-  * [GetGamepadButtonPressed](#GetGamepadButtonPressed)
-  * [GetGamepadAxisCount](#GetGamepadAxisCount)
-  * [GetGamepadAxisMovement](#GetGamepadAxisMovement)
-  * [IsMouseButtonPressed](#IsMouseButtonPressed)
-  * [IsMouseButtonDown](#IsMouseButtonDown)
-  * [IsMouseButtonReleased](#IsMouseButtonReleased)
-  * [IsMouseButtonUp](#IsMouseButtonUp)
-  * [GetMouseX](#GetMouseX)
-  * [GetMouseY](#GetMouseY)
-  * [GetMousePosition](#GetMousePosition)
-  * [SetMousePosition](#SetMousePosition)
-  * [SetMouseOffset](#SetMouseOffset)
-  * [SetMouseScale](#SetMouseScale)
-  * [GetMouseWheelMove](#GetMouseWheelMove)
-  * [GetTouchX](#GetTouchX)
-  * [GetTouchY](#GetTouchY)
-  * [GetTouch](#GetTouch)
-  * [GetTouchPosition](#GetTouchPosition)
-  * [GetTouches](#GetTouches)
-  * [SetGesturesEnabled](#SetGesturesEnabled)
-  * [IsGestureDetected](#IsGestureDetected)
-  * [GetGestureDetected](#GetGestureDetected)
-  * [GetTouchPointsCount](#GetTouchPointsCount)
-  * [GetGestureHoldDuration](#GetGestureHoldDuration)
-  * [GetGestureDragVector](#GetGestureDragVector)
-  * [GetGestureDragAngle](#GetGestureDragAngle)
-  * [GetGesturePinchVector](#GetGesturePinchVector)
-  * [GetGesturePinchAngle](#GetGesturePinchAngle)
-  * [SetCameraMode](#SetCameraMode)
-  * [UpdateCamera](#UpdateCamera)
-  * [SetCameraPanControl](#SetCameraPanControl)
-  * [SetCameraAltControl](#SetCameraAltControl)
-  * [SetCameraSmoothZoomControl](#SetCameraSmoothZoomControl)
-  * [SetCameraMoveControls](#SetCameraMoveControls)
-* Text
-  * Text functions
-  * ...
+| [Core](#Core)                                                 | Core module, provides basic config, window, drawing, color manipulating etc functions.
+| :------------------------------------------------------------ | :-----------------------------------------------------------
+| **Window-related functions**                                  | 
+| [InitWindow](#InitWindow)                                     | Initialize window and OpenGL context
+| [WindowShouldClose](#WindowShouldClose)                       | Check if KEY_ESCAPE pressed or Close icon pressed
+| [CloseWindow](#CloseWindow)                                   | Close window and unload OpenGL context
+| [IsWindowReady](#IsWindowReady)                               | Check if window has been initialized successfully
+| [IsWindowMinimized](#IsWindowMinimized)                       | Check if window has been minimized (or lost focus)
+| [IsWindowResized](#IsWindowResized)                           | Check if window has been resized
+| [IsWindowHidden](#IsWindowHidden)                             | Check if window is currently hidden
+| [ToggleFullscreen](#ToggleFullscreen)                         | oggle fullscreen mode (only PLATFORM_DESKTOP)
+| [UnhideWindow](#UnhideWindow)                                 | Show the window
+| [HideWindow](#HideWindow)                                     | Hide the window
+| [SetWindowIcon](#SetWindowIcon)                               | Set icon for window (only PLATFORM_DESKTOP)
+| [SetWindowTitle](#SetWindowTitle)                             | Set title for window (only PLATFORM_DESKTOP)
+| [SetWindowPosition](#SetWindowPosition)                       | Set window position on screen (only PLATFORM_DESKTOP)
+| [SetWindowMonitor](#SetWindowMonitor)                         | Set monitor for the current window (fullscreen mode)
+| [SetWindowMinSize](#SetWindowMinSize)                         | Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
+| [SetWindowSize](#SetWindowSize)                               | Set window dimensions
+| [GetWindowHandle](#GetWindowHandle)                           | Get native window handle
+| [GetScreenWidth](#GetScreenWidth)                             | Get current screen width
+| [GetScreenHeight](#GetScreenHeight)                           | Get current screen height
+| [GetScreenDimensions](#GetScreenDimensions)                   | Get current screen dimensions
+| [GetMonitorCount](#GetMonitorCount)                           | Get number of connected monitors
+| [GetMonitorWidth](#GetMonitorWidth)                           | Get selected monitor width
+| [GetMonitorHeight](#GetMonitorHeight)                         | Get selected monitor height
+| [GetMonitorDimensions](#GetMonitorDimensions)                 | Get selected monitor dimensions
+| [GetMonitorPhysicalWidth](#GetMonitorPhysicalWidth)           | Get selected monitor physical width in millimetres
+| [GetMonitorPhysicalHeight](#GetMonitorPhysicalHeight)         | Get selected monitor physical height in millimetres
+| [GetMonitorPhysicalDimensions](#GetMonitorPhysicalDimensions) | Get selected monitor physical dimensions in millimetres
+| [GetMonitors](#GetMonitors)                                   | Get all currently available monitor stats
+| [GetWindowPosition](#GetWindowPosition)                       | Get window position XY on monitor
+| [GetMonitorName](#GetMonitorName)                             | Get the human-readable, UTF-8 encoded name of the primary monitor
+| [GetClipboardText](#GetClipboardText)                         | Get clipboard text content
+| [SetClipboardText](#SetClipboardText)                         | Set clipboard text content
+| **Cursor-related functions**                                  | 
+| [ShowCursor](#ShowCursor)                                     | Shows cursor
+| [HideCursor](#HideCursor)                                     | Hides cursor
+| [IsCursorHidden](#IsCursorHidden)                             | Check if cursor is not visible
+| [EnableCursor](#EnableCursor)                                 | Enables cursor (unlock cursor)
+| [DisableCursor](#DisableCursor)                               | Disables cursor (lock cursor)
+| **Drawing-related functions**                                 | 
+| [ClearBackground](#ClearBackground)                           | Set background color (framebuffer clear color)
+| [BeginDrawing](#BeginDrawing)                                 | Setup canvas (framebuffer) to start drawing
+| [EndDrawing](#EndDrawing)                                     | End canvas drawing and swap buffers (double buffering)
+| [BeginMode2D](#BeginMode2D)                                   | Initialize 2D mode with custom camera (2D)
+| [EndMode2D](#EndMode2D)                                       | Ends 2D mode with custom camera
+| [BeginMode3D](#BeginMode3D)                                   | Initializes 3D mode with custom camera (3D)
+| [EndMode3D](#EndMode3D)                                       | Ends 3D mode and returns to default 2D orthographic mode
+| [BeginTextureMode](#BeginTextureMode)                         | Initializes render texture for drawing
+| [EndTextureMode](#EndTextureMode)                             | Ends drawing to render texture
+| [BeginScissorMode](#BeginScissorMode)                         | Begin scissor mode (define screen area for following drawing)
+| [EndScissorMode](#EndScissorMode)                             | End scissor mode
+| **Screen-space-related functions**                            | 
+| [GetMouseRay](#GetMouseRay)                                   | Returns a ray trace from mouse position
+| [GetCameraMatrix](#GetCameraMatrix)                           | Returns camera transform matrix (view matrix)
+| [GetCameraMatrix2D](#GetCameraMatrix2D)                       | Returns camera 2d transform matrix
+| [GetWorldToScreen](#GetWorldToScreen)                         | Returns the screen space position for a 3d world space position
+| [GetWorldToScreenEx](#GetWorldToScreenEx)                     | Returns size position for a 3d world space position
+| [GetWorldToScreen2D](#GetWorldToScreen2D)                     | Returns the screen space position for a 2d camera world space position
+| [GetScreenToWorld2D](#GetScreenToWorld2D)                     | Returns the world space position for a 2d camera screen space position
+| **Timing-related functions**                                  | 
+| [SetTargetFPS](#SetTargetFPS)                                 | Set target FPS (maximum)
+| [GetFPS](#GetFPS)                                             | Returns current FPS
+| [GetFrameTime](#GetFrameTime)                                 | Returns time in seconds for last frame drawn (delta time)
+| [GetTime](#GetTime)                                           | Returns elapsed time in seconds since InitWindow()
+| **Color-related functions**                                   | 
+| [ColorToInt](#ColorToInt)                                     | Returns hexadecimal value for a Color
+| [ColorNormalize](#ColorNormalize)                             | Returns color normalized as float [0..1]
+| [ColorFromNormalized](#ColorFromNormalized)                   | Returns color from normalized values [0..1]
+| [ColorToHSV](#ColorToHSV)                                     | Returns HSV values for a Color
+| [ColorFromHSV](#ColorFromHSV)                                 | Returns a Color from HSV values
+| [GetColor](#GetColor)                                         | Returns a Color struct from hexadecimal value
+| [Fade](#Fade)                                                 | Color fade-in or fade-out, alpha goes from 0.0f to 1.0f
+| **Misc. functions**                                           | 
+| [SetConfigFlags](#SetConfigFlags)                             | Setup window configuration flags
+| [SetTraceLogLevel](#SetTraceLogLevel)                         | Set the current threshold (minimum) log level
+| [SetTraceLogExit](#SetTraceLogExit)                           | Set the exit threshold (minimum) log level
+| [SetTraceLogCallback](#SetTraceLogCallback)                   | Set a trace log callback to enable custom logging
+| [TraceLog](#TraceLog)                                         | Show trace log messages (DEBUG, INFO, WARNING, ERROR)
+| [TakeScreenshot](#TakeScreenshot)                             | Takes a screenshot of current screen (saved a .png)
+| [GetRandomValue](#GetRandomValue)                             | Returns a random value between min and max (both included)
+| **Files management functions**                                | 
+| [FileExists](#FileExists)                                     | Check if file exists
+| [IsFileExtension](#IsFileExtension)                           | Check file extension
+| [DirectoryExists](#DirectoryExists)                           | Check if a directory path exists
+| [GetExtension](#GetExtension)                                 | Get string extension for a filename string
+| [GetFileName](#GetFileName)                                   | Get string filename for a path string
+| [GetFileNameWithoutExt](#GetFileNameWithoutExt)               | Get filename string without extension
+| [GetDirectoryPath](#GetDirectoryPath)                         | Get full path for a given fileName with path
+| [GetPrevDirectoryPath](#GetPrevDirectoryPath)                 | Get previous directory path for a given path
+| [GetWorkingDirectory](#GetWorkingDirectory)                   | Get current working directory
+| [GetDirectoryFiles](#GetDirectoryFiles)                       | Get filenames in a directory path
+| [ClearDirectoryFiles](#ClearDirectoryFiles)                   | Clear directory files paths buffers (deprecated)
+| [ChangeDirectory](#ChangeDirectory)                           | Change working directory, returns true if success
+| [IsFileDropped](#IsFileDropped)                               | Check if a file has been dropped into window
+| [GetDroppedFiles](#GetDroppedFiles)                           | Get dropped files names
+| [ClearDroppedFiles](#ClearDroppedFiles)                       | Clear dropped files paths buffer
+| [GetFileModTime](#GetFileModTime)                             | Get file modification time (last write time)
+| [GetFileInfo](#GetFileInfo)                                   | Get info table for a given path
+| [CompressData](#CompressData)                                 | Compress data (DEFLATE algorythm)
+| [DecompressData](#DecompressData)                             | Decompress data (DEFLATE algorythm)
+| [OpenURL](#OpenURL)                                           | Open URL with default system browser (if available)
+| **Persistent storage management**                             | 
+| [StorageSaveValue](#StorageSaveValue)                         | Save integer value to storage file (to defined position)
+| [StorageLoadValue](#StorageLoadValue)                         | Load integer value from storage file (from defined position)
+| **Input-related functions: keyboard**                         | 
+| [IsKeyPressed](#IsKeyPressed)                                 | Detect if a key has been pressed once
+| [IsKeyDown](#IsKeyDown)                                       | Detect if a key is being pressed
+| [IsKeyReleased](#IsKeyReleased)                               | Detect if a key has been released once
+| [IsKeyUp](#IsKeyUp)                                           | Detect if a key is NOT being pressed
+| [GetKeyPressed](#GetKeyPressed)                               | Get latest key pressed (scancode)
+| [GetKeyPressedString](#GetKeyPressedString)                   | Get latest key pressed (utf8)
+| [GetAllKeysPressedString](#GetAllKeysPressedString)           | Get all latest keys pressed (utf8)
+| [SetExitKey](#SetExitKey)                                     | Set a custom key to exit program (default is ESC)
+| **Input-related functions: gamepads**                         | 
+| [IsGamepadAvailable](#IsGamepadAvailable)                     | Detect if a gamepad is available
+| [IsGamepadName](#IsGamepadName)                               | Check gamepad name (if available)
+| [GetGamepadName](#GetGamepadName)                             | Return gamepad internal name id
+| [IsGamepadButtonPressed](#IsGamepadButtonPressed)             | Detect if a gamepad button has been pressed once
+| [IsGamepadButtonDown](#IsGamepadButtonDown)                   | Detect if a gamepad button is being pressed
+| [IsGamepadButtonReleased](#IsGamepadButtonReleased)           | Detect if a gamepad button has been released once
+| [IsGamepadButtonUp](#IsGamepadButtonUp)                       | Detect if a gamepad button is NOT being pressed
+| [GetGamepadButtonPressed](#GetGamepadButtonPressed)           | Get the last gamepad button pressed
+| [GetGamepadAxisCount](#GetGamepadAxisCount)                   | Return gamepad axis count for a gamepad
+| [GetGamepadAxisMovement](#GetGamepadAxisMovement)             | Return axis movement value for a gamepad axis
+| **Input-related functions: mouse**                            | 
+| [IsMouseButtonPressed](#IsMouseButtonPressed)                 | Detect if a mouse button has been pressed once
+| [IsMouseButtonDown](#IsMouseButtonDown)                       | Detect if a mouse button is being pressed
+| [IsMouseButtonReleased](#IsMouseButtonReleased)               | Detect if a mouse button has been released once
+| [IsMouseButtonUp](#IsMouseButtonUp)                           | Detect if a mouse button is NOT being pressed
+| [GetMouseX](#GetMouseX)                                       | Returns mouse position X
+| [GetMouseY](#GetMouseY)                                       | Returns mouse position Y
+| [GetMousePosition](#GetMousePosition)                         | Returns mouse position XY
+| [SetMousePosition](#SetMousePosition)                         | Set mouse position XY
+| [SetMouseOffset](#SetMouseOffset)                             | Set mouse offset
+| [SetMouseScale](#SetMouseScale)                               | Set mouse scaling
+| [GetMouseWheelMove](#GetMouseWheelMove)                       | Returns mouse wheel movement Y
+| **Input-related functions: touch**                            | 
+| [GetTouchX](#GetTouchX)                                       | Returns touch position X for touch point 1 (relative to screen size)
+| [GetTouchY](#GetTouchY)                                       | Returns touch position Y for touch point 1 (relative to screen size)
+| [GetTouch](#GetTouch)                                         | Returns touch position XY for touch point 1 (relative to screen size)
+| [GetTouchPosition](#GetTouchPosition)                         | Returns touch position XY for a touch point index (relative to screen size)
+| [GetTouches](#GetTouches)                                     | Returns all available touches positions XY (relative to screen size)
+| [SetGesturesEnabled](#SetGesturesEnabled)                     | Enable a set of gestures using flags
+| [IsGestureDetected](#IsGestureDetected)                       | Check if a gesture have been detected
+| [GetGestureDetected](#GetGestureDetected)                     | Get latest detected gesture
+| [GetTouchPointsCount](#GetTouchPointsCount)                   | Get touch points count
+| [GetGestureHoldDuration](#GetGestureHoldDuration)             | Get gesture hold time in milliseconds
+| [GetGestureDragVector](#GetGestureDragVector)                 | Get gesture drag vector
+| [GetGestureDragAngle](#GetGestureDragAngle)                   | Get gesture drag angle
+| [GetGesturePinchVector](#GetGesturePinchVector)               | Get gesture pinch delta
+| [GetGesturePinchAngle](#GetGesturePinchAngle)                 | Get gesture pinch angle
+| **Camera System Functions**                                   | 
+| [SetCameraMode](#SetCameraMode)                               | Set camera mode (multiple camera modes available)
+| [UpdateCamera](#UpdateCamera)                                 | Update camera position for selected mode
+| [SetCameraPanControl](#SetCameraPanControl)                   | Set camera pan key to combine with mouse movement (free camera)
+| [SetCameraAltControl](#SetCameraAltControl)                   | Set camera alt key to combine with mouse movement (free camera)
+| [SetCameraSmoothZoomControl](#SetCameraSmoothZoomControl)     | Set camera smooth zoom key to combine with mouse (free camera)
+| [SetCameraMoveControls](#SetCameraMoveControls)               | Set camera move controls (1st person and 3rd person cameras)
+
+
+| [Shapes](#Shapes)     | Description
+| :-------------------- | :------------
+|  --                   | --
+
+| [Textures](#Textures) | Description
+| :-------------------- | :------------
+|  --                   | --
+
+| [Text](#Text)         | Description
+| :-------------------- | :------------
+|  --                   | --
+
+
+| [Models](#Models)     | Description
+| :-------------------- | :------------
+|  --                   | --
+
+| [Shaders](#Shaders)   | Description
+| :-------------------- | :------------
+|  --                   | --
+
+
+| [Audio](#Audio)       | Description
+| :-------------------- | :------------
+|  --                   | --
+
+| [Classes](#Classes)               | Description
+| :--------------------             | :------------
+| [Vector2](#Vector2)               | Vector2 type
+| [Vector3](#Vector3)               | Vector3 type
+| [Vector4](#Vector4)               | Vector4 (Quaternion) type
+| [Matrix](#Matrix)                 | Matrix type (OpenGL style 4x4)
+| [Color](#Color)                   | Color type, RGBA (32bit)
+| [Rectangle](#Rectangle)           | Rectangle type
+| [Image](#Image)                   | Image type (multiple pixel formats supported), stored in CPU memory (RAM)
+| [Texture](#Texture)               | Texture type (multiple internal formats supported), stored in GPU memory (VRAM)
+| [RenderTexture](#RenderTexture)   | RenderTexture type, for texture rendering
+| [NPatchInfo](#NPatchInfo)         | N-Patch layout info
+| [CharInfo](#CharInfo)             | Font character info
+| [Font](#Font)                     | Font type, includes texture and chars data
+| [Camera](#Camera3D)               | Camera3D type, defines 3d camera position/orientation
+| [Camera2D](#Camera2D)             | Camera2D type, defines a 2d camera
+| [Mesh](#Mesh)                     | Vertex data definning a mesh
+| [Shader](#Shader)                 | Shader type (generic shader)
+| [MaterialMap](#MaterialMap)       | Material texture map
+| [Material](#Material)             | Material type
+| [Model](#Model)                   | Basic 3d Model type
+| [Transform](#Transform)           | Transformation (used for bones)
+| [BoneInfo](#BoneInfo)             | Bone information
+| [ModelAnimation](#ModelAnimation) | Model animation data (bones and frames)
+| [Ray](#Ray)                       | Ray type (useful for raycast)
+| [RayHitInfo](#RayHitInfo)         | Raycast hit information
+| [BoundingBox](#BoundingBox)       | Bounding box type for 3d mesh
+| [Wave](#Wave)                     | Wave type, defines audio wave data
+| [Sound](#Sound)                   | Basic Sound source and buffer
+| [Music](#Music)                   | Music type (file streaming from memory)
+| [AudioStream](#AudioStream)       | Raw audio stream type
+| [VrDeviceInfo](#VrDeviceInfo)     | VR device parameters
+
 */
 
 // Modules
@@ -1211,15 +1286,18 @@ int lua_core_SetConfigFlags(lua_State *L){
 rl.core.SetTraceLogLevel(string Mode)
 ```
 Set the current threshold (minimum) log level.
-Available Modes:
-* `"ALL"`     Set to run program in fullscreen
-* `"TRACE"`   Set to allow resizable window
-* `"DEBUG"`   Set to disable window decoration (frame and buttons)
-* `"INFO"`    Set to allow transparent window
-* `"WARNING"` Set to create the window initially hidden
-* `"ERROR"`   Set to allow windows running while minimized
-* `"FATAL"`   Set to try enabling MSAA 4X
-* `"NONE"`    Set to try enabling V-Sync on GPU
+
+| Mode       | Description                              |
+| :--------- | :--------------------------------------- |
+|`"ALL"`     | Trace all logging messages               |
+|`"TRACE"`   | Trace TRACE   and upper logging messages |
+|`"DEBUG"`   | Trace DEBUG   and upper logging messages |
+|`"INFO"`    | Trace INFO    and upper logging messages |
+|`"WARNING"` | Trace WARNING and upper logging messages |
+|`"ERROR"`   | Trace ERROR   and upper logging messages |
+|`"FATAL"`   | Trace FATAL   and upper logging messages |
+|`"NONE"`    | Trace no logging messages                |
+
 */
 
 int lua_core_SetTraceLogLevel(lua_State *L){
@@ -1245,15 +1323,18 @@ int lua_core_SetTraceLogLevel(lua_State *L){
 rl.core.SetTraceLogExit(string Mode)
 ```
 Set the exit threshold (minimum) log level.
-Available Modes:
-* `"ALL"`     Set to run program in fullscreen
-* `"TRACE"`   Set to allow resizable window
-* `"DEBUG"`   Set to disable window decoration (frame and buttons)
-* `"INFO"`    Set to allow transparent window
-* `"WARNING"` Set to create the window initially hidden
-* `"ERROR"`   Set to allow windows running while minimized
-* `"FATAL"`   Set to try enabling MSAA 4X
-* `"NONE"`    Set to try enabling V-Sync on GPU
+
+| Mode       | Description                               |
+| :--------- | :---------------------------------------- |
+|`"ALL"`     | Exit on any logging message               |
+|`"TRACE"`   | Exit on TRACE   and upper logging message |
+|`"DEBUG"`   | Exit on DEBUG   and upper logging message |
+|`"INFO"`    | Exit on INFO    and upper logging message |
+|`"WARNING"` | Exit on WARNING and upper logging message |
+|`"ERROR"`   | Exit on ERROR   and upper logging message |
+|`"FATAL"`   | Exit on FATAL   and upper logging message |
+|`"NONE"`    | No exit on logging messages               |
+
 */
 int lua_core_SetTraceLogExit(lua_State *L){
   int flag = LOG_NONE;
@@ -1285,7 +1366,9 @@ function Log(string logLevel, string Message)
   print(time .. " " .. logLevel .. ': ' .. Message)
 end
 ```
-logLevel is string constant `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"` or `"FATAL"`.
+logLevel is string constant
+`"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`,
+`"ERROR"` or `"FATAL"`.
 */
 
 lua_State * _lua_state;      // keeping lua_State that user for function
@@ -1329,7 +1412,11 @@ int lua_core_SetTraceLogCallback(lua_State *L){
 ```lua
 rl.core.TraceLog(string logLevel, string Message)
 ```
-Show trace log messages. logLevel is string constant `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"` or `"FATAL"`.
+Show trace log messages.
+logLevel is string constant 
+`"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, 
+`"ERROR"` or `"FATAL"`.
+`"DEBUG"` is default.
 */
 int lua_core_TraceLog(lua_State *L){
   const char * s     = luaL_checkstring(L, 1);
@@ -2819,4 +2906,3 @@ int luaopen_raylib_luamore(lua_State *L) {
   
   return 1;
 }
-

@@ -13,7 +13,7 @@
 
 #define luax_optnumber(L,  idx, default) lua_isnumber(L, idx) ? luaL_checknumber(L, idx)  : default
 #define luax_optinteger(L, idx, default) lua_isnumber(L, idx) ? luaL_checkinteger(L, idx) : default
-#define luax_optstring(L, idx, default)  lua_isstring(L, idx) ? luaL_checkstring(L, idx)  : default
+#define luax_optstring(L,  idx, default) lua_isstring(L, idx) ? luaL_checkstring(L, idx)  : default
 
 #define luax_typename(L, idx)  luaL_typename(L, idx)
 
@@ -86,8 +86,6 @@ int luaobject_isclass(lua_State * L, int index, const char * classname) {
 	return res;
 }
 
-
-
 void luax_pushfunctable(lua_State *L, luaL_Reg *func){
 	lua_newtable(L);
 	for (; func->name; func++) {
@@ -96,4 +94,3 @@ void luax_pushfunctable(lua_State *L, luaL_Reg *func){
 		lua_rawset(L, -3);
 	}
 }
-

@@ -1,6 +1,5 @@
 /*!MD
 # Classes
-
 ## Vector2
 ### Initialization
 ```lua
@@ -9,9 +8,8 @@ Vector2 Vec = rl.Vector2(number x, number y) --> vec2[x, y]
 Vector2 Vec = rl.Vector2(number x)           --> vec2[x, x]
 Vector2 Vec = rl.Vector2(table t)            --> vec2[ t[1], t[2] ]
 ```
-Creates new Vector2 object.
+Creates new Vector2 object
 */
-
 int lua_class_vector2_new(lua_State *L){
   Vector2 * v = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   if (lua_isnumber(L, 1)) {
@@ -42,7 +40,6 @@ Vector2 Vec2 = Vector2:clone()
 ```
 Clones Vector2 object.
 */
-
 int lua_class_vector2_Clone(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
@@ -2096,32 +2093,36 @@ Color Color = rl.Color(string Color)
 ```
 Creates new Color object.
 Available string colors:
-* `"lightgray"  -> { 200, 200, 200 }`
-* `"gray"       -> { 130, 130, 130 }`
-* `"darkgray"   -> { 80,  80,  80  }`
-* `"yellow"     -> { 253, 249, 0   }`
-* `"gold"       -> { 255, 203, 0   }`
-* `"orange"     -> { 255, 161, 0   }`
-* `"pink"       -> { 255, 109, 194 }`
-* `"red"        -> { 230, 41,  55  }`
-* `"maroon"     -> { 190, 33,  55  }`
-* `"green"      -> { 0,   228, 48  }`
-* `"lime"       -> { 0,   158, 47  }`
-* `"darkgreen"  -> { 0,   117, 44  }`
-* `"skyblue"    -> { 102, 191, 255 }`
-* `"blue"       -> { 0,   121, 241 }`
-* `"darkblue"   -> { 0,   82,  172 }`
-* `"purple"     -> { 200, 122, 255 }`
-* `"violet"     -> { 135, 60,  190 }`
-* `"darkpurple" -> { 112, 31,  126 }`
-* `"beige"      -> { 211, 176, 131 }`
-* `"brown"      -> { 127, 106, 79  }`
-* `"darkbrown"  -> { 76,  63,  47  }`
-* `"white"      -> { 255, 255, 255 }`
-* `"black"      -> { 0,   0,   0   }`
-* `"blank"      -> { 0,   0,   0   }`
-* `"magenta"    -> { 255, 0,   255 }`
-* `"raywhite"   -> { 245, 245, 245 }`
+
+| string name   | color value         | hexadecimal                                  |
+| :------------ | :------------------ | :--------------------------------------------|
+| `"lightgray"` | `{ 200, 200, 200 }` | <span style='color: #c8c8c8;'>#c8c8c8</span> |
+| `"gray"`      | `{ 130, 130, 130 }` | <span style='color: #828282;'>#828282</span> |
+| `"darkgray"`  | `{ 80,  80,  80  }` | <span style='color: #505050;'>#505050</span> |
+| `"yellow"`    | `{ 253, 249, 0   }` | <span style='color: #fdf900;'>#fdf900</span> |
+| `"gold"`      | `{ 255, 203, 0   }` | <span style='color: #ffcb00;'>#ffcb00</span> |
+| `"orange"`    | `{ 255, 161, 0   }` | <span style='color: #ffa100;'>#ffa100</span> |
+| `"pink"`      | `{ 255, 109, 194 }` | <span style='color: #ff6dc2;'>#ff6dc2</span> |
+| `"red"`       | `{ 230, 41,  55  }` | <span style='color: #e62937;'>#e62937</span> |
+| `"maroon"`    | `{ 190, 33,  55  }` | <span style='color: #be2137;'>#be2137</span> |
+| `"green"`     | `{ 0,   228, 48  }` | <span style='color: #00e430;'>#00e430</span> |
+| `"lime"`      | `{ 0,   158, 47  }` | <span style='color: #009e2f;'>#009e2f</span> |
+| `"darkgreen"` | `{ 0,   117, 44  }` | <span style='color: #00752c;'>#00752c</span> |
+| `"skyblue"`   | `{ 102, 191, 255 }` | <span style='color: #66bfff;'>#66bfff</span> |
+| `"blue"`      | `{ 0,   121, 241 }` | <span style='color: #0079f1;'>#0079f1</span> |
+| `"darkblue"`  | `{ 0,   82,  172 }` | <span style='color: #0052ac;'>#0052ac</span> |
+| `"purple"`    | `{ 200, 122, 255 }` | <span style='color: #c87aff;'>#c87aff</span> |
+| `"violet"`    | `{ 135, 60,  190 }` | <span style='color: #873cbe;'>#873cbe</span> |
+| `"darkpurple"`| `{ 112, 31,  126 }` | <span style='color: #701f7e;'>#701f7e</span> |
+| `"beige"`     | `{ 211, 176, 131 }` | <span style='color: #d3b083;'>#d3b083</span> |
+| `"brown"`     | `{ 127, 106, 79  }` | <span style='color: #7f6a4f;'>#7f6a4f</span> |
+| `"darkbrown"` | `{ 76,  63,  47  }` | <span style='color: #4c3f2f;'>#4c3f2f</span> |
+| `"white"`     | `{ 255, 255, 255 }` | <span style='color: #ffffff;'>#ffffff</span> |
+| `"black"`     | `{ 0,   0,   0   }` | <span style='color: #000000;'>#000000</span> |
+| `"blank"`     | `{ 0,   0,   0   }` | <span style='color: #000000;'>#000000</span> |
+| `"magenta"`   | `{ 255, 0,   255 }` | <span style='color: #ff00ff;'>#ff00ff</span> |
+| `"raywhite"`  | `{ 245, 245, 245 }` | <span style='color: #f5f5f5;'>#f5f5f5</span> |
+
 */
 int lua_class_color_new(lua_State *L){
   Color * c = (Color *)luax_newobject(L, "Color", sizeof(Color));
@@ -2138,31 +2139,31 @@ int lua_class_color_new(lua_State *L){
 
   if (lua_type(L, 1) == LUA_TSTRING) {
     const char * s = luaL_checkstring(L, 1);
-         if (!strcmp(s, "lightgray"))  memcpy(c, &LIGHTGRAY,  sizeof(Color));
-    else if (!strcmp(s, "gray"))       memcpy(c, &GRAY,       sizeof(Color));
-    else if (!strcmp(s, "darkgray"))   memcpy(c, &DARKGRAY,   sizeof(Color));
-    else if (!strcmp(s, "yellow"))     memcpy(c, &YELLOW,     sizeof(Color));
-    else if (!strcmp(s, "gold"))       memcpy(c, &GOLD,       sizeof(Color));
-    else if (!strcmp(s, "orange"))     memcpy(c, &ORANGE,     sizeof(Color));
-    else if (!strcmp(s, "pink"))       memcpy(c, &PINK,       sizeof(Color));
-    else if (!strcmp(s, "red"))        memcpy(c, &RED,        sizeof(Color));
-    else if (!strcmp(s, "maroon"))     memcpy(c, &MAROON,     sizeof(Color));
-    else if (!strcmp(s, "green"))      memcpy(c, &GREEN,      sizeof(Color));
-    else if (!strcmp(s, "lime"))       memcpy(c, &LIME,       sizeof(Color));
-    else if (!strcmp(s, "darkgreen"))  memcpy(c, &DARKGREEN,  sizeof(Color));
-    else if (!strcmp(s, "skyblue"))    memcpy(c, &SKYBLUE,    sizeof(Color));
-    else if (!strcmp(s, "blue"))       memcpy(c, &BLUE,       sizeof(Color));
-    else if (!strcmp(s, "darkblue"))   memcpy(c, &DARKBLUE,   sizeof(Color));
-    else if (!strcmp(s, "purple"))     memcpy(c, &PURPLE,     sizeof(Color));
-    else if (!strcmp(s, "violet"))     memcpy(c, &VIOLET,     sizeof(Color));
-    else if (!strcmp(s, "darkpurple")) memcpy(c, &DARKPURPLE, sizeof(Color));
-    else if (!strcmp(s, "beige"))      memcpy(c, &BEIGE,      sizeof(Color));
-    else if (!strcmp(s, "brown"))      memcpy(c, &BROWN,      sizeof(Color));
-    else if (!strcmp(s, "darkbrown"))  memcpy(c, &DARKBROWN,  sizeof(Color));
-    else if (!strcmp(s, "black"))      memcpy(c, &BLACK,      sizeof(Color));
-    else if (!strcmp(s, "blank"))      memcpy(c, &BLANK,      sizeof(Color));
-    else if (!strcmp(s, "magenta"))    memcpy(c, &MAGENTA,    sizeof(Color));
-    else if (!strcmp(s, "raywhite"))   memcpy(c, &RAYWHITE,   sizeof(Color));
+         if (!strcmp(s, "lightgray"))  *c = LIGHTGRAY;
+    else if (!strcmp(s, "gray"))       *c = GRAY;
+    else if (!strcmp(s, "darkgray"))   *c = DARKGRAY;
+    else if (!strcmp(s, "yellow"))     *c = YELLOW;
+    else if (!strcmp(s, "gold"))       *c = GOLD;
+    else if (!strcmp(s, "orange"))     *c = ORANGE;
+    else if (!strcmp(s, "pink"))       *c = PINK;
+    else if (!strcmp(s, "red"))        *c = RED;
+    else if (!strcmp(s, "maroon"))     *c = MAROON;
+    else if (!strcmp(s, "green"))      *c = GREEN;
+    else if (!strcmp(s, "lime"))       *c = LIME;
+    else if (!strcmp(s, "darkgreen"))  *c = DARKGREEN;
+    else if (!strcmp(s, "skyblue"))    *c = SKYBLUE;
+    else if (!strcmp(s, "blue"))       *c = BLUE;
+    else if (!strcmp(s, "darkblue"))   *c = DARKBLUE;
+    else if (!strcmp(s, "purple"))     *c = PURPLE;
+    else if (!strcmp(s, "violet"))     *c = VIOLET;
+    else if (!strcmp(s, "darkpurple")) *c = DARKPURPLE;
+    else if (!strcmp(s, "beige"))      *c = BEIGE;
+    else if (!strcmp(s, "brown"))      *c = BROWN;
+    else if (!strcmp(s, "darkbrown"))  *c = DARKBROWN;
+    else if (!strcmp(s, "black"))      *c = BLACK;
+    else if (!strcmp(s, "blank"))      *c = BLANK;
+    else if (!strcmp(s, "magenta"))    *c = MAGENTA;
+    else if (!strcmp(s, "raywhite"))   *c = RAYWHITE;
     return 1;
   }
 
