@@ -1,6 +1,6 @@
 #include "main.h"
 #include "classes.h"
-
+#include "enums.h"
 
 /*!MD
 ## Table of content
@@ -116,8 +116,8 @@
 | [IsKeyReleased](#IsKeyReleased)                               | Detect if a key has been released once
 | [IsKeyUp](#IsKeyUp)                                           | Detect if a key is NOT being pressed
 | [GetKeyPressed](#GetKeyPressed)                               | Get latest key pressed (scancode)
-| [GetKeyPressedString](#GetKeyPressedString)                   | Get latest key pressed (utf8)
-| [GetAllKeysPressedString](#GetAllKeysPressedString)           | Get all latest keys pressed (utf8)
+| [GetKeyPressedString](#GetKeyPressedString)                   | Get latest key pressed (UTF-8 encoded)
+| [GetAllKeysPressedString](#GetAllKeysPressedString)           | Get all latest keys pressed (UTF-8 encoded)
 | [SetExitKey](#SetExitKey)                                     | Set a custom key to exit program (default is ESC)
 | **Input-related functions: gamepads**                         | 
 | [IsGamepadAvailable](#IsGamepadAvailable)                     | Detect if a gamepad is available
@@ -744,7 +744,7 @@ int lua_core_ClearBackground(lua_State *L){
 ```lua
 rl.core.BeginDrawing()
 ```
-Setup canvas (framebuffer) to start drawing
+Setup canvas (framebuffer) to start drawing.
 */
 int lua_core_BeginDrawing(lua_State *L){
   BeginDrawing();
@@ -1011,7 +1011,7 @@ int lua_core_SetTargetFPS(lua_State *L){
 ```lua
 integer FPS = Matrix rl.core.GetFPS()
 ```
-Returns current FPS
+Returns current FPS.
 */
 int lua_core_GetFPS(lua_State *L){
   lua_pushinteger(L, GetFPS());
@@ -1023,7 +1023,7 @@ int lua_core_GetFPS(lua_State *L){
 ```lua
 float DT = Matrix rl.core.GetFrameTime()
 ```
-Returns time in seconds for last frame drawn
+Returns time in seconds for last frame drawn.
 */
 int lua_core_GetFrameTime(lua_State *L){
   lua_pushnumber(L, GetFrameTime());
@@ -1035,7 +1035,7 @@ int lua_core_GetFrameTime(lua_State *L){
 ```lua
 float Time = Matrix rl.core.GetTime()
 ```
-Returns elapsed time in seconds since InitWindow()
+Returns elapsed time in seconds since InitWindow().
 */
 int lua_core_GetTime(lua_State *L){
   lua_pushnumber(L, GetTime());
@@ -1048,7 +1048,7 @@ int lua_core_GetTime(lua_State *L){
 ```lua
 integer iColor = rl.core.ColorToInt(Color Color)
 ```
-Returns hexadecimal value for a Color
+Returns hexadecimal value for a Color.
 */
 int lua_core_ColorToInt(lua_State *L){
   Color * c = luaL_checkudata(L, 1, "Color");
@@ -1065,7 +1065,7 @@ integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Co
 table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
 Returns color normalized as float [0..1].
-See [Vector4](#Vector4), [Color](#Color)
+See [Vector4](#Vector4), [Color](#Color).
 */
 int lua_core_ColorNormalize(lua_State *L){
   Color   * c = luaL_checkudata(L, 1, "Color");
@@ -1104,7 +1104,7 @@ Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
 Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
 Returns color from normalized values [0..1].
-See [Vector4](#Vector4), [Color](#Color)
+See [Vector4](#Vector4), [Color](#Color).
 */
 int lua_core_ColorFromNormalized(lua_State *L){
   Color * c = luax_newobject(L, "Color", sizeof(Color));
@@ -1144,7 +1144,7 @@ float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
 table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
 Returns HSV values for a Color.
-See [Vector3](#Vector3), [Color](#Color)
+See [Vector3](#Vector3), [Color](#Color).
 */
 int lua_core_ColorToHSV(lua_State *L){
   Color   * c = luaL_checkudata(L, 1, "Color");
@@ -1180,7 +1180,7 @@ Color Color = rl.core.ColorFromHSV(float H, float S, float V)
 Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
 Returns a Color from HSV values.
-See [Vector3](#Vector3), [Color](#Color)
+See [Vector3](#Vector3), [Color](#Color).
 */
 int lua_core_ColorFromHSV(lua_State *L){
   Color   * c = luax_newobject(L, "Color", sizeof(Color));
@@ -1249,15 +1249,16 @@ int lua_core_Fade(lua_State *L){
 rl.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
 ```
 Setup window configuration flags
-Available flags:
-* `"FULLSCREEN_MODE"`    Set to run program in fullscreen
-* `"WINDOW_RESIZABLE"`   Set to allow resizable window
-* `"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
-* `"WINDOW_TRANSPARENT"` Set to allow transparent window
-* `"WINDOW_HIDDEN"`      Set to create the window initially hidden
-* `"WINDOW_ALWAYS_RUN"`  Set to allow windows running while minimized
-* `"MSAA_4X_HINT"`       Set to try enabling MSAA 4X
-* `"VSYNC_HINT"`         Set to try enabling V-Sync on GPU
+| Available flags:       | Description
+| :--------------------- | :-------------
+| `"FULLSCREEN_MODE"`    | Set to run program in fullscreen
+| `"WINDOW_RESIZABLE"`   | Set to allow resizable window
+| `"WINDOW_UNDECORATED"` | Set to disable window decoration (frame and buttons)
+| `"WINDOW_TRANSPARENT"` | Set to allow transparent window
+| `"WINDOW_HIDDEN"`      | Set to create the window initially hidden
+| `"WINDOW_ALWAYS_RUN"`  | Set to allow windows running while minimized
+| `"MSAA_4X_HINT"`       | Set to try enabling MSAA 4X
+| `"VSYNC_HINT"`         | Set to try enabling V-Sync on GPU
 */
 
 int lua_core_SetConfigFlags(lua_State *L){
@@ -1297,7 +1298,6 @@ Set the current threshold (minimum) log level.
 |`"ERROR"`   | Trace ERROR   and upper logging messages |
 |`"FATAL"`   | Trace FATAL   and upper logging messages |
 |`"NONE"`    | Trace no logging messages                |
-
 */
 
 int lua_core_SetTraceLogLevel(lua_State *L){
@@ -1334,7 +1334,6 @@ Set the exit threshold (minimum) log level.
 |`"ERROR"`   | Exit on ERROR   and upper logging message |
 |`"FATAL"`   | Exit on FATAL   and upper logging message |
 |`"NONE"`    | No exit on logging messages               |
-
 */
 int lua_core_SetTraceLogExit(lua_State *L){
   int flag = LOG_NONE;
@@ -1371,11 +1370,11 @@ logLevel is string constant
 `"ERROR"` or `"FATAL"`.
 */
 
-lua_State * _lua_state;      // keeping lua_State that user for function
+lua_State * _lua_state;      // keeping lua_State that called SetTraceLogCallback
 int         _lua_trace_ref;  // and reference to callback function
 
-// va_list are unused because we can't generate va_list dynamicly by Lua
-void _lua_callback(int logType, const char * text, va_list args ){
+// This function will be called by C, and it should call Lua function.
+void _lua_callback(int logType, const char * format, va_list args ){
   if (!_lua_trace_ref || !_lua_state) return;
   const char * level = "DEBUG";
        if (logType == LOG_TRACE)   level = "TRACE";
@@ -1384,10 +1383,13 @@ void _lua_callback(int logType, const char * text, va_list args ){
   else if (logType == LOG_WARNING) level = "WARNING";
   else if (logType == LOG_ERROR)   level = "ERROR";
   else if (logType == LOG_FATAL)   level = "FATAL";
+  
+  char buffer[128] = {0}; // MAX_TRACELOG_BUFFER_SIZE
+  vsprintf(buffer, format, args);
 
   lua_rawgeti(_lua_state, LUA_REGISTRYINDEX, _lua_trace_ref);
   lua_pushstring(_lua_state, level);
-  lua_pushstring(_lua_state, text);
+  lua_pushstring(_lua_state, buffer);
   lua_call(_lua_state, 2, 0);
 }
 
@@ -1416,11 +1418,15 @@ Show trace log messages.
 logLevel is string constant 
 `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, 
 `"ERROR"` or `"FATAL"`.
+
 `"DEBUG"` is default.
 */
 int lua_core_TraceLog(lua_State *L){
+  int len;
   const char * s     = luaL_checkstring(L, 1);
-  const char * text  = luaL_checkstring(L, 2);
+  const char * text  = luaL_checklstring(L, 2, &len);
+  if (len > 128 - 10) return 0; // MAX_TRACELOG_BUFFER_SIZE overflow
+
   int flag = LOG_DEBUG;
          if (!strcmp(s, "TRACE"))   flag = LOG_TRACE;
     else if (!strcmp(s, "DEBUG"))   flag = LOG_DEBUG;
@@ -1592,7 +1598,7 @@ int lua_core_GetWorkingDirectory(lua_State *L){
 table Files = rl.core.GetDirectoryFiles(string DirectoryPath)
 ```
 Get filenames in a directory path. [ClearDirectoryFiles](#ClearDirectoryFiles) is called automatically.
-Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`
+Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`.
 */
 int lua_core_GetDirectoryFiles(lua_State *L){
   const char * dpath = luaL_checkstring(L, 1);
@@ -1649,14 +1655,14 @@ int lua_core_IsFileDropped(lua_State *L){
 table Files = rl.core.GetDroppedFiles()
 ```
 Get dropped files names. [ClearDroppedFiles](#ClearDroppedFiles) is called automatically.
-Table Files contains string names like `{"file1.png", "file2.lua", ...}`
+Table Files contains string names like `{"file1.png", "file2.lua", ...}`.
 */
 int lua_core_GetDroppedFiles(lua_State *L){
   int count;
   char ** files = GetDroppedFiles(&count);
   lua_newtable(L);
   for (int i = 0; i < count; i++) {
-      luax_tsstring(L, i + 1, files[i]);
+      luax_tnstring(L, i + 1, files[i]);
   }
   ClearDroppedFiles();
   return 1;
@@ -1733,7 +1739,7 @@ Compress data (DEFLATE algorythm).
 */
 int lua_core_CompressData(lua_State *L){
   int srclen, dstlen;
-  unsigned char * src = luaL_checklstring(L, 1, &srclen);
+  unsigned char * src = (unsigned char *)luaL_checklstring(L, 1, &srclen);
   unsigned char * dst = CompressData(src, srclen, &dstlen);
   if (!dst){
     lua_pushnil(L);
@@ -1753,7 +1759,7 @@ Deompress data (DEFLATE algorythm).
 */
 int lua_core_DecompressData(lua_State *L){
   int srclen, dstlen;
-  unsigned char * src = luaL_checklstring(L, 1, &srclen);
+  unsigned char * src = (unsigned char *)luaL_checklstring(L, 1, &srclen);
   unsigned char * dst = DecompressData(src, srclen, &dstlen);
   if (!dst){
     lua_pushnil(L);
@@ -1783,7 +1789,7 @@ int lua_core_OpenURL(lua_State *L){
 ```lua
 rl.core.StorageSaveValue(integer Position, integer Value)
 ```
-Save integer value to storage file (to defined position)
+Save integer value to storage file (to defined position).
 */
 int lua_core_StorageSaveValue(lua_State *L){
   int key   = luaL_checkinteger(L, 1);
@@ -1797,7 +1803,7 @@ int lua_core_StorageSaveValue(lua_State *L){
 ```lua
 integer Value = rl.core.StorageLoadValue(integer Position)
 ```
-Load integer value from storage file (from defined position)
+Load integer value from storage file (from defined position).
 */
 int lua_core_StorageLoadValue(lua_State *L){
   int key = luaL_checkinteger(L, 1);
@@ -1811,10 +1817,10 @@ int lua_core_StorageLoadValue(lua_State *L){
 ```lua
 boolean State = rl.core.IsKeyPressed(integer Key)
 ```
-Detect if a key has been pressed once
+Detect if a key has been pressed once.
 */
 int lua_core_IsKeyPressed(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   lua_pushboolean(L, IsKeyPressed(key));
   return 1;
 }
@@ -1824,10 +1830,10 @@ int lua_core_IsKeyPressed(lua_State *L){
 ```lua
 boolean State = rl.core.IsKeyDown(integer Key)
 ```
-Detect if a key is being pressed
+Detect if a key is being pressed.
 */
 int lua_core_IsKeyDown(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   lua_pushboolean(L, IsKeyDown(key));
   return 1;
 }
@@ -1837,10 +1843,10 @@ int lua_core_IsKeyDown(lua_State *L){
 ```lua
 boolean State = rl.core.IsKeyReleased(integer Key)
 ```
-Detect if a key has been released once
+Detect if a key has been released once.
 */
 int lua_core_IsKeyReleased(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   lua_pushboolean(L, IsKeyReleased(key));
   return 1;
 }
@@ -1850,10 +1856,10 @@ int lua_core_IsKeyReleased(lua_State *L){
 ```lua
 boolean State = rl.core.IsKeyUp(integer Key)
 ```
-Detect if a key is NOT being pressed
+Detect if a key is NOT being pressed.
 */
 int lua_core_IsKeyUp(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   lua_pushboolean(L, IsKeyUp(key));
   return 1;
 }
@@ -1863,7 +1869,7 @@ int lua_core_IsKeyUp(lua_State *L){
 ```lua
 integer Key = rl.core.GetKeyPressed()
 ```
-Get latest key scancode pressed
+Get latest key scancode pressed.
 */
 int lua_core_GetKeyPressed(lua_State *L){
   int key = GetKeyPressed();
@@ -1877,7 +1883,7 @@ int lua_core_GetKeyPressed(lua_State *L){
 ```lua
 string Char = rl.core.GetKeyPressedString()
 ```
-Get user input utf8-string char
+Get user input UTF-8 encoded string char.
 */
 int lua_core_GetKeyPressedString(lua_State *L){
   int len;
@@ -1893,7 +1899,7 @@ int lua_core_GetKeyPressedString(lua_State *L){
 ```lua
 string Text = rl.core.GetAllKeysPressedString()
 ```
-Get all user utf8-input chars
+Get all user UTF-8 encoded string input chars.
 */
 int lua_core_GetAllKeysPressedString(lua_State *L){
   int codepoints[20]; // max codepoint count per one GetKeyPressed
@@ -1905,10 +1911,15 @@ int lua_core_GetAllKeysPressedString(lua_State *L){
     if (len == 20) break;
     key = GetKeyPressed();
   }
-  if (!len) return 0;
-  char * tutf8 = TextToUtf8(&codepoints, len);
-  lua_pushstring(L, tutf8);
-  RL_FREE(tutf8);
+
+  if (!len){
+    lua_pushnil(L);
+    return 1;
+  }
+
+  char * text = TextToUtf8(&codepoints, len);
+  lua_pushstring(L, text);
+  free(text);
   return 1;
 }
 
@@ -1917,10 +1928,10 @@ int lua_core_GetAllKeysPressedString(lua_State *L){
 ```lua
 rl.core.SetExitKey(integer Key)
 ```
-Set a custom key to exit program (default is ESC)
+Set a custom key to exit program (default is ESC).
 */
 int lua_core_SetExitKey(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   SetExitKey(key);
   return 0;
 }
@@ -1931,7 +1942,7 @@ int lua_core_SetExitKey(lua_State *L){
 ```lua
 boolean State = rl.core.IsGamepadAvailable(integer Gamepad)
 ```
-Detect if a gamepad is available
+Detect if a gamepad is available.
 */
 int lua_core_IsGamepadAvailable(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -1944,7 +1955,7 @@ int lua_core_IsGamepadAvailable(lua_State *L){
 ```lua
 boolean State = rl.core.IsGamepadName(integer Gamepad, string GamepadName)
 ```
-Check gamepad name (if available)
+Check gamepad name (if available).
 */
 int lua_core_IsGamepadName(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -1958,7 +1969,7 @@ int lua_core_IsGamepadName(lua_State *L){
 ```lua
 string GamepadName = rl.core.GetGamepadName(integer Gamepad)
 ```
-Check gamepad name (if available)
+Check gamepad name (if available).
 */
 int lua_core_GetGamepadName(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -1971,7 +1982,7 @@ int lua_core_GetGamepadName(lua_State *L){
 ```lua
 boolean Status = rl.core.IsGamepadButtonPressed(integer Gamepad)
 ```
-Detect if a gamepad button has been pressed once
+Detect if a gamepad button has been pressed once.
 */
 int lua_core_IsGamepadButtonPressed(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -1985,7 +1996,7 @@ int lua_core_IsGamepadButtonPressed(lua_State *L){
 ```lua
 boolean Status = rl.core.IsGamepadButtonDown(integer Gamepad)
 ```
-Detect if a gamepad button is being pressed
+Detect if a gamepad button is being pressed.
 */
 int lua_core_IsGamepadButtonDown(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -1999,7 +2010,7 @@ int lua_core_IsGamepadButtonDown(lua_State *L){
 ```lua
 boolean Status = rl.core.IsGamepadButtonReleased(integer Gamepad)
 ```
-Detect if a gamepad button has been released once
+Detect if a gamepad button has been released once.
 */
 int lua_core_IsGamepadButtonReleased(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -2013,7 +2024,7 @@ int lua_core_IsGamepadButtonReleased(lua_State *L){
 ```lua
 boolean Status = rl.core.IsGamepadButtonUp(integer Gamepad)
 ```
-Detect if a gamepad button is NOT being pressed
+Detect if a gamepad button is NOT being pressed.
 */
 int lua_core_IsGamepadButtonUp(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -2027,7 +2038,7 @@ int lua_core_IsGamepadButtonUp(lua_State *L){
 ```lua
 integer Key = rl.core.GetGamepadButtonPressed()
 ```
-Get the last gamepad button pressed
+Get the last gamepad button pressed.
 */
 int lua_core_GetGamepadButtonPressed(lua_State *L){
   lua_pushnumber(L, GetGamepadButtonPressed());
@@ -2039,7 +2050,7 @@ int lua_core_GetGamepadButtonPressed(lua_State *L){
 ```lua
 integer Count = rl.core.GetGamepadAxisCount()
 ```
-Return gamepad axis count for a gamepad
+Return gamepad axis count for a gamepad.
 */
 int lua_core_GetGamepadAxisCount(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -2052,7 +2063,7 @@ int lua_core_GetGamepadAxisCount(lua_State *L){
 ```lua
 float Movement = rl.core.GetGamepadAxisMovement(integer Gamepad)
 ```
-Return axis movement value for a gamepad axis
+Return axis movement value for a gamepad axis.
 */
 int lua_core_GetGamepadAxisMovement(lua_State *L){
   int gamepad = luaL_checkinteger(L, 1);
@@ -2067,7 +2078,7 @@ int lua_core_GetGamepadAxisMovement(lua_State *L){
 ```lua
 boolean State = rl.core.IsMouseButtonPressed(integer Button)
 ```
-Detect if a mouse button has been pressed once
+Detect if a mouse button has been pressed once.
 */
 int lua_core_IsMouseButtonPressed(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
@@ -2080,7 +2091,7 @@ int lua_core_IsMouseButtonPressed(lua_State *L){
 ```lua
 boolean State = rl.core.IsMouseButtonDown(integer Button)
 ```
-Detect if a mouse button is being pressed
+Detect if a mouse button is being pressed.
 */
 int lua_core_IsMouseButtonDown(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
@@ -2093,7 +2104,7 @@ int lua_core_IsMouseButtonDown(lua_State *L){
 ```lua
 boolean State = rl.core.IsMouseButtonReleased(integer Button)
 ```
-Detect if a mouse button has been released once
+Detect if a mouse button has been released once.
 */
 int lua_core_IsMouseButtonReleased(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
@@ -2106,7 +2117,7 @@ int lua_core_IsMouseButtonReleased(lua_State *L){
 ```lua
 boolean State = rl.core.IsMouseButtonUp(integer Button)
 ```
-Detect if a mouse button is NOT being pressed
+Detect if a mouse button is NOT being pressed.
 */
 int lua_core_IsMouseButtonUp(lua_State *L){
   int button  = luaL_checkinteger(L, 1);
@@ -2119,7 +2130,7 @@ int lua_core_IsMouseButtonUp(lua_State *L){
 ```lua
 integer X = rl.core.GetMouseX()
 ```
-Returns mouse position X
+Returns mouse position X.
 */
 int lua_core_GetMouseX(lua_State *L){
   lua_pushnumber(L, GetMouseX());
@@ -2131,7 +2142,7 @@ int lua_core_GetMouseX(lua_State *L){
 ```lua
 integer Y = rl.core.GetMouseY()
 ```
-Returns mouse position Y
+Returns mouse position Y.
 */
 int lua_core_GetMouseY(lua_State *L){
   lua_pushnumber(L, GetMouseY());
@@ -2145,7 +2156,7 @@ int lua_core_GetMouseY(lua_State *L){
 Vector2 Position     = rl.core.GetMousePosition()
 integer X, integer Y = rl.core.GetMousePosition('n')
 ```
-Returns mouse position XY
+Returns mouse position XY.
 */
 int lua_core_GetMousePosition(lua_State *L){
   if (luax_optstring(L, 1, "\0")[0] == 'n') {
@@ -2165,7 +2176,7 @@ int lua_core_GetMousePosition(lua_State *L){
 rl.core.SetMousePosition(Vector2 Position)
 rl.core.SetMousePosition(integer X, integer Y)
 ```
-Set mouse position XY
+Set mouse position XY.
 */
 int lua_core_SetMousePosition(lua_State *L){
   if (luax_checkclass(L, 1, "Vector2")){
@@ -2186,7 +2197,7 @@ int lua_core_SetMousePosition(lua_State *L){
 rl.core.SetMouseOffset(Vector2 Offset)
 rl.core.SetMouseOffset(integer X, integer Y)
 ```
-Set mouse offset
+Set mouse offset.
 */
 int lua_core_SetMouseOffset(lua_State *L){
   if (luax_checkclass(L, 1, "Vector2")){
@@ -2207,7 +2218,7 @@ int lua_core_SetMouseOffset(lua_State *L){
 rl.core.SetMouseScale(Vector2 Scale)
 rl.core.SetMouseScale(integer X, integer Y)
 ```
-Set mouse scaling
+Set mouse scaling.
 */
 int lua_core_SetMouseScale(lua_State *L){
   if (luax_checkclass(L, 1, "Vector2")){
@@ -2227,7 +2238,7 @@ int lua_core_SetMouseScale(lua_State *L){
 -- variants
 integer WheelMove = rl.core.GetMouseWheelMove()
 ```
-Returns mouse wheel movement Y
+Returns mouse wheel movement Y.
 */
 int lua_core_GetMouseWheelMove(lua_State *L){
   lua_pushnumber(L, GetMouseWheelMove());
@@ -2240,7 +2251,7 @@ int lua_core_GetMouseWheelMove(lua_State *L){
 ```lua
 integer X = rl.core.GetTouchX()
 ```
-Returns touch position X for touch point 1 (relative to screen size)
+Returns touch position X for touch point 1 (relative to screen size).
 */
 int lua_core_GetTouchX(lua_State *L){
   lua_pushnumber(L, GetTouchX());
@@ -2252,7 +2263,7 @@ int lua_core_GetTouchX(lua_State *L){
 ```lua
 integer Y = rl.core.GetTouchY()
 ```
-Returns touch position Y for touch point 1 (relative to screen size)
+Returns touch position Y for touch point 1 (relative to screen size).
 */
 int lua_core_GetTouchY(lua_State *L){
   lua_pushnumber(L, GetTouchY());
@@ -2264,7 +2275,7 @@ int lua_core_GetTouchY(lua_State *L){
 ```lua
 integer X, integer Y = rl.core.GetTouch()
 ```
-Returns touch position XY for a touch point 1 (relative to screen size)
+Returns touch position XY for a touch point 1 (relative to screen size).
 */
 int lua_core_GetTouch(lua_State *L){
   lua_pushnumber(L, GetTouchX());
@@ -2279,7 +2290,7 @@ int lua_core_GetTouch(lua_State *L){
 Vector2 Position     = rl.core.GetTouchPosition(integer Index)
 integer X, integer Y = rl.core.GetTouchPosition(integer Index, 'n')
 ```
-Returns touch position XY for a touch point index (relative to screen size)
+Returns touch position XY for a touch point index (relative to screen size).
 */
 int lua_core_GetTouchPosition(lua_State *L){
   int touch = luaL_checkinteger(L, 1);
@@ -2301,7 +2312,7 @@ int lua_core_GetTouchPosition(lua_State *L){
 table Touches = rl.core.GetTouches(integer Index)      -- {Vector2 t1, Vector2 t2, ...}
 table Touches = rl.core.GetTouches(integer Index, 'n') -- {{integer X1, integer Y1}, {integer X2, integer Y2}, ...}
 ```
-Returns all touches positions XY (relative to screen size)
+Returns all touches positions XY (relative to screen size).
 */
 int lua_core_GetTouches(lua_State *L){
   lua_newtable(L); // result
@@ -2470,7 +2481,7 @@ int lua_core_GetGestureDetected(lua_State *L){
 ```lua
 integer Count = rl.core.GetTouchPointsCount()
 ```
-Get touch points count
+Get touch points count.
 */
 int lua_core_GetTouchPointsCount(lua_State *L){
   lua_pushnumber(L, GetTouchPointsCount());
@@ -2482,7 +2493,7 @@ int lua_core_GetTouchPointsCount(lua_State *L){
 ```lua
 float Duration = rl.core.GetGestureHoldDuration()
 ```
-Get gesture hold time in milliseconds
+Get gesture hold time in milliseconds.
 */
 int lua_core_GetGestureHoldDuration(lua_State *L){
   lua_pushnumber(L, GetGestureHoldDuration());
@@ -2496,7 +2507,7 @@ int lua_core_GetGestureHoldDuration(lua_State *L){
 Vector2 DragVector     = rl.core.GetGestureDragVector()
 integer vX, integer vY = rl.core.GetGestureDragVector('n')
 ```
-Get gesture drag vector
+Get gesture drag vector.
 */
 int lua_core_GetGestureDragVector(lua_State *L){
   Vector2 v = GetGestureDragVector();
@@ -2515,7 +2526,7 @@ int lua_core_GetGestureDragVector(lua_State *L){
 ```lua
 float Angle = rl.core.GetGestureDragAngle()
 ```
-Get gesture drag angle
+Get gesture drag angle.
 */
 int lua_core_GetGestureDragAngle(lua_State *L){
   lua_pushnumber(L, GetGestureDragAngle());
@@ -2529,7 +2540,7 @@ int lua_core_GetGestureDragAngle(lua_State *L){
 Vector2 PinchVector    = rl.core.GetGesturePinchVector()
 integer dX, integer dY = rl.core.GetGesturePinchVector('n')
 ```
-Get gesture pinch delta
+Get gesture pinch delta.
 */
 int lua_core_GetGesturePinchVector(lua_State *L){
   Vector2 v = GetGesturePinchVector();
@@ -2548,7 +2559,7 @@ int lua_core_GetGesturePinchVector(lua_State *L){
 ```lua
 float Angle = rl.core.GetGesturePinchAngle()
 ```
-Get gesture pinch angle
+Get gesture pinch angle.
 */
 int lua_core_GetGesturePinchAngle(lua_State *L){
   lua_pushnumber(L, GetGesturePinchAngle());
@@ -2561,7 +2572,7 @@ int lua_core_GetGesturePinchAngle(lua_State *L){
 ```lua
 rl.core.SetCameraMode(Camera3D Camera, string Mode)
 ```
-Set camera mode. Availabke modes: 
+Set camera mode. Available modes: 
 * `"CUSTOM"` - default
 * `"FREE"`
 * `"ORBITAL"`
@@ -2590,7 +2601,7 @@ int lua_core_SetCameraMode(lua_State *L){
 ```lua
 rl.core.UpdateCamera(Camera3D Camera)
 ```
-Update camera position for selected mode
+Update camera position for selected mode.
 */
 int lua_core_UpdateCamera(lua_State *L){
   Camera3D * c = luaL_checkudata(L, 1, "Camera3D");
@@ -2603,10 +2614,10 @@ int lua_core_UpdateCamera(lua_State *L){
 ```lua
 rl.core.SetCameraPanControl(integer panKey)
 ```
-Set camera pan key to combine with mouse movement (free camera)
+Set camera pan key to combine with mouse movement (free camera).
 */
 int lua_core_SetCameraPanControl(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   SetCameraPanControl(key);
   return 0;
 }
@@ -2616,10 +2627,10 @@ int lua_core_SetCameraPanControl(lua_State *L){
 ```lua
 rl.core.SetCameraAltControl(integer altKey)
 ```
-Set camera alt key to combine with mouse movement (free camera)
+Set camera alt key to combine with mouse movement (free camera).
 */
 int lua_core_SetCameraAltControl(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   SetCameraAltControl(key);
   return 0;
 }
@@ -2629,10 +2640,10 @@ int lua_core_SetCameraAltControl(lua_State *L){
 ```lua
 rl.core.SetCameraSmoothZoomControl(integer szKey)
 ```
-Set camera smooth zoom key to combine with mouse (free camera)
+Set camera smooth zoom key to combine with mouse (free camera).
 */
 int lua_core_SetCameraSmoothZoomControl(lua_State *L){
-  int key = luaL_checkinteger(L, 1);
+  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
   SetCameraSmoothZoomControl(key);
   return 0;
 }
@@ -2642,15 +2653,15 @@ int lua_core_SetCameraSmoothZoomControl(lua_State *L){
 ```lua
 rl.core.SetCameraMoveControls(integer frontKey, integer backKey, integer rightKey, integer leftKey, integer upKey, integer downKey)
 ```
-Set camera move controls (1st person and 3rd person cameras)
+Set camera move controls (1st person and 3rd person cameras).
 */
 int lua_core_SetCameraMoveControls(lua_State *L){
-  int front = luaL_checkinteger(L, 1);
-  int back  = luaL_checkinteger(L, 2);
-  int right = luaL_checkinteger(L, 3);
-  int left  = luaL_checkinteger(L, 4);
-  int up    = luaL_checkinteger(L, 5);
-  int down  = luaL_checkinteger(L, 6);
+  int front = ray_keyboard_getKeyEnumFromStack(L, 1);
+  int back  = ray_keyboard_getKeyEnumFromStack(L, 2);
+  int right = ray_keyboard_getKeyEnumFromStack(L, 3);
+  int left  = ray_keyboard_getKeyEnumFromStack(L, 4);
+  int up    = ray_keyboard_getKeyEnumFromStack(L, 5);
+  int down  = ray_keyboard_getKeyEnumFromStack(L, 6);
   SetCameraMoveControls(front, back, right, left, up, down);
   return 0;
 }
@@ -2877,9 +2888,9 @@ int lua_text_DrawText(lua_State *L){
 
 // Text misc. functions
 
-// Text strings management functions (no utf8 strings, only byte chars)
+// Text strings management functions (no UTF-8 encoded strings, only byte chars)
 
-// UTF8 text strings management functions
+// UTF-8 encoded text strings management functions
 
 luaL_Reg luaray_text[] = {
   {"DrawFPS",  lua_text_DrawFPS},
@@ -2895,14 +2906,11 @@ int luaopen_raylib_luamore(lua_State *L) {
   lua_newtable(L);
   lua_class_register(L);
   
-  lua_pushstring(L, "core");   
-    luax_pushfunctable(L, luaray_core); lua_rawset(L, -3);
-  lua_pushstring(L, "shapes"); 
-    luax_pushfunctable(L, luaray_shapes); lua_rawset(L, -3);
-  lua_pushstring(L, "textures"); 
-    luax_pushfunctable(L, luaray_textures); lua_rawset(L, -3);
-  lua_pushstring(L, "text"); 
-    luax_pushfunctable(L, luaray_text); lua_rawset(L, -3);
+  lua_pushstring(L, "core");     luax_pushfunctable(L, luaray_core);     lua_rawset(L, -3);
+  lua_pushstring(L, "shapes");   luax_pushfunctable(L, luaray_shapes);   lua_rawset(L, -3);
+  lua_pushstring(L, "textures"); luax_pushfunctable(L, luaray_textures); lua_rawset(L, -3);
+  lua_pushstring(L, "text");     luax_pushfunctable(L, luaray_text);     lua_rawset(L, -3);
+  lua_pushstring(L, "ekey");     luaray_exportKeyboardKeys(L);           lua_rawset(L, -3);
   
   return 1;
 }

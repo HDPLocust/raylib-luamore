@@ -1,6 +1,26 @@
+// used for __index and __newindex metamethods
+#define lua_class_GetFieldIfCompared(L, obj, key, cmpkey, structfield)        if(!strcmp(key, cmpkey)){ lua_pushnumber(L, obj->structfield); return 1; }
+#define lua_class_SetFieldIfCompared(L, obj, key, value, cmpkey, structfield) if(!strcmp(key, cmpkey)){ obj->structfield = value;            return 0; }
+
 /*!MD
 # Classes
 ## Vector2
+
+Structure:
+
+| Field  | type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+
+Methods: 
+
+| Function                 | description 
+| :-----                   | :-----------
+| [clone](#Vector2_clone)  | Creates copy of vector
+| [get](#Vector2:get)      | Returns vector fields
+
+
 ### Initialization
 ```lua
 -- variants
@@ -34,7 +54,7 @@ int lua_class_vector2_new(lua_State *L){
 /*!MD
 ### Methods
 
-#### Clone
+#### Vector2:clone
 ```lua
 Vector2 Vec2 = Vector2:clone()
 ```
@@ -48,7 +68,7 @@ int lua_class_vector2_Clone(lua_State *L){
 }
 
 /*!MD
-#### Get
+#### Vector2:get
 ```lua
 -- variants
 float x, float y = Vector2:get()
@@ -223,7 +243,28 @@ int lua_class_vector2_Lerp(lua_State *L){
   return 1;
 }
 
-// metamethods mostly creates new objects
+int lua_class_vector2__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Vector2 *    v   = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, v, key, "x", x); // calls "return" from this function on success
+  lua_class_GetFieldIfCompared(L, v, key, "y", y);
+  
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+int lua_class_vector2__Newindex(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Vector2 *    v     = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
+  const char * key   = luaL_checkstring(L, 2);
+  float        value = luaL_checknumber(L, 3);
+  lua_class_SetFieldIfCompared(L, v, key, value, "x", x);
+  lua_class_SetFieldIfCompared(L, v, key, value, "y", y);
+  return 0;
+}
+
 int lua_class_vector2__Add(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -244,8 +285,7 @@ int lua_class_vector2__Mul(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v3 = (Vector2 *)luax_newobject(L, "Vector2", sizeof(Vector2));
   if ( lua_isnumber(L, 2) ){
-    float n = luaL_checknumber(L, 2);
-    *v3 = Vector2Scale(*v1, n);
+    *v3 = Vector2Scale(*v1, luaL_checknumber(L, 2));
     return 1;
   }
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -317,6 +357,8 @@ luaL_Reg luaray_class_vector2[] = {
   {"normalize",  lua_class_vector2_Normalize},
   {"lerp",       lua_class_vector2_Lerp},
   // meta
+  {"__index",    lua_class_vector2__Index},
+  {"__newindex", lua_class_vector2__Newindex},
   {"__add",      lua_class_vector2__Add},
   {"__sub",      lua_class_vector2__Sub},
   {"__mul",      lua_class_vector2__Mul},
@@ -678,7 +720,31 @@ int lua_class_vector3_Barycenter(lua_State *L){
   return 1;
 }
 
-// metamethods mostly creates new objects
+// Meta
+int lua_class_vector3__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Vector3 *    v   = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, v, key, "x", x); // calls "return" from this function on success
+  lua_class_GetFieldIfCompared(L, v, key, "y", y);
+  lua_class_GetFieldIfCompared(L, v, key, "z", z);
+  
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+int lua_class_vector3__Newindex(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Vector3 *    v     = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
+  const char * key   = luaL_checkstring(L, 2);
+  float        value = luaL_checknumber(L, 3);
+  lua_class_SetFieldIfCompared(L, v, key, value, "x", x);
+  lua_class_SetFieldIfCompared(L, v, key, value, "y", y);
+  lua_class_SetFieldIfCompared(L, v, key, value, "z", z);
+  return 0;
+}
+
 int lua_class_vector3__Add(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -699,8 +765,7 @@ int lua_class_vector3__Mul(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if ( lua_isnumber(L, 2) ){
-    float n = luaL_checknumber(L, 2);
-    *v3 = Vector3Scale(*v1, n);
+    *v3 = Vector3Scale(*v1, luaL_checknumber(L, 2));
     return 1;
   }
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -712,8 +777,7 @@ int lua_class_vector3__Div(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v3 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if ( lua_isnumber(L, 2) ){
-    float n = luaL_checknumber(L, 2);
-    *v3 = Vector3Divide(*v1, n);
+    *v3 = Vector3Divide(*v1, luaL_checknumber(L, 2));
     return 1;
   }
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -786,6 +850,8 @@ luaL_Reg luaray_class_vector3[] = {
   {"max",                lua_class_vector3_Max},
   {"barycenter",         lua_class_vector3_Barycenter},
   // meta
+  {"__index",            lua_class_vector3__Index},
+  {"__newindex",         lua_class_vector3__Newindex},
   {"__add",              lua_class_vector3__Add},
   {"__sub",              lua_class_vector3__Sub},
   {"__mul",              lua_class_vector3__Mul},
@@ -1412,6 +1478,56 @@ int lua_class_matrix__Eq(lua_State *L){
 }
 
 
+int lua_class_matrix__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Matrix *     m   = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, m, key, "m1",  m0);
+  lua_class_GetFieldIfCompared(L, m, key, "m2",  m1);
+  lua_class_GetFieldIfCompared(L, m, key, "m3",  m2);
+  lua_class_GetFieldIfCompared(L, m, key, "m4",  m3);
+  lua_class_GetFieldIfCompared(L, m, key, "m5",  m4);
+  lua_class_GetFieldIfCompared(L, m, key, "m6",  m5);
+  lua_class_GetFieldIfCompared(L, m, key, "m7",  m6);
+  lua_class_GetFieldIfCompared(L, m, key, "m8",  m7);
+  lua_class_GetFieldIfCompared(L, m, key, "m9",  m8);
+  lua_class_GetFieldIfCompared(L, m, key, "m10", m9);
+  lua_class_GetFieldIfCompared(L, m, key, "m11", m10);
+  lua_class_GetFieldIfCompared(L, m, key, "m12", m11);
+  lua_class_GetFieldIfCompared(L, m, key, "m13", m12);
+  lua_class_GetFieldIfCompared(L, m, key, "m14", m13);
+  lua_class_GetFieldIfCompared(L, m, key, "m15", m14);
+  lua_class_GetFieldIfCompared(L, m, key, "m16", m15);
+  
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+int lua_class_matrix__Newindex(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Matrix *     m     = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  const char * key   = luaL_checkstring(L, 2);
+  float        value = luaL_checknumber(L, 3);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m1",  m0);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m2",  m1);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m3",  m2);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m4",  m3);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m5",  m4);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m6",  m5);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m7",  m6);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m8",  m7);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m9",  m8);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m10", m9);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m11", m10);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m12", m11);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m13", m12);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m14", m13);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m15", m14);
+  lua_class_SetFieldIfCompared(L, m, key, value, "m16", m15);
+  return 0;
+}
+
 int lua_class_matrix__ToString(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   lua_pushfstring(L, "Matrix[[%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f]]: 0x%0.8x",
@@ -1942,7 +2058,32 @@ int lua_class_vector4_QuaternionTransform(lua_State *L){
   return 1;
 }
 
-// metamethods mostly creates new objects
+int lua_class_vector4__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Vector4 *    v   = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, v, key, "x", x); // calls "return" from this function on success
+  lua_class_GetFieldIfCompared(L, v, key, "y", y);
+  lua_class_GetFieldIfCompared(L, v, key, "z", z);
+  lua_class_GetFieldIfCompared(L, v, key, "w", w);
+  
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+int lua_class_vector4__Newindex(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Vector4 *    v     = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
+  const char * key   = luaL_checkstring(L, 2);
+  float        value = luaL_checknumber(L, 3);
+  lua_class_SetFieldIfCompared(L, v, key, value, "x", x);
+  lua_class_SetFieldIfCompared(L, v, key, value, "y", y);
+  lua_class_SetFieldIfCompared(L, v, key, value, "z", z);
+  lua_class_SetFieldIfCompared(L, v, key, value, "w", w);
+  return 0;
+}
+
 int lua_class_vector4__Add(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -2070,6 +2211,8 @@ luaL_Reg luaray_class_vector4[] = {
   {"qToEuler",              lua_class_vector4_QuaternionToEuler},
   {"qTransform",            lua_class_vector4_QuaternionTransform},
   // meta
+  {"__index",               lua_class_vector4__Index},
+  {"__newindex",            lua_class_vector4__Newindex},
   {"__add",                 lua_class_vector4__Add},
   {"__sub",                 lua_class_vector4__Sub},
   {"__mul",                 lua_class_vector4__Mul},
@@ -2311,6 +2454,34 @@ int lua_class_color_Fade(lua_State *L){
   return 1;
 }
 
+// metamethods mostly creates new objects
+int lua_class_color__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Color * c        = (Color *)luaL_checkudata(L, 1, "Color");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, c, key, "r", r);
+  lua_class_GetFieldIfCompared(L, c, key, "g", g);
+  lua_class_GetFieldIfCompared(L, c, key, "b", b);
+  lua_class_GetFieldIfCompared(L, c, key, "a", a);
+
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+// metamethods mostly creates new objects
+int lua_class_color__Newindex(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Color * c        = (Color *)luaL_checkudata(L, 1, "Color");
+  const char * key = luaL_checkstring(L, 2);
+  int value        = luaL_checkinteger(L, 3);
+  lua_class_SetFieldIfCompared(L, c, key, value, "r", r);
+  lua_class_SetFieldIfCompared(L, c, key, value, "g", g);
+  lua_class_SetFieldIfCompared(L, c, key, value, "b", b);
+  lua_class_SetFieldIfCompared(L, c, key, value, "a", a);
+  return 0;
+}
+
 int lua_class_color__ToString(lua_State *L){
   Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   lua_pushfstring(L, "Color[#%0.8x]: 0x%0.8x", ColorToInt(*c), c);
@@ -2330,6 +2501,8 @@ luaL_Reg luaray_class_color[] = {
   {"fromHSV",        lua_class_color_FromHSV},
   {"fade",           lua_class_color_Fade},
   // meta
+  {"__index",        lua_class_color__Index},
+  {"__newindex",     lua_class_color__Newindex},
   {"__tostring",     lua_class_color__ToString},
   {NULL, NULL}
 };
@@ -2536,8 +2709,33 @@ int lua_class_rectangle_Draw(lua_State *L){
   return 0;
 }
 
-
 // meta
+int lua_class_rectangle__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Rectangle * r    = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, r, key, "x",      x);
+  lua_class_GetFieldIfCompared(L, r, key, "y",      y);
+  lua_class_GetFieldIfCompared(L, r, key, "width",  width);
+  lua_class_GetFieldIfCompared(L, r, key, "height", height);
+
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+int lua_class_rectangle__Newindex(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Rectangle * r    = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  const char * key = luaL_checkstring(L, 2);
+  int value        = luaL_checknumber(L, 3);
+  lua_class_SetFieldIfCompared(L, r, key, value, "x",      x);
+  lua_class_SetFieldIfCompared(L, r, key, value, "y",      y);
+  lua_class_SetFieldIfCompared(L, r, key, value, "width",  width);
+  lua_class_SetFieldIfCompared(L, r, key, value, "height", height);
+  return 0;
+}
+
 int lua_class_rectangle__ToString(lua_State *L){
   Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
   lua_pushfstring(L, "Rectangle[%f, %f, %f, %f]: %0.8x", r->x, r->y, r->width, r->height, r);
@@ -2555,6 +2753,8 @@ luaL_Reg luaray_class_rectangle[] = {
   {"setDimensions",  lua_class_rectangle_SetDimensions},
   {"draw",           lua_class_rectangle_Draw},
   // meta
+  {"__index",        lua_class_rectangle__Index},
+  {"__newindex",     lua_class_rectangle__Newindex},
   {"__tostring",     lua_class_rectangle__ToString},
   {NULL, NULL}
 };

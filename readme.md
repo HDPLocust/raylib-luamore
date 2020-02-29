@@ -1,5 +1,6 @@
 <img align="left" src="logo/raylib_luamore_256x256.png" width=256>
-Lua binding and extension for [Raylib](https://www.raylib.com) ([git](https://github.com/raysan5/raylib)).
+
+Lua binding and extension for [Raylib](https://www.raylib.com) [git](https://github.com/raysan5/raylib).
 
 Raylib-luamore is shared library for Lua and LuaJIT (current build is for LuaJIT). 
 

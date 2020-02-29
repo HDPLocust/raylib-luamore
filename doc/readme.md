@@ -112,8 +112,8 @@
 | [IsKeyReleased](#IsKeyReleased)                               | Detect if a key has been released once
 | [IsKeyUp](#IsKeyUp)                                           | Detect if a key is NOT being pressed
 | [GetKeyPressed](#GetKeyPressed)                               | Get latest key pressed (scancode)
-| [GetKeyPressedString](#GetKeyPressedString)                   | Get latest key pressed (utf8)
-| [GetAllKeysPressedString](#GetAllKeysPressedString)           | Get all latest keys pressed (utf8)
+| [GetKeyPressedString](#GetKeyPressedString)                   | Get latest key pressed (UTF-8 encoded)
+| [GetAllKeysPressedString](#GetAllKeysPressedString)           | Get all latest keys pressed (UTF-8 encoded)
 | [SetExitKey](#SetExitKey)                                     | Set a custom key to exit program (default is ESC)
 | **Input-related functions: gamepads**                         | 
 | [IsGamepadAvailable](#IsGamepadAvailable)                     | Detect if a gamepad is available
@@ -527,7 +527,7 @@ See [Color](#Color).
 ```lua
 rl.core.BeginDrawing()
 ```
-Setup canvas (framebuffer) to start drawing
+Setup canvas (framebuffer) to start drawing.
 
 
 #### EndDrawing
@@ -667,21 +667,21 @@ Set target FPS (maximum).
 ```lua
 integer FPS = Matrix rl.core.GetFPS()
 ```
-Returns current FPS
+Returns current FPS.
 
 
 #### GetFrameTime
 ```lua
 float DT = Matrix rl.core.GetFrameTime()
 ```
-Returns time in seconds for last frame drawn
+Returns time in seconds for last frame drawn.
 
 
 #### GetTime
 ```lua
 float Time = Matrix rl.core.GetTime()
 ```
-Returns elapsed time in seconds since InitWindow()
+Returns elapsed time in seconds since InitWindow().
 
 
 ### Color-related functions
@@ -689,7 +689,7 @@ Returns elapsed time in seconds since InitWindow()
 ```lua
 integer iColor = rl.core.ColorToInt(Color Color)
 ```
-Returns hexadecimal value for a Color
+Returns hexadecimal value for a Color.
 
 
 #### ColorNormalize
@@ -700,7 +700,7 @@ integer NR, integer NG, integer NB, integer NA = rl.core.ColorNormalize(Color Co
 table tColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float r, float g, float b, float a}
 ```
 Returns color normalized as float [0..1].
-See [Vector4](#Vector4), [Color](#Color)
+See [Vector4](#Vector4), [Color](#Color).
 
 
 #### ColorFromNormalized
@@ -711,7 +711,7 @@ Color Color = rl.core.ColorFromNormalized(float R, float G, float B[, float A])
 Color Color = rl.core.ColorFromNormalized(table tColor) -- Array {float r, float g, float b[, float a]}
 ```
 Returns color from normalized values [0..1].
-See [Vector4](#Vector4), [Color](#Color)
+See [Vector4](#Vector4), [Color](#Color).
 
 
 #### ColorToHSV
@@ -722,7 +722,7 @@ float Hue, float Saturation, float Value = rl.core.ColorToHSV(Color Color, "n")
 table hsvColor = rl.core.ColorNormalize(Color Color, "t") -- Array {float h, float s, float v}
 ```
 Returns HSV values for a Color.
-See [Vector3](#Vector3), [Color](#Color)
+See [Vector3](#Vector3), [Color](#Color).
 
 
 #### ColorFromHSV
@@ -733,7 +733,7 @@ Color Color = rl.core.ColorFromHSV(float H, float S, float V)
 Color Color = rl.core.ColorFromHSV(table hsvColor) -- Array {float h, float s, float v}
 ```
 Returns a Color from HSV values.
-See [Vector3](#Vector3), [Color](#Color)
+See [Vector3](#Vector3), [Color](#Color).
 
 
 #### GetColor
@@ -760,15 +760,16 @@ See [Color](#Color)
 rl.core.SetConfigFlags(string flag1, string flag2, string flag3, ...)
 ```
 Setup window configuration flags
-Available flags:
-* `"FULLSCREEN_MODE"`    Set to run program in fullscreen
-* `"WINDOW_RESIZABLE"`   Set to allow resizable window
-* `"WINDOW_UNDECORATED"` Set to disable window decoration (frame and buttons)
-* `"WINDOW_TRANSPARENT"` Set to allow transparent window
-* `"WINDOW_HIDDEN"`      Set to create the window initially hidden
-* `"WINDOW_ALWAYS_RUN"`  Set to allow windows running while minimized
-* `"MSAA_4X_HINT"`       Set to try enabling MSAA 4X
-* `"VSYNC_HINT"`         Set to try enabling V-Sync on GPU
+| Available flags:       | Description
+| :--------------------- | :-------------
+| `"FULLSCREEN_MODE"`    | Set to run program in fullscreen
+| `"WINDOW_RESIZABLE"`   | Set to allow resizable window
+| `"WINDOW_UNDECORATED"` | Set to disable window decoration (frame and buttons)
+| `"WINDOW_TRANSPARENT"` | Set to allow transparent window
+| `"WINDOW_HIDDEN"`      | Set to create the window initially hidden
+| `"WINDOW_ALWAYS_RUN"`  | Set to allow windows running while minimized
+| `"MSAA_4X_HINT"`       | Set to try enabling MSAA 4X
+| `"VSYNC_HINT"`         | Set to try enabling V-Sync on GPU
 
 
 #### SetTraceLogLevel
@@ -789,7 +790,6 @@ Set the current threshold (minimum) log level.
 |`"NONE"`    | Trace no logging messages                |
 
 
-
 #### SetTraceLogExit
 ```lua
 rl.core.SetTraceLogExit(string Mode)
@@ -806,7 +806,6 @@ Set the exit threshold (minimum) log level.
 |`"ERROR"`   | Exit on ERROR   and upper logging message |
 |`"FATAL"`   | Exit on FATAL   and upper logging message |
 |`"NONE"`    | No exit on logging messages               |
-
 
 
 #### SetTraceLogCallback
@@ -833,6 +832,7 @@ Show trace log messages.
 logLevel is string constant 
 `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARNING"`, 
 `"ERROR"` or `"FATAL"`.
+
 `"DEBUG"` is default.
 
 
@@ -921,7 +921,7 @@ Get current working directory.
 table Files = rl.core.GetDirectoryFiles(string DirectoryPath)
 ```
 Get filenames in a directory path. [ClearDirectoryFiles](#ClearDirectoryFiles) is called automatically.
-Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`
+Table Files contains string names like `{"file1.png", "directory1", "file2.lua", ...}`.
 
 
 #### ClearDirectoryFiles
@@ -950,7 +950,7 @@ Check if a file has been dropped into window.
 table Files = rl.core.GetDroppedFiles()
 ```
 Get dropped files names. [ClearDroppedFiles](#ClearDroppedFiles) is called automatically.
-Table Files contains string names like `{"file1.png", "file2.lua", ...}`
+Table Files contains string names like `{"file1.png", "file2.lua", ...}`.
 
 
 #### ClearDroppedFiles
@@ -1011,14 +1011,14 @@ Open URL with default system browser (if available).
 ```lua
 rl.core.StorageSaveValue(integer Position, integer Value)
 ```
-Save integer value to storage file (to defined position)
+Save integer value to storage file (to defined position).
 
 
 #### StorageLoadValue
 ```lua
 integer Value = rl.core.StorageLoadValue(integer Position)
 ```
-Load integer value from storage file (from defined position)
+Load integer value from storage file (from defined position).
 
 
 ### Input-related functions: keyb
@@ -1026,56 +1026,56 @@ Load integer value from storage file (from defined position)
 ```lua
 boolean State = rl.core.IsKeyPressed(integer Key)
 ```
-Detect if a key has been pressed once
+Detect if a key has been pressed once.
 
 
 #### IsKeyDown
 ```lua
 boolean State = rl.core.IsKeyDown(integer Key)
 ```
-Detect if a key is being pressed
+Detect if a key is being pressed.
 
 
 #### IsKeyReleased
 ```lua
 boolean State = rl.core.IsKeyReleased(integer Key)
 ```
-Detect if a key has been released once
+Detect if a key has been released once.
 
 
 #### IsKeyUp
 ```lua
 boolean State = rl.core.IsKeyUp(integer Key)
 ```
-Detect if a key is NOT being pressed
+Detect if a key is NOT being pressed.
 
 
 #### GetKeyPressed
 ```lua
 integer Key = rl.core.GetKeyPressed()
 ```
-Get latest key scancode pressed
+Get latest key scancode pressed.
 
 
 #### GetKeyPressedString
 ```lua
 string Char = rl.core.GetKeyPressedString()
 ```
-Get user input utf8-string char
+Get user input UTF-8 encoded string char.
 
 
 #### GetAllKeysPressedString
 ```lua
 string Text = rl.core.GetAllKeysPressedString()
 ```
-Get all user utf8-input chars
+Get all user UTF-8 encoded string input chars.
 
 
 #### SetExitKey
 ```lua
 rl.core.SetExitKey(integer Key)
 ```
-Set a custom key to exit program (default is ESC)
+Set a custom key to exit program (default is ESC).
 
 
 ### Input-related functions: gamepads
@@ -1083,70 +1083,70 @@ Set a custom key to exit program (default is ESC)
 ```lua
 boolean State = rl.core.IsGamepadAvailable(integer Gamepad)
 ```
-Detect if a gamepad is available
+Detect if a gamepad is available.
 
 
 #### IsGamepadName
 ```lua
 boolean State = rl.core.IsGamepadName(integer Gamepad, string GamepadName)
 ```
-Check gamepad name (if available)
+Check gamepad name (if available).
 
 
 #### GetGamepadName
 ```lua
 string GamepadName = rl.core.GetGamepadName(integer Gamepad)
 ```
-Check gamepad name (if available)
+Check gamepad name (if available).
 
 
 #### IsGamepadButtonPressed
 ```lua
 boolean Status = rl.core.IsGamepadButtonPressed(integer Gamepad)
 ```
-Detect if a gamepad button has been pressed once
+Detect if a gamepad button has been pressed once.
 
 
 #### IsGamepadButtonDown
 ```lua
 boolean Status = rl.core.IsGamepadButtonDown(integer Gamepad)
 ```
-Detect if a gamepad button is being pressed
+Detect if a gamepad button is being pressed.
 
 
 #### IsGamepadButtonReleased
 ```lua
 boolean Status = rl.core.IsGamepadButtonReleased(integer Gamepad)
 ```
-Detect if a gamepad button has been released once
+Detect if a gamepad button has been released once.
 
 
 #### IsGamepadButtonUp
 ```lua
 boolean Status = rl.core.IsGamepadButtonUp(integer Gamepad)
 ```
-Detect if a gamepad button is NOT being pressed
+Detect if a gamepad button is NOT being pressed.
 
 
 #### GetGamepadButtonPressed
 ```lua
 integer Key = rl.core.GetGamepadButtonPressed()
 ```
-Get the last gamepad button pressed
+Get the last gamepad button pressed.
 
 
 #### GetGamepadAxisCount
 ```lua
 integer Count = rl.core.GetGamepadAxisCount()
 ```
-Return gamepad axis count for a gamepad
+Return gamepad axis count for a gamepad.
 
 
 #### GetGamepadAxisMovement
 ```lua
 float Movement = rl.core.GetGamepadAxisMovement(integer Gamepad)
 ```
-Return axis movement value for a gamepad axis
+Return axis movement value for a gamepad axis.
 
 
 ### Input-related functions: mouse
@@ -1154,42 +1154,42 @@ Return axis movement value for a gamepad axis
 ```lua
 boolean State = rl.core.IsMouseButtonPressed(integer Button)
 ```
-Detect if a mouse button has been pressed once
+Detect if a mouse button has been pressed once.
 
 
 #### IsMouseButtonDown
 ```lua
 boolean State = rl.core.IsMouseButtonDown(integer Button)
 ```
-Detect if a mouse button is being pressed
+Detect if a mouse button is being pressed.
 
 
 #### IsMouseButtonReleased
 ```lua
 boolean State = rl.core.IsMouseButtonReleased(integer Button)
 ```
-Detect if a mouse button has been released once
+Detect if a mouse button has been released once.
 
 
 #### IsMouseButtonUp
 ```lua
 boolean State = rl.core.IsMouseButtonUp(integer Button)
 ```
-Detect if a mouse button is NOT being pressed
+Detect if a mouse button is NOT being pressed.
 
 
 #### GetMouseX
 ```lua
 integer X = rl.core.GetMouseX()
 ```
-Returns mouse position X
+Returns mouse position X.
 
 
 #### GetMouseY
 ```lua
 integer Y = rl.core.GetMouseY()
 ```
-Returns mouse position Y
+Returns mouse position Y.
 
 
 #### GetMousePosition
@@ -1198,7 +1198,7 @@ Returns mouse position Y
 Vector2 Position     = rl.core.GetMousePosition()
 integer X, integer Y = rl.core.GetMousePosition('n')
 ```
-Returns mouse position XY
+Returns mouse position XY.
 
 
 #### SetMousePosition
@@ -1207,7 +1207,7 @@ Returns mouse position XY
 rl.core.SetMousePosition(Vector2 Position)
 rl.core.SetMousePosition(integer X, integer Y)
 ```
-Set mouse position XY
+Set mouse position XY.
 
 
 #### SetMouseOffset
@@ -1216,7 +1216,7 @@ Set mouse position XY
 rl.core.SetMouseOffset(Vector2 Offset)
 rl.core.SetMouseOffset(integer X, integer Y)
 ```
-Set mouse offset
+Set mouse offset.
 
 
 #### SetMouseScale
@@ -1225,7 +1225,7 @@ Set mouse offset
 rl.core.SetMouseScale(Vector2 Scale)
 rl.core.SetMouseScale(integer X, integer Y)
 ```
-Set mouse scaling
+Set mouse scaling.
 
 
 #### GetMouseWheelMove
@@ -1233,7 +1233,7 @@ Set mouse scaling
 -- variants
 integer WheelMove = rl.core.GetMouseWheelMove()
 ```
-Returns mouse wheel movement Y
+Returns mouse wheel movement Y.
 
 
 ### Input-related functions: touch
@@ -1241,21 +1241,21 @@ Returns mouse wheel movement Y
 ```lua
 integer X = rl.core.GetTouchX()
 ```
-Returns touch position X for touch point 1 (relative to screen size)
+Returns touch position X for touch point 1 (relative to screen size).
 
 
 #### GetTouchY
 ```lua
 integer Y = rl.core.GetTouchY()
 ```
-Returns touch position Y for touch point 1 (relative to screen size)
+Returns touch position Y for touch point 1 (relative to screen size).
 
 
 #### GetTouch
 ```lua
 integer X, integer Y = rl.core.GetTouch()
 ```
-Returns touch position XY for a touch point 1 (relative to screen size)
+Returns touch position XY for a touch point 1 (relative to screen size).
 
 
 #### GetTouchPosition
@@ -1264,7 +1264,7 @@ Returns touch position XY for a touch point 1 (relative to screen size)
 Vector2 Position     = rl.core.GetTouchPosition(integer Index)
 integer X, integer Y = rl.core.GetTouchPosition(integer Index, 'n')
 ```
-Returns touch position XY for a touch point index (relative to screen size)
+Returns touch position XY for a touch point index (relative to screen size).
 
 
 #### GetTouches
@@ -1273,7 +1273,7 @@ Returns touch position XY for a touch point index (relative to screen size)
 table Touches = rl.core.GetTouches(integer Index)      -- {Vector2 t1, Vector2 t2, ...}
 table Touches = rl.core.GetTouches(integer Index, 'n') -- {{integer X1, integer Y1}, {integer X2, integer Y2}, ...}
 ```
-Returns all touches positions XY (relative to screen size)
+Returns all touches positions XY (relative to screen size).
 
 
 #### SetGesturesEnabled
@@ -1333,14 +1333,14 @@ A, B, and C is additional info for various gestures:
 ```lua
 integer Count = rl.core.GetTouchPointsCount()
 ```
-Get touch points count
+Get touch points count.
 
 
 #### GetGestureHoldDuration
 ```lua
 float Duration = rl.core.GetGestureHoldDuration()
 ```
-Get gesture hold time in milliseconds
+Get gesture hold time in milliseconds.
 
 
 #### GetGestureHoldDuration
@@ -1349,14 +1349,14 @@ Get gesture hold time in milliseconds
 Vector2 DragVector     = rl.core.GetGestureDragVector()
 integer vX, integer vY = rl.core.GetGestureDragVector('n')
 ```
-Get gesture drag vector
+Get gesture drag vector.
 
 
 #### GetGestureDragAngle
 ```lua
 float Angle = rl.core.GetGestureDragAngle()
 ```
-Get gesture drag angle
+Get gesture drag angle.
 
 
 #### GetGesturePinchVector
@@ -1365,14 +1365,14 @@ Get gesture drag angle
 Vector2 PinchVector    = rl.core.GetGesturePinchVector()
 integer dX, integer dY = rl.core.GetGesturePinchVector('n')
 ```
-Get gesture pinch delta
+Get gesture pinch delta.
 
 
 #### GetGesturePinchAngle
 ```lua
 float Angle = rl.core.GetGesturePinchAngle()
 ```
-Get gesture pinch angle
+Get gesture pinch angle.
 
 
 ### Camera System Functions (Module: camera)
@@ -1380,7 +1380,7 @@ Get gesture pinch angle
 ```lua
 rl.core.SetCameraMode(Camera3D Camera, string Mode)
 ```
-Set camera mode. Availabke modes: 
+Set camera mode. Available modes: 
 * `"CUSTOM"` - default
 * `"FREE"`
 * `"ORBITAL"`
@@ -1392,39 +1392,55 @@ Set camera mode. Availabke modes:
 ```lua
 rl.core.UpdateCamera(Camera3D Camera)
 ```
-Update camera position for selected mode
+Update camera position for selected mode.
 
 
 #### SetCameraPanControl
 ```lua
 rl.core.SetCameraPanControl(integer panKey)
 ```
-Set camera pan key to combine with mouse movement (free camera)
+Set camera pan key to combine with mouse movement (free camera).
 
 
 #### SetCameraAltControl
 ```lua
 rl.core.SetCameraAltControl(integer altKey)
 ```
-Set camera alt key to combine with mouse movement (free camera)
+Set camera alt key to combine with mouse movement (free camera).
 
 
 #### SetCameraSmoothZoomControl
 ```lua
 rl.core.SetCameraSmoothZoomControl(integer szKey)
 ```
-Set camera smooth zoom key to combine with mouse (free camera)
+Set camera smooth zoom key to combine with mouse (free camera).
 
 
 #### SetCameraMoveControls
 ```lua
 rl.core.SetCameraMoveControls(integer frontKey, integer backKey, integer rightKey, integer leftKey, integer upKey, integer downKey)
 ```
-Set camera move controls (1st person and 3rd person cameras)
+Set camera move controls (1st person and 3rd person cameras).
 
 
 # Classes
 ## Vector2
+
+Structure:
+
+| Field  | type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+
+Methods: 
+
+| Function                 | description 
+| :-----                   | :-----------
+| [clone](#Vector2_clone)  | Creates copy of vector
+| [get](#Vector2:get)      | Returns vector fields
+
+
 ### Initialization
 ```lua
 -- variants
@@ -1437,14 +1453,14 @@ Creates new Vector2 object
 
 ### Methods
 
-#### Clone
+#### Vector2:clone
 ```lua
 Vector2 Vec2 = Vector2:clone()
 ```
 Clones Vector2 object.
 
 
-#### Get
+#### Vector2:get
 ```lua
 -- variants
 float x, float y = Vector2:get()
@@ -1711,3 +1727,134 @@ Rectangle Rect = rl.Rectangle(table t) --> Rectangle[ x = t[1], y = t[2], width 
 ```lua
 --
 ```
+
+
+## Enums
+### eKeyboard.
+Any keyboard function accepts string or integer key representation.
+Representation layout:
+
+| integer                  | string     | description
+| :------                  | :--------- | :-----------
+| **Character keys**       |            |
+| -1                       | unknown    | The pressed key is unknown (used if user tries to use unknown string as key)
+| 32                       | space      | Space key
+| 39                       | '          | Single quote key
+| 44                       | ,          | Comma key
+| 45                       | -          | Hyphen-minus key
+| 46                       | .          | Full stop key
+| 47                       | /          | Slash key
+| 48                       | 0          | The zero key
+| 49                       | 1          | The one key
+| 50                       | 2          | The two key
+| 51                       | 3          | The three key
+| 52                       | 4          | The four key
+| 53                       | 5          | The five key
+| 54                       | 6          | The six key
+| 55                       | 7          | The seven key
+| 56                       | 8          | The eight key
+| 57                       | 9          | The nine key
+| 59                       | ;          | Semicolon key
+| 61                       | =          | Equal key
+| 65                       | a          | The A key
+| 66                       | b          | The B key
+| 67                       | c          | The C key
+| 68                       | d          | The D key
+| 69                       | e          | The E key
+| 70                       | f          | The F key
+| 71                       | g          | The G key
+| 72                       | h          | The H key
+| 73                       | i          | The I key
+| 74                       | j          | The J key
+| 75                       | k          | The K key
+| 76                       | l          | The L key
+| 77                       | m          | The M key
+| 78                       | n          | The N key
+| 79                       | o          | The O key
+| 80                       | p          | The P key
+| 81                       | q          | The Q key
+| 82                       | r          | The R key
+| 83                       | s          | The S key
+| 84                       | t          | The T key
+| 85                       | u          | The U key
+| 86                       | v          | The V key
+| 87                       | w          | The W key
+| 88                       | x          | The X key
+| 89                       | y          | The Y key
+| 90                       | z          | The Z key
+| 91                       | \[         | Left square bracket key
+| 92                       | \\         | Backslash key
+| 93                       | \]         | Right square bracket key
+| 96                       | \`         | Grave accent key, also known as the "Back tick" key
+| **Editing keys**         |            | 
+| 258                      | tab        | Tab key
+| 259                      | backspace  | Backspace key
+| 260                      | insert     | Insert key
+| 261                      | delete     | Delete key
+| **Navigation keys**      |            |
+| 256                      | escape     | Escape key
+| 257                      | enter      | Enter key, also known as the Return key
+| 257                      | return     | Return key, also known as the Enter key
+| 262                      | right      | Right arrow key
+| 263                      | left       | Left arrow key
+| 264                      | down       | Down arrow key
+| 265                      | up         | Up arrow key
+| 266                      | pageup     | Page up key
+| 267                      | pagedown   | Page down key
+| 268                      | home       | Home key
+| 269                      | end        | End key
+| **Miscellaneous keys**   |            |
+| 280                      | capslock   | Caps-lock key, caps-on is a key press. Caps-off is a key release.
+| 281                      | scrolllock | Scroll-lock key
+| 282                      | numlock    | Num-lock key, clear on Mac keyboards.
+| 283                      | prtscr     | Printscreen key
+| 284                      | pause      | Pause key
+| 348                      | menu       | Menu key
+| **Function keys**        |            |
+| 290                      | f1         | 
+| 291                      | f2         | 
+| 292                      | f3         | 
+| 293                      | f4         | 
+| 294                      | f5         | 
+| 295                      | f6         | 
+| 296                      | f7         | 
+| 297                      | f8         | 
+| 298                      | f9         | 
+| 299                      | f10        | 
+| 300                      | f11        | 
+| 301                      | f12        | 
+| **Modifier keys**        |            |
+| 340                      | lshift     | Left shift key
+| 341                      | lctrl      | Left control key
+| 342                      | lalt       | Left alt key
+| 343                      | lsuper     | Left command key in OS X, Windows key in Windows.
+| 344                      | rshift     | Right shift key
+| 345                      | rctrl      | Right control key
+| 346                      | ralt       | Right alt key
+| 347                      | rsuper     | Right command key in OS X, Windows key in Windows.
+| **Numpad keys**          |            |
+| 320                      | kp0        | The numpad zero key
+| 321                      | kp1        | The numpad one key
+| 322                      | kp2        | The numpad two key
+| 323                      | kp3        | The numpad three key
+| 324                      | kp4        | The numpad four key
+| 325                      | kp5        | The numpad five key
+| 326                      | kp6        | The numpad six key
+| 327                      | kp7        | The numpad seven key
+| 328                      | kp8        | The numpad eight key
+| 329                      | kp9        | The numpad nine key
+| 330                      | kp.        | The numpad decimal point key	
+| 331                      | kp/        | The numpad division key
+| 332                      | kp*        | The numpad multiplication key	
+| 333                      | kp-        | The numpad substraction key	
+| 334                      | kp+        | The numpad addition key
+| 335                      | kpenter    | The numpad enter key
+| 336                      | kp=        | The numpad equals key	
+
+Translating of representations provides by `rl.ekey` table:
+```lua
+key = "space"
+ikey = rl.ekey[key]  --> 32
+skey = rl.ekey[ikey] --> "space"
+```
+This table is used internally in the library, so do not modify it if you don't know what is happens.

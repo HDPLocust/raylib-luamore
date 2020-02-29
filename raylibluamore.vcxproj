@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="classes.h" />
+    <ClInclude Include="enums.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
