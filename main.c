@@ -1815,52 +1815,72 @@ int lua_core_StorageLoadValue(lua_State *L){
 ### Input-related functions: keyb
 #### IsKeyPressed
 ```lua
-boolean State = rl.core.IsKeyPressed(integer Key)
+boolean State = rl.core.IsKeyPressed(eKey Key[, ekey Key2, ...])
 ```
-Detect if a key has been pressed once.
+Detect if a key has been pressed once. See [eKey](#eKey).
 */
 int lua_core_IsKeyPressed(lua_State *L){
-  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
-  lua_pushboolean(L, IsKeyPressed(key));
+  bool any_key = false;
+  for (int i = 1; i <= lua_gettop(L); i++){
+    int key = ray_keyboard_getKeyEnumFromStack(L, i);
+    bool isPressed = IsKeyPressed(key);
+    if (isPressed) any_key = true;
+  }
+  lua_pushboolean(L, any_key);
   return 1;
 }
 
 /*!MD
 #### IsKeyDown
 ```lua
-boolean State = rl.core.IsKeyDown(integer Key)
+boolean State = rl.core.IsKeyDown(eKey Key[, eKey Key2, ...])
 ```
-Detect if a key is being pressed.
+Detect if a key is being pressed. See [eKey](#eKey).
 */
 int lua_core_IsKeyDown(lua_State *L){
-  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
-  lua_pushboolean(L, IsKeyDown(key));
+  bool any_key = false;
+  for (int i = 1; i <= lua_gettop(L); i++){
+    int key = ray_keyboard_getKeyEnumFromStack(L, i);
+    bool isPressed = IsKeyDown(key);
+    if (isPressed) any_key = true;
+  }
+  lua_pushboolean(L, any_key);
   return 1;
 }
 
 /*!MD
 #### IsKeyReleased
 ```lua
-boolean State = rl.core.IsKeyReleased(integer Key)
+boolean State = rl.core.IsKeyReleased(eKey Key[, eKey Key2, ...])
 ```
-Detect if a key has been released once.
+Detect if a key has been released once. See [eKey](#eKey).
 */
 int lua_core_IsKeyReleased(lua_State *L){
-  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
-  lua_pushboolean(L, IsKeyReleased(key));
+  bool any_key = false;
+  for (int i = 1; i <= lua_gettop(L); i++){
+    int key = ray_keyboard_getKeyEnumFromStack(L, i);
+    bool isPressed = IsKeyReleased(key);
+    if (isPressed) any_key = true;
+  }
+  lua_pushboolean(L, any_key);
   return 1;
 }
 
 /*!MD
 #### IsKeyUp
 ```lua
-boolean State = rl.core.IsKeyUp(integer Key)
+boolean State = rl.core.IsKeyUp(eKey Key[, eKey Key2, ...])
 ```
-Detect if a key is NOT being pressed.
+Detect if a key is NOT being pressed. See [eKey](#eKey).
 */
 int lua_core_IsKeyUp(lua_State *L){
-  int key = ray_keyboard_getKeyEnumFromStack(L, 1);
-  lua_pushboolean(L, IsKeyUp(key));
+  bool any_key = false;
+  for (int i = 1; i <= lua_gettop(L); i++){
+    int key = ray_keyboard_getKeyEnumFromStack(L, i);
+    bool isPressed = IsKeyUp(key);
+    if (isPressed) any_key = true;
+  }
+  lua_pushboolean(L, any_key);
   return 1;
 }
 
@@ -1926,9 +1946,9 @@ int lua_core_GetAllKeysPressedString(lua_State *L){
 /*!MD
 #### SetExitKey
 ```lua
-rl.core.SetExitKey(integer Key)
+rl.core.SetExitKey(eKey Key)
 ```
-Set a custom key to exit program (default is ESC).
+Set a custom key to exit program (default is ESC). See [eKey](#eKey).
 */
 int lua_core_SetExitKey(lua_State *L){
   int key = ray_keyboard_getKeyEnumFromStack(L, 1);
@@ -2422,7 +2442,7 @@ A, B, and C is additional info for various gestures:
 * `"DRAG"` returns Vector2 DragVector, float DragAngle if 'n' is not passed
 * `"DRAG"` returns integer DragVectorX, integer DragVectorY, float DragAngle if 'n' is passed
 * `"PINCH_IN"` returns Vector2 PinchVector, float PinchAngle if 'n' is not passed
-* `"PINCH_IN"` returns integer PinchVectorX, integer PinchVectorY, float PinchAngle if 'n' is passed
+* `"PINCH_IN"` returns float PinchVectorX, float PinchVectorY, float PinchAngle if 'n' is passed
 * `"PINCH_OUT"` same as `"PINCH_IN"`.
 */
 int lua_core_GetGestureDetected(lua_State *L){
@@ -2504,8 +2524,8 @@ int lua_core_GetGestureHoldDuration(lua_State *L){
 #### GetGestureHoldDuration
 ```lua
 -- variants
-Vector2 DragVector     = rl.core.GetGestureDragVector()
-integer vX, integer vY = rl.core.GetGestureDragVector('n')
+Vector2 DragVector = rl.core.GetGestureDragVector()
+float vX, float vY = rl.core.GetGestureDragVector('n')
 ```
 Get gesture drag vector.
 */
@@ -2537,8 +2557,8 @@ int lua_core_GetGestureDragAngle(lua_State *L){
 #### GetGesturePinchVector
 ```lua
 -- variants
-Vector2 PinchVector    = rl.core.GetGesturePinchVector()
-integer dX, integer dY = rl.core.GetGesturePinchVector('n')
+Vector2 PinchVector = rl.core.GetGesturePinchVector()
+float dX, float dY  = rl.core.GetGesturePinchVector('n')
 ```
 Get gesture pinch delta.
 */
@@ -2612,9 +2632,9 @@ int lua_core_UpdateCamera(lua_State *L){
 /*!MD
 #### SetCameraPanControl
 ```lua
-rl.core.SetCameraPanControl(integer panKey)
+rl.core.SetCameraPanControl(eKey panKey)
 ```
-Set camera pan key to combine with mouse movement (free camera).
+Set camera pan key to combine with mouse movement (free camera). See [Camera](#Camera), [eKey](#eKey).
 */
 int lua_core_SetCameraPanControl(lua_State *L){
   int key = ray_keyboard_getKeyEnumFromStack(L, 1);
@@ -2625,9 +2645,9 @@ int lua_core_SetCameraPanControl(lua_State *L){
 /*!MD
 #### SetCameraAltControl
 ```lua
-rl.core.SetCameraAltControl(integer altKey)
+rl.core.SetCameraAltControl(eKey altKey)
 ```
-Set camera alt key to combine with mouse movement (free camera).
+Set camera alt key to combine with mouse movement (free camera). See [Camera](#Camera), [eKey](#eKey).
 */
 int lua_core_SetCameraAltControl(lua_State *L){
   int key = ray_keyboard_getKeyEnumFromStack(L, 1);
@@ -2640,7 +2660,7 @@ int lua_core_SetCameraAltControl(lua_State *L){
 ```lua
 rl.core.SetCameraSmoothZoomControl(integer szKey)
 ```
-Set camera smooth zoom key to combine with mouse (free camera).
+Set camera smooth zoom key to combine with mouse (free camera). See [Camera](#Camera), [eKeyboard](#eKeyboard).
 */
 int lua_core_SetCameraSmoothZoomControl(lua_State *L){
   int key = ray_keyboard_getKeyEnumFromStack(L, 1);
@@ -2651,9 +2671,9 @@ int lua_core_SetCameraSmoothZoomControl(lua_State *L){
 /*!MD
 #### SetCameraMoveControls
 ```lua
-rl.core.SetCameraMoveControls(integer frontKey, integer backKey, integer rightKey, integer leftKey, integer upKey, integer downKey)
+rl.core.SetCameraMoveControls(eKey frontKey, eKey backKey, eKey rightKey, eKey leftKey, eKey upKey, eKey downKey)
 ```
-Set camera move controls (1st person and 3rd person cameras).
+Set camera move controls (1st person and 3rd person cameras). See [Camera](#Camera), [eKey](#eKey).
 */
 int lua_core_SetCameraMoveControls(lua_State *L){
   int front = ray_keyboard_getKeyEnumFromStack(L, 1);

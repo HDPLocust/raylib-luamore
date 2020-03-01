@@ -1,7 +1,8 @@
 /*!MD
 ## Enums
-### eKeyboard.
-Any keyboard function accepts string or integer key representation.
+### eKey
+eKey is the string or integer representation of keyboard scancode in American layout.
+Any keyboard function accepts strings and integers both.
 Representation layout:
 
 | integer                  | string     | description
@@ -81,18 +82,18 @@ Representation layout:
 | 284                      | pause      | Pause key
 | 348                      | menu       | Menu key
 | **Function keys**        |            |
-| 290                      | f1         | 
-| 291                      | f2         | 
-| 292                      | f3         | 
-| 293                      | f4         | 
-| 294                      | f5         | 
-| 295                      | f6         | 
-| 296                      | f7         | 
-| 297                      | f8         | 
-| 298                      | f9         | 
-| 299                      | f10        | 
-| 300                      | f11        | 
-| 301                      | f12        | 
+| 290                      | f1         | The 1st function key
+| 291                      | f2         | The 2nd function key
+| 292                      | f3         | The 3rd function key
+| 293                      | f4         | The 4th function key
+| 294                      | f5         | The 5th function key
+| 295                      | f6         | The 6th function key
+| 296                      | f7         | The 7th function key
+| 297                      | f8         | The 8th function key
+| 298                      | f9         | The 9th function key
+| 299                      | f10        | The 10th function key
+| 300                      | f11        | The 11th function key	
+| 301                      | f12        | The 12th function key
 | **Modifier keys**        |            |
 | 340                      | lshift     | Left shift key
 | 341                      | lctrl      | Left control key
@@ -247,7 +248,7 @@ void luaray_exportKeyboardKeys(lua_State * L){
   luax_tsnumber(L, "kp=",        KEY_KP_EQUAL);       luax_tnstring(L, KEY_KP_EQUAL,      "kp=");
 }
 
-const char * ray_keyboard_getKeyEnumString(lua_State * L, int key){
+const char * ray_keyboard_getKeyEnumStringFromInteger(lua_State * L, int key){
   const char * value = "unknown";
   lua_rawgeti(L, LUA_REGISTRYINDEX, ray_lua_enum_key);
   lua_pushnumber(L, key);
@@ -257,7 +258,7 @@ const char * ray_keyboard_getKeyEnumString(lua_State * L, int key){
   return value;
 }
 
-int ray_keyboard_getKeyEnumInteger(lua_State * L, const char * key){
+int ray_keyboard_getKeyEnumIntegerFromString(lua_State * L, const char * key){
   int value = -1;
   lua_rawgeti(L, LUA_REGISTRYINDEX, ray_lua_enum_key);
   lua_pushstring(L, key);

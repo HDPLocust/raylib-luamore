@@ -1,6 +1,14 @@
 // used for __index and __newindex metamethods
-#define lua_class_GetFieldIfCompared(L, obj, key, cmpkey, structfield)        if(!strcmp(key, cmpkey)){ lua_pushnumber(L, obj->structfield); return 1; }
-#define lua_class_SetFieldIfCompared(L, obj, key, value, cmpkey, structfield) if(!strcmp(key, cmpkey)){ obj->structfield = value;            return 0; }
+#define lua_class_GetFieldIfCompared(L, obj, key, cmpkey, structfield)\
+        if(!strcmp(key, cmpkey)){              \
+          lua_pushnumber(L, obj->structfield); \
+          return 1;                            \
+        }
+#define lua_class_SetFieldIfCompared(L, obj, key, value, cmpkey, structfield) \
+        if(!strcmp(key, cmpkey)){   \
+          obj->structfield = value; \
+          return 0;                 \
+        }
 
 /*!MD
 # Classes
@@ -8,18 +16,43 @@
 
 Structure:
 
-| Field  | type  |
+| Field  | Type  |
 | :----- | :---- |
 | x      | float |
 | y      | float |
 
-Methods: 
-
-| Function                 | description 
-| :-----                   | :-----------
-| [clone](#Vector2_clone)  | Creates copy of vector
-| [get](#Vector2:get)      | Returns vector fields
-
+| **Methods**                      | description 
+| :-----                           | :-----------
+| [clone](#Vector2clone)           | Creates copy of vector
+| [get](#Vector2get)               | Returns vector fields
+| [set](#Vector2set)               | Assing values to vector
+| [add](#Vector2add)               | Add vector to vector (modifying it)
+| [subtract](#Vector2subtract)     | Subtract vector from vector (modifying it)
+| [length](#Vector2length)         | Returns vector scalar length
+| [dotProcuct](#Vector2dotProduct) | Returns vector scalar dot product
+| [distance](#Vector2distance)     | Returns scalar distance between two vectors
+| [angle](#Vector2angle)           | Returns scalar angle between two vectors (degrees)
+| [angleRad](#Vector2angleRad)     | Returns scalar angle between two vectors (radians)
+| [scale](#Vector2scale)           | Multiply each component of vector to scalar
+| [multiplyV](#Vector2multiplyV)   | Multiply vector to another vector (modifying it)
+| [multiply](#Vector2multiply)     | Multiply vector to scalar or another vector (modifying it)
+| [negate](#Vector2negate)         | Negate each component of vector (-Vec2.x, -Vec2.y)
+| [divide](#Vector2divide)         | Divide vector to scalar or another vector (modifying it)
+| [divideV](#Vector2divideV)       | Divide vector to another vector (modifying it)
+| [normalize](#Vector2normalize)   | Normalize vector (divide each component lo vector length)
+| [lerp](#Vector2lerp)             | Interpolate vector to another by given interpolant
+| **Overloads**                    | Note: In the mul/div methods with numbers, the vector should be in FIRST place, `NewVec2 = Vec2 * 5` is ok `NewVec2 = 5 * Vec2` raises error
+| +: `NewVec2 = Vec2A + Vec2B`     | Create a new vector that is the sum of two vectors
+| -: `NewVec2 = Vec2A - Vec2B`     | Create a new vector that is the subtraction of two vectors
+| *: `NewVec2 = Vec2A * Vec2B`     | Create a new vector that is the multiplication of two vectors
+| *: `NewVec2 = Vec2 * Num`        | Create a new vector that is the multiplication of vector by number (scale)
+| /: `NewVec2 = Vec2A / Vec2B`     | Create a new vector that is the division of two vectors
+| /: `NewVec2 = Vec2 / Num`        | Create a new vector that is the division of vector by number (divide each vector component)
+| #: `Len = #Vec2A`                | Returns vector scalar length (:length shortcut)
+| ^: `NewVec2 = Vec2A ^ VecB`      | Create a new vector that is the power of two vectors
+| ^: `NewVec2 = Vec2 ^ Num`        | Create a new vector that is the power of vector to number
+| =: `isEqual = Vec2A == Vec2B`    | Checks vectors is equal
+| -: `negVec2 = -Vec2`             | Creates new vector that is negate of another
 
 ### Initialization
 ```lua
@@ -71,7 +104,7 @@ int lua_class_vector2_Clone(lua_State *L){
 #### Vector2:get
 ```lua
 -- variants
-float x, float y = Vector2:get()
+number x, number y = Vector2:get()
 table t = Vector2:get('t') --> {x, y}
 ```
 Get Vector2 components.
@@ -90,7 +123,7 @@ int lua_class_vector2_Get(lua_State *L){
 }
 
 /*!MD
-#### Set
+#### Vector2:set
 ```lua
 -- variants
 Vector2:set(float x, float y)
@@ -106,6 +139,13 @@ int lua_class_vector2_Set(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:add
+```lua
+Vector2:add(Vector2 Vector)
+```
+Add vector to vector (modifying it)
+*/
 int lua_class_vector2_Add(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -114,6 +154,13 @@ int lua_class_vector2_Add(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:subtract
+```lua
+Vector2:subtract(Vector2 Vector)
+```
+Subtract vector from vector (modifying it)
+*/
 int lua_class_vector2_Subtract(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -122,6 +169,13 @@ int lua_class_vector2_Subtract(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:length
+```lua
+number Length = Vector2:length()
+```
+Returns vector scalar length
+*/
 int lua_class_vector2_Length(lua_State *L){
   Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   float result = sqrtf((v->x * v->x) + (v->y * v->y));
@@ -129,6 +183,13 @@ int lua_class_vector2_Length(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:dotProduct
+```lua
+number Dot = Vector2:dotProduct(Vector2 Vector)
+```
+Returns vector scalar dot product
+*/
 int lua_class_vector2_DotProduct(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -137,6 +198,13 @@ int lua_class_vector2_DotProduct(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:distance
+```lua
+number Distance = Vector2:distance(Vector2 Vector)
+```
+Returns scalar distance between two vectors
+*/
 int lua_class_vector2_Distance(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -145,6 +213,13 @@ int lua_class_vector2_Distance(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:angle
+```lua
+number Angle = Vector2:angle(Vector2 Vector)
+```
+Returns scalar angle between two vectors (degrees)
+*/
 int lua_class_vector2_Angle(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -154,6 +229,13 @@ int lua_class_vector2_Angle(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:angleRad
+```lua
+number Angle = Vector2:angleRad(Vector2 Vector)
+```
+Returns scalar angle between two vectors (radians)
+*/
 int lua_class_vector2_AngleRad(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -163,6 +245,13 @@ int lua_class_vector2_AngleRad(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:scale
+```lua
+Vector2:scale(number Scale)
+```
+Multiply each component of vector to scalar
+*/
 int lua_class_vector2_Scale(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   float n = luaL_checknumber(L, 2);
@@ -171,6 +260,13 @@ int lua_class_vector2_Scale(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:multiplyV
+```lua
+Vector2:multiplyV(Vector2 Vector)
+```
+Multiply vector to another vector (modifying it)
+*/
 int lua_class_vector2_MultiplyV(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -179,6 +275,15 @@ int lua_class_vector2_MultiplyV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:multiply
+```lua
+-- variants
+Vector2:multiply(Vector2 Vector)
+Vector2:multiply(number Scale)
+```
+Multiply vector to scalar or another vector (modifying it)
+*/
 int lua_class_vector2_Multiply(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   if (lua_isnumber(L, 2)){
@@ -194,12 +299,28 @@ int lua_class_vector2_Multiply(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:negate
+```lua
+Vector2:negate()
+```
+Negate each component of vector (-Vec2.x, -Vec2.y)
+*/
 int lua_class_vector2_Negate(lua_State *L){
   Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   v->x = -v->x; v->y = -v->y;
   return 1;
 }
 
+/*!MD
+#### Vector2:divide
+```lua
+-- variants
+Vector2:divide(Vector2 Vector)
+Vector2:divide(number Scale)
+```
+Divide vector to scalar or another vector (modifying it)
+*/
 int lua_class_vector2_Divide(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   if (lua_isnumber(L, 2)){
@@ -215,6 +336,13 @@ int lua_class_vector2_Divide(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:divideV
+```lua
+Vector2:divideV(Vector2 Vector)
+```
+Divide vector to another vector (modifying it)
+*/
 int lua_class_vector2_DivideV(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -224,6 +352,13 @@ int lua_class_vector2_DivideV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:normalize
+```lua
+Vector2:normalize()
+```
+Normalize vector (divide each component lo vector length)
+*/
 int lua_class_vector2_Normalize(lua_State *L){
   Vector2 * v   = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   float     len = sqrtf((v->x * v->x) + (v->y * v->y));
@@ -232,6 +367,13 @@ int lua_class_vector2_Normalize(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector2:lerp
+```lua
+Vector2:lerp(Vector2 Vector, number Amount)
+```
+Interpolate vector to another by given interpolant
+*/
 int lua_class_vector2_Lerp(lua_State *L){
   Vector2 * v1 = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
   Vector2 * v2 = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
@@ -373,6 +515,57 @@ luaL_Reg luaray_class_vector2[] = {
 
 /*!MD
 ## Vector3
+
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+| z      | float |
+
+| **Methods**                                      | description 
+| :-----                                           | :-----------
+| [clone](#Vector3clone)                           | Creates copy of vector
+| [get](#Vector3get)                               | Returns vector fields
+| [set](#Vector3set)                               | Assing values to vector
+| [add](#Vector3add)                               | Add vector to vector (modifying it)
+| [subtract](#Vector3subtract)                     | Subtract vector from vector (modifying it)
+| [scale](#Vector3scale)                           | Multiply each component of vector to scalar
+| [multiplyV](#Vector3multiplyV)                   | Multiply vector to another vector (modifying it)
+| [multiply](#Vector3multiply)                     | Multiply vector to scalar or another vector (modifying it)
+| [crossProduct](#Vector3crossProduct)             | Transform vector to cross product of two vectors
+| [perpendicular](#Vector3perpendicular)           | Calculate one vector perpendicular vector
+| [length](#Vector3length)                         | Returns vector scalar length
+| [dotProduct](#Vector3dotProduct)                 | Returns scalar dot product of two vectors
+| [distance](#Vector3distance)                     | Returns scalar distance between two vectors
+| [negate](#Vector3negate)                         | Negate each component of vector (-Vec3.x, -Vec3.y, -Vec3.z)
+| [divide](#Vector3divide)                         | Divide vector to scalar or another vector (modifying it)
+| [divideV](#Vector3divideV)                       | Divide vector to another vector (modifying it)
+| [normalize](#Vector3normalize)                   | Normalize vector (divide each component lo vector length)
+| [orthoNormalize](#Vector3orthoNormalize)         | Makes vectors normalized and orthogonal to each other
+| [transform](#Vector3transform)                   | Transforms a vector by a given Matrix
+| [rotateByQuaternion](#Vector3rotateByQuaternion) | Transform a vector by quaternion rotation
+| [lerp](#Vector3lerp)                             | Interpolate vector to another by given interpolant
+| [reflect](#Vector3reflect)                       | Calculate reflected vector to normal
+| [min](#Vector3min)                               | Return min value for each pair of components
+| [max](#Vector3max)                               | Return max value for each pair of components
+| [barycenter](#Vector3barycenter)                 | Create new vector that is barycenter coordinates (u, v, w) for point p with respect to triangle (a, b, c)
+| [angle](#Vector3angle)                           | Returns scalar angle between two vectors (degrees)
+| [angleRad](#Vector3angleRad)                     | Returns scalar angle between two vectors (radians)
+| **Overloads**                                    | Note: In the mul/div methods with numbers, the vector should be in FIRST place, `NewVec3 = Vec3 * 5` is ok `NewVec3 = 5 * Vec3` raises error
+| +: `NewVec3 = Vec3A + Vec3B`                     | Create a new vector that is the sum of two vectors
+| -: `NewVec3 = Vec3A - Vec3B`                     | Create a new vector that is the subtraction of two vectors
+| *: `NewVec3 = Vec3A * Vec3B`                     | Create a new vector that is the multiplication of two vectors
+| *: `NewVec3 = Vec3 * Num`                        | Create a new vector that is the multiplication of vector by number (scale)
+| /: `NewVec3 = Vec3A / Vec3B`                     | Create a new vector that is the division of two vectors
+| /: `NewVec3 = Vec3 / Num`                        | Create a new vector that is the division of vector by number (divide each vector component)
+| #: `Len = #Vec3`                                 | Returns vector scalar length (:length shortcut)
+| ^: `NewVec3 = Vec3A ^ Vec3B`                     | Create a new vector that is the power of two vectors
+| ^: `NewVec3 = Vec3 ^ Num`                        | Create a new vector that is the power of vector to number
+| =: `isEqual = Vec3A == Vec3B`                    | Checks vectors is equal
+| -: `NegVec3 = -Vec3`                             | Creates new vector that is negate of another
+
 ### Initialization
 ```lua
 -- variants
@@ -382,6 +575,7 @@ Vector3 Vec3 = rl.Vector3(table t)                        --> vec3[ t[1], t[2], 
 ```
 Creates new Vector3 object.
 */
+
 int lua_class_vector3_new(lua_State *L){
   Vector3 * v = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   if (lua_isnumber(L, 1)) {
@@ -405,6 +599,15 @@ int lua_class_vector3_new(lua_State *L){
   return 1;
 }
 
+/*!MD
+### Methods
+
+#### Vector3:clone
+```lua
+Vector3 Vec3 = Vector3:clone()
+```
+Clones Vector3 object.
+*/
 int lua_class_vector3_Clone(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
@@ -412,6 +615,15 @@ int lua_class_vector3_Clone(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:get
+```lua
+-- variants
+number x, number y, number z = Vector3:get()
+table t = Vector3:get('t') --> {x, y, z}
+```
+Get Vector3 components.
+*/
 int lua_class_vector3_Get(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
@@ -427,6 +639,15 @@ int lua_class_vector3_Get(lua_State *L){
   return 3;
 }
 
+/*!MD
+#### Vector3:set
+```lua
+-- variants
+Vector3:set(number x, number y, number z)
+Vector3:set(table t) -- [x, y, z]
+```
+Set Vector3 components.
+*/
 int lua_class_vector3_Set(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   v->x = luax_optnumber(L, 2, v->x);
@@ -436,6 +657,13 @@ int lua_class_vector3_Set(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:add
+```lua
+Vector3:add(Vector3 Vector)
+```
+Add vector to vector (modifying it)
+*/
 int lua_class_vector3_Add(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -451,6 +679,13 @@ Vector3 * _ptr_vector3_Subtract(Vector3 * v1, Vector3 * v2){
   return v1;
 }
 
+/*!MD
+#### Vector3:subtract
+```lua
+Vector3:subtract(Vector3 Vector)
+```
+Subtract vector to vector (modifying it)
+*/
 int lua_class_vector3_Subtract(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -459,6 +694,13 @@ int lua_class_vector3_Subtract(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:scale
+```lua
+Vector3:scale(number Scale)
+```
+Multiply each component of vector to scalar
+*/
 int lua_class_vector3_Scale(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   float n = luaL_checknumber(L, 2);
@@ -467,6 +709,13 @@ int lua_class_vector3_Scale(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:multiplyV
+```lua
+Vector3:multiplyV(Vector3 Vector)
+```
+Multiply vector to another vector (modifying it)
+*/
 int lua_class_vector3_MultiplyV(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -475,6 +724,15 @@ int lua_class_vector3_MultiplyV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:multiply
+```lua
+-- variants
+Vector3:multiply(Vector3 Vector)
+Vector3:multiply(number Scale)
+```
+Multiply vector to scalar or another vector (modifying it)
+*/
 int lua_class_vector3_Multiply(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   if (lua_isnumber(L, 2)){
@@ -490,6 +748,13 @@ int lua_class_vector3_Multiply(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:crossProduct
+```lua
+Vector3:crossProduct(Vector3 Vector)
+```
+Transform vector to cross product of two vectors
+*/
 Vector3 * _ptr_vector3_CrossProduct(Vector3 * v1, Vector3 * v2){
   v1->x = v1->y*v2->z - v1->z*v2->y;
   v1->y = v1->z*v2->x - v1->x*v2->z;
@@ -505,6 +770,13 @@ int lua_class_vector3_CrossProduct(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:perpendicular
+```lua
+Vector3:perpendicular(Vector3 Vector)
+```
+Calculate one vector perpendicular vector
+*/
 int lua_class_vector3_Perpendicular(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3   c = {1.0f, 0.0f, 0.0f};
@@ -531,6 +803,13 @@ int lua_class_vector3_Perpendicular(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:length
+```lua
+number Length = Vector3:length()
+```
+Returns vector scalar length
+*/
 int lua_class_vector3_Length(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   float result = sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
@@ -538,6 +817,13 @@ int lua_class_vector3_Length(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:dotProduct
+```lua
+number Dot = Vector3:dotProduct(Vector3 Vector)
+```
+Returns scalar dot product of two vectors
+*/
 float _ptr_vector3_DotProduct(Vector3 * v1, Vector3 * v2){
   return sqrtf(v1->x*v2->x + v1->y*v2->y + v1->z*v2->z);
 }
@@ -550,6 +836,13 @@ int lua_class_vector3_DotProduct(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:distance
+```lua
+number Distance = Vector3:distance(Vector3 Vector)
+```
+Returns scalar distance between two vectors
+*/
 int lua_class_vector3_Distance(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -561,6 +854,13 @@ int lua_class_vector3_Distance(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:negate
+```lua
+Vector3:negate()
+```
+Negate each component of vector (-Vec3.x, -Vec3.y, -Vec3.z)
+*/
 int lua_class_vector3_Negate(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   v->x = -v->x; v->y = -v->y; v->z = -v->z;
@@ -568,6 +868,15 @@ int lua_class_vector3_Negate(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:divide
+```lua
+-- variants
+Vector3:divide(Vector3 Vector)
+Vector3:divide(number Scale)
+```
+Divide vector to scalar or another vector (modifying it)
+*/
 int lua_class_vector3_Divide(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   if (lua_isnumber(L, 2)){
@@ -583,6 +892,13 @@ int lua_class_vector3_Divide(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:divideV
+```lua
+Vector3:divideV(Vector3 Vector)
+```
+Divide vector to another vector (modifying it)
+*/
 int lua_class_vector3_DivideV(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -591,6 +907,13 @@ int lua_class_vector3_DivideV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:normalize
+```lua
+Vector3:normalize()
+```
+Normalize vector (divide each component lo vector length)
+*/
 Vector3 * _ptr_vector3_Normalize(Vector3 * v){
   float l, il;
   l = Vector3Length(*v);
@@ -608,6 +931,13 @@ int lua_class_vector3_Normalize(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:orthoNormalize
+```lua
+Vector3:orthoNormalize(Vector3 Vector)
+```
+Makes vectors normalized and orthogonal to each other modifying both
+*/
 int lua_class_vector3_OrthoNormalize(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -617,10 +947,18 @@ int lua_class_vector3_OrthoNormalize(lua_State *L){
   _ptr_vector3_CrossProduct(&vn, v2);
   _ptr_vector3_Normalize(&vn);
   _ptr_vector3_CrossProduct(&vn, v1);
+  *v2 = vn;
   lua_settop(L, 2);
   return 2;
 }
 
+/*!MD
+#### Vector3:transform
+```lua
+Vector3:transform(Matrix Matrix)
+```
+Transforms a vector by a given Matrix
+*/
 int lua_class_vector3_Transform(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Matrix  * m =  (Matrix *)luaL_checkudata(L, 2, "Matrix");
@@ -632,6 +970,13 @@ int lua_class_vector3_Transform(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:rotateByQuaternion
+```lua
+Vector3:rotateByQuaternion(Vector4 Quaternion)
+```
+Transform a vector by quaternion rotation
+*/
 int lua_class_vector3_RotateByQuaternion(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector4 * q = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -645,6 +990,13 @@ int lua_class_vector3_RotateByQuaternion(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:lerp
+```lua
+Vector3:lerp(Vector3 Vector, number Amount)
+```
+Interpolate vector to another by given interpolant
+*/
 int lua_class_vector3_Lerp(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -657,6 +1009,13 @@ int lua_class_vector3_Lerp(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:reflect
+```lua
+Vector3:reflect(Vector3 Normal)
+```
+Calculate reflected vector to normal
+*/
 int lua_class_vector3_Reflect(lua_State *L){
   Vector3 * v      = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * normal = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -670,6 +1029,13 @@ int lua_class_vector3_Reflect(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:min
+```lua
+number Min = Vector3:min()
+```
+Return min value for each pair of components
+*/
 int lua_class_vector3_Min(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -682,6 +1048,13 @@ int lua_class_vector3_Min(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector3:max
+```lua
+number max = Vector3:min()
+```
+Return max value for each pair of components
+*/
 int lua_class_vector3_Max(lua_State *L){
   Vector3 * v1 = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -694,7 +1067,13 @@ int lua_class_vector3_Max(lua_State *L){
   return 1;
 }
 
-// returns new vector
+/*!MD
+#### Vector3:barycenter
+```lua
+Vector3 Barycenter = Vector3:barycenter(Vector3 A, Vector3 B, Vector3 C)
+```
+Create new vector that is barycenter coordinates (u, v, w) for point p with respect to triangle (A, B, C)
+*/
 int lua_class_vector3_Barycenter(lua_State *L){
   Vector3 * p = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
   Vector3 * a = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -865,8 +1244,62 @@ luaL_Reg luaray_class_vector3[] = {
 };
 
 
+
 /*!MD
 ## Matrix
+
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| m1     | float |
+| m2     | float |
+| m3     | float |
+| m4     | float |
+| m5     | float |
+| m6     | float |
+| m7     | float |
+| m8     | float |
+| m9     | float |
+| m10    | float |
+| m11    | float |
+| m12    | float |
+| m13    | float |
+| m14    | float |
+| m15    | float |
+| m16    | float |
+
+| **Methods**                                     | description 
+| :-----                                          | :-----------
+| [clone](#Matrixclone)                           | Creates copy of matrix
+| [get](#Matrixget)                               | Returns matrix fields
+| [set](#Matrixset)                               | Assing values to matrix
+| [determinant](#Matrixdeterminant)               | Compute matrix determinant
+| [trace](#Matrixtrace)                           | Returns the trace of the matrix (sum of the values along the diagonal)
+| [transpose](#Matrixtranspose)                   | Transposes provided matrix (modifying it)
+| [invert](#Matrixinvert)                         | Invert provided matrix (modifying it)
+| [normalize](#Matrixnormalize)                   | Normalize provided matrix (modifying it)
+| [identity](#Matrixidentity)                     | Modify matrix to identity matrix
+| [add](#Matrixadd)                               | Add matrix to matrix (modifying it)
+| [subtract](#Matrixsubtract)                     | Subtract matrix from matrix (modifying it)
+| [translate](#Matrixtranslate)                   | Modify matrix to translation by given vector matrix
+| [rotate](#Matrixrotate)                         | Modify matrix to rotation matrix from axis and angle (radians)
+| [rotateXYZ](#MatrixrotateXYZ)                   | Rotate matrix to given Vector3 along XYZ-axes (angles in radians)
+| [rotateX](#MatrixrotateX)                       | Rotate matrix to given angle along X-axis (angle in radians)
+| [rotateY](#MatrixrotateY)                       | Rotate matrix to given angle along Y-axis. (angle in radians)
+| [rotateZ](#MatrixrotateZ)                       | Rotate matrix to given angle along Z-axis. (angle in radians)
+| [scale](#Matrixscale)                           | Scale matrix by given vector
+| [multiply](#Matrixmultiply)                     | Multiply matrix to another (modifying it)
+| [frustum](#Matrixfrustum)                       | Modify matrix to perspective projection matrix
+| [perspective](#Matrixperspective)               | Modify matrix to perspective projection matrix (by angles in radians)
+| [ortho](#Matrixortho)                           | Modify matrix to orthographic projection matrix
+| [lookAt](#MatrixlookAt)                         | Modify matrix to look-at point by three vectors
+| **Overloads**                                   | 
+| +: `NewVec3 = MatrixA + MatrixB`                | Create a new matrix that is the sum of two matrices
+| -: `NewVec3 = MatrixA - MatrixB`                | Create a new matrix that is the subtraction of two matrices
+| *: `NewVec3 = MatrixA * MatrixB`                | Create a new matrix that is the multiplication of two matrices
+| =: `isEqual = MatrixA == MatrixB`               | Checks matrices is equal
+
 ### Initialization
 ```lua
 -- variants
@@ -922,6 +1355,13 @@ int lua_class_matrix_new(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:clone
+```lua
+Matrix Matrix = Matrix:clone()
+```
+Creates copy of matrix
+*/
 int lua_class_matrix_Clone(lua_State *L){
   Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Matrix * m2 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
@@ -932,6 +1372,15 @@ int lua_class_matrix_Clone(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:get
+```lua
+-- variants
+number m1, number m2, ... number m16 = Matrix:get()
+table Table = Matrix:get('t') --> Table[m1, m2, ... m16]
+```
+Returns matrix fields
+*/
 int lua_class_matrix_Get(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
@@ -973,6 +1422,15 @@ int lua_class_matrix_Get(lua_State *L){
   return 16;
 }
 
+/*!MD
+#### Matrix:set
+```lua
+-- variants
+Matrix:set(number m1, number m2, ... number m16)
+Matrix:set(table Table) -- Table[m1, m2, ... m16]
+```
+Assing values to matrix
+*/
 int lua_class_matrix_Set(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   _ptr_matrix_Fill(L, m, 2);
@@ -980,6 +1438,13 @@ int lua_class_matrix_Set(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:determinant
+```lua
+number Determinant = Matrix:determinant()
+```
+Compute matrix determinant
+*/
 float _ptr_matrix_Determinant(Matrix * m){
   float result = 0;
   float a00 = m->m0,  a01 = m->m1,  a02 = m->m2,  a03 = m->m3;
@@ -1003,6 +1468,13 @@ int lua_class_matrix_Determinant(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:trace
+```lua
+number Trace = Matrix:trace()
+```
+Returns the trace of the matrix (sum of the values along the diagonal)
+*/
 float _ptr_matrix_Trace(Matrix * m){
   return (float)(m->m0 + m->m5 + m->m10 + m->m15);
 }
@@ -1014,6 +1486,13 @@ int lua_class_matrix_Trace(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:transpose
+```lua
+Matrix:transpose()
+```
+Transposes provided matrix (modifying it)
+*/
 int lua_class_matrix_Transpose(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float m1  = m->m1,  m2  = m->m2,  m3  = m->m3;
@@ -1028,6 +1507,13 @@ int lua_class_matrix_Transpose(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:invert
+```lua
+Matrix:invert()
+```
+Transposes provided matrix (modifying it)
+*/
 Matrix * _ptr_matrix_Invert(Matrix * m){
   float a00 = m->m0,  a01 = m->m1,  a02 = m->m2,  a03 = m->m3;
   float a10 = m->m4,  a11 = m->m5,  a12 = m->m6,  a13 = m->m7;
@@ -1077,6 +1563,13 @@ int lua_class_matrix_Invert(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:normalize
+```lua
+Matrix:normalize()
+```
+Normalize provided matrix (modifying it)
+*/
 int lua_class_matrix_Normalize(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float det = _ptr_matrix_Determinant(m);
@@ -1090,6 +1583,13 @@ int lua_class_matrix_Normalize(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:identity
+```lua
+Matrix:identity()
+```
+Modify matrix to identity matrix
+*/
 Matrix * _ptr_matrix_Identity(Matrix * m){
   m->m0  = 1.0f; m->m1  = 0.0f; m->m2  = 0.0f; m->m3  = 0.0f;
   m->m4  = 0.0f; m->m5  = 1.0f; m->m6  = 0.0f; m->m7  = 0.0f;
@@ -1105,6 +1605,13 @@ int lua_class_matrix_Identity(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:add
+```lua
+Matrix:add(Matrix Matrix)
+```
+Add matrix to matrix (modifying it)
+*/
 int lua_class_matrix_Add(lua_State *L){
   Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
@@ -1130,6 +1637,13 @@ int lua_class_matrix_Add(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:subtract
+```lua
+Matrix:subtract(Matrix Matrix)
+```
+Subtract matrix from matrix (modifying it)
+*/
 int lua_class_matrix_Subtract(lua_State *L){
   Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
@@ -1155,6 +1669,16 @@ int lua_class_matrix_Subtract(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:translate
+```lua
+-- variants
+Matrix:translate(number x, number y, number z)
+Matrix:translate(table Translate) -- Translate[x, y, z]
+Matrix:translate(Vector3 Vector)
+```
+Modify matrix to translation by given vector matrix
+*/
 int lua_class_matrix_Translate(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float x, y, z;
@@ -1179,6 +1703,13 @@ int lua_class_matrix_Translate(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:rotate
+```lua
+Matrix:rotate(Vector3 Vector, number Angle)
+```
+Modify matrix to rotation matrix from axis and angle (radians)
+*/
 int lua_class_matrix_Rotate(lua_State *L){
   Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -1202,6 +1733,13 @@ int lua_class_matrix_Rotate(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:rotateXYZ
+```lua
+Matrix:rotateXYZ(Vector3 Vector)
+```
+Rotate matrix to given Vector3 (angles in radians)
+*/
 int lua_class_matrix_RotateXYZ(lua_State *L){
   Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -1227,6 +1765,13 @@ int lua_class_matrix_RotateXYZ(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:rotateX
+```lua
+Matrix:rotateX(number Angle)
+```
+Rotate matrix to given angle along X-axis. (angle in radians)
+*/
 int lua_class_matrix_RotateX(lua_State *L){
   Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float angle = luaL_checknumber(L, 2);
@@ -1244,6 +1789,13 @@ int lua_class_matrix_RotateX(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:rotateY
+```lua
+Matrix:rotateY(number Angle)
+```
+Rotate matrix to given angle along Y-axis. (angle in radians)
+*/
 int lua_class_matrix_RotateY(lua_State *L){
   Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float angle = luaL_checknumber(L, 2);
@@ -1261,6 +1813,13 @@ int lua_class_matrix_RotateY(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:rotateZ
+```lua
+Matrix:rotateZ(number Angle)
+```
+Rotate matrix to given angle along Z-axis. (angle in radians)
+*/
 int lua_class_matrix_RotateZ(lua_State *L){
   Matrix  * m =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float angle = luaL_checknumber(L, 2);
@@ -1277,6 +1836,17 @@ int lua_class_matrix_RotateZ(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:scale
+```lua
+-- variants
+Matrix:scale(number x, number y, number z)
+Matrix:scale(table Scale)    -- Scale[x, y, z]
+Matrix:scale(Vector3 Vector)
+
+```
+Scale matrix by given vector
+*/
 int lua_class_matrix_Scale(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   float x, y, z;
@@ -1303,6 +1873,14 @@ int lua_class_matrix_Scale(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:multiply
+```lua
+-- variants
+Matrix:multiply(Matrix Matrix)
+```
+Multiply matrix to another (modifying it)
+*/
 int lua_class_matrix_Multiply(lua_State *L){
   Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
@@ -1330,6 +1908,13 @@ int lua_class_matrix_Multiply(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:frustrum
+```lua
+Matrix:frustum(number Left, number Right, number Bottom, numner Top, number Near, number Far)
+```
+Modify matrix to perspective projection matrix
+*/
 Matrix * _ptr_matrix_Frustrum(Matrix * m, double left, double right, double bottom, double top, double near, double far){
   _ptr_matrix_Identity(m);
 
@@ -1361,6 +1946,13 @@ int lua_class_matrix_Frustum(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:perspective
+```lua
+Matrix:perspective(number FovY, number Aspect, number Near, numner Far, number Top)
+```
+Modify matrix to perspective projection matrix (by angles in radians)
+*/
 int lua_class_matrix_Perspective(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   double fovy   = luaL_checknumber(L, 2);
@@ -1376,6 +1968,13 @@ int lua_class_matrix_Perspective(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:ortho
+```lua
+Matrix:ortho(number Left, number Right, number Bottom, numner Top, number Near, number Far)
+```
+Modify matrix to orthographic projection matrix
+*/
 int lua_class_matrix_Ortho(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   double left   = luaL_checknumber(L, 2);
@@ -1410,6 +2009,13 @@ int lua_class_matrix_Ortho(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Matrix:lookAt
+```lua
+Matrix:lookAt(Vector3 Eye, Vector3 Target, Vector3 Up)
+```
+Modify matrix to look-at point by three vectors
+*/
 int lua_class_matrix_LookAt(lua_State *L){
   Matrix  * m  =  (Matrix *)luaL_checkudata(L, 1, "Matrix");
   Vector3 * eye    = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -1430,50 +2036,6 @@ int lua_class_matrix_LookAt(lua_State *L){
   _ptr_matrix_Invert(m);
 
   lua_settop(L, 1);
-  return 1;
-}
-
-
-
-// meta
-
-int lua_class_matrix__Add(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
-  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
-  *m3 = MatrixAdd(*m1, *m2);
-  return 1;
-}
-
-int lua_class_matrix__Sub(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
-  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
-  *m3 = MatrixSubtract(*m1, *m2);
-  return 1;
-}
-
-int lua_class_matrix__Mul(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
-  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
-  *m3 = MatrixMultiply(*m1, *m2);
-  return 1;
-}
-
-int lua_class_matrix__Eq(lua_State *L){
-  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
-  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
-
-  bool eq = (m1->m0  == m2->m0 ) && (m1->m1  == m2->m1 ) &&
-            (m1->m2  == m2->m2 ) && (m1->m3  == m2->m3 ) &&
-            (m1->m4  == m2->m4 ) && (m1->m5  == m2->m5 ) &&
-            (m1->m6  == m2->m6 ) && (m1->m7  == m2->m7 ) &&
-            (m1->m8  == m2->m8 ) && (m1->m9  == m2->m9 ) &&
-            (m1->m10 == m2->m10) && (m1->m11 == m2->m11) &&
-            (m1->m12 == m2->m12) && (m1->m13 == m2->m13) &&
-            (m1->m14 == m2->m14) && (m1->m15 == m2->m15);
-  lua_pushboolean(L, eq);
   return 1;
 }
 
@@ -1528,6 +2090,46 @@ int lua_class_matrix__Newindex(lua_State *L){
   return 0;
 }
 
+int lua_class_matrix__Add(lua_State *L){
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
+  *m3 = MatrixAdd(*m1, *m2);
+  return 1;
+}
+
+int lua_class_matrix__Sub(lua_State *L){
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
+  *m3 = MatrixSubtract(*m1, *m2);
+  return 1;
+}
+
+int lua_class_matrix__Mul(lua_State *L){
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+  Matrix * m3 = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
+  *m3 = MatrixMultiply(*m1, *m2);
+  return 1;
+}
+
+int lua_class_matrix__Eq(lua_State *L){
+  Matrix * m1 = (Matrix *)luaL_checkudata(L, 1, "Matrix");
+  Matrix * m2 = (Matrix *)luaL_checkudata(L, 2, "Matrix");
+
+  bool eq = (m1->m0  == m2->m0 ) && (m1->m1  == m2->m1 ) &&
+            (m1->m2  == m2->m2 ) && (m1->m3  == m2->m3 ) &&
+            (m1->m4  == m2->m4 ) && (m1->m5  == m2->m5 ) &&
+            (m1->m6  == m2->m6 ) && (m1->m7  == m2->m7 ) &&
+            (m1->m8  == m2->m8 ) && (m1->m9  == m2->m9 ) &&
+            (m1->m10 == m2->m10) && (m1->m11 == m2->m11) &&
+            (m1->m12 == m2->m12) && (m1->m13 == m2->m13) &&
+            (m1->m14 == m2->m14) && (m1->m15 == m2->m15);
+  lua_pushboolean(L, eq);
+  return 1;
+}
+
 int lua_class_matrix__ToString(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
   lua_pushfstring(L, "Matrix[[%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f]]: 0x%0.8x",
@@ -1575,6 +2177,55 @@ luaL_Reg luaray_class_matrix[] = {
 
 /*!MD
 ## Vector4
+Vector4 also Quaternion, so it have Quaternion methods.
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+| z      | float |
+| w      | float |
+
+| **Methods**                                            | description 
+| :-----                                                 | :-----------
+| [clone](#Vector4clone)                                 | Creates copy of vector
+| [get](#Vector4get)                                     | Returns vector fields
+| [set](#Vector4set)                                     | Assing values to vector
+| [add](#Vector4add)                                     | Add vector to vector (modifying it)
+| [subtract](#Vector4subtract)                           | Subtract vector from vector (modifying it)
+| [scale](#Vector4scale)                                 | Multiply each component of vector to scalar
+| [multiplyV](#Vector4multiplyV)                         | Multiply vector to another vector (modifying it)
+| [multiply](#Vector4multiply)                           | Multiply vector to scalar or another vector (modifying it)
+| [identity](#Vector4identity)                           | Set vector components to quaternion identity
+| [length](#Vector4length)                               | Returns vector scalar length
+| [normalize](#Vector4normalize)                         | Normalize provided quaternion
+| [qInvert](#Vector4qInvert)                             | Invert provided quaternion
+| [qMultiply](#Vector4qMultiply)                         | Multiply quaternion to another (modifying it)
+| [qLerp](#Vector4qLerp)                                 | Linear interpolate quaternion to another by given interpolant
+| [qNlerp](#Vector4qNlerp)                               | Linear interpolate quaternion to another by given interpolant, and normalize it
+| [qSlerp](#Vector4qSlerp)                               | Spherical interpolate quaternion to another by given interpolant
+| [qFromVector3ToVector3](#Vector4qFromVector3ToVector3) | Calculate quaternion based on the rotation from one vector to another
+| [qFromMatrix](#Vector4qFromMatrix)                     | Set vector components to a quaternion for a given rotation matrix
+| [qToMatrix](#Vector4qToMatrix)                         | Returns a matrix for a given quaternion
+| [qFromAxisAngle](#Vector4qFromAxisAngle)               | Set vector components to a rotation quaternion for an angle and axis (radians)
+| [qToAxisAngle](#Vector4qToAxisAngle)                   | Returns the rotation angle and axis for a given quaternion
+| [qFromEuler](#Vector4qFromEuler)                       | Set vector components to a quaternion equivalent of Euler angles
+| [qToEuler](#Vector4qToEuler)                           | Return the Euler angles equivalent to quaternion (roll, pitch, yaw)
+| [qTransform](#Vector4qTransform)                       | Transform a quaternion given a transformation matrix
+| **Overloads**                                          | Note: In the mul/div methods with numbers, the vector should be in FIRST place, `NewVec4 = Vec4 * 5` is ok `NewVec4 = 5 * Vec4` raises error
+| +: `NewVec4 = Vec4A + Vec4B`                           | Create a new vector that is the sum of two vectors
+| -: `NewVec4 = Vec4A - Vec4B`                           | Create a new vector that is the subtraction of two vectors
+| *: `NewVec4 = Vec4A * Vec4B`                           | Create a new vector that is the multiplication of two vectors
+| *: `NewVec4 = Vec4A * NumB`                            | Create a new vector that is the multiplication of vector by number (scale)
+| /: `NewVec4 = Vec4A / Vec4B`                           | Create a new vector that is the division of two vectors
+| /: `NewVec4 = Vec4A / NumB`                            | Create a new vector that is the division of vector by number (divide each vector component)
+| #: `Len = #Vec4`                                       | Returns vector scalar length (:length shortcut)
+| ^: `NewVec4 = Vec4A ^ Vec4B`                           | Create a new vector that is the power of two vectors
+| ^: `NewVec4 = Vec4A ^ NumB`                            | Create a new vector that is the power of vector to number
+| =: `isEqual = Vec4A == Vec4B`                          | Checks vectors is equal
+| -: `NegVec4 = -Vec4`                                   | Creates new vector that is negate of another
+
 ### Initialization
 ```lua
 -- variants
@@ -1606,6 +2257,13 @@ int lua_class_vector4_new(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:clone
+```lua
+Vector4 Vec4 = Vector4:clone()
+```
+Creates copy of vector
+*/
 int lua_class_vector4_Clone(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luax_newobject(L, "Vector4", sizeof(Vector4));
@@ -1613,6 +2271,16 @@ int lua_class_vector4_Clone(lua_State *L){
   return 1;
 }
 
+
+/*!MD
+#### Vector4:get
+```lua
+-- variants
+number x, number y, number z, number w = Vector4:get()
+table t = Vector4:get('t') --> {x, y, z, w}
+```
+Get Vector4 components.
+*/
 int lua_class_vector4_Get(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
@@ -1630,6 +2298,15 @@ int lua_class_vector4_Get(lua_State *L){
   return 4;
 }
 
+/*!MD
+#### Vector4:set
+```lua
+-- variants
+Vector4:set(number x, number y, number z, number w)
+Vector4:set(table t) -- [x, y, z, w]
+```
+Set Vector4 components.
+*/
 int lua_class_vector4_Set(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   v->x = luax_optnumber(L, 2, v->x);
@@ -1641,6 +2318,13 @@ int lua_class_vector4_Set(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:add
+```lua
+Vector4:add(Vector4 Vector)
+```
+Add vector to vector (modifying it)
+*/
 int lua_class_vector4_Add(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -1653,6 +2337,13 @@ int lua_class_vector4_Add(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:subtract
+```lua
+Vector4:subtract(Vector4 Vector)
+```
+Subtract vector from vector (modifying it)
+*/
 int lua_class_vector4_Subtract(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -1665,6 +2356,13 @@ int lua_class_vector4_Subtract(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:scale
+```lua
+Vector4:subtract(number Scale)
+```
+Multiply each component of vector to scalar
+*/
 int lua_class_vector4_Scale(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float n = luaL_checknumber(L, 2);
@@ -1677,6 +2375,13 @@ int lua_class_vector4_Scale(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:multiplyV
+```lua
+Vector4:multiplyV(Vector4 Vector)
+```
+Multiply vector to another vector (modifying it)
+*/
 int lua_class_vector4_MultiplyV(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -1689,6 +2394,15 @@ int lua_class_vector4_MultiplyV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:multiply
+```lua
+-- variants
+Vector4:multiply(number Scale)
+Vector4:multiply(Vector4 Vector)
+```
+Multiply vector to scalar or another vector (modifying it)
+*/
 int lua_class_vector4_Multiply(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   if (lua_isnumber(L, 2)){
@@ -1706,16 +2420,30 @@ int lua_class_vector4_Multiply(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:identity
+```lua
+Vector4:identity()
+```
+Set vector components to quaternion identity
+*/
 int lua_class_vector4_Identity(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
-  v->x = luaL_checknumber(L, 2);
-  v->y = luaL_checknumber(L, 3);
-  v->z = luaL_checknumber(L, 4);
-  v->w = luaL_checknumber(L, 5);
+  v->x = 0.0;
+  v->y = 0.0;
+  v->z = 0.0;
+  v->w = 1.0;
   lua_settop(L, 1);
   return 1;
 }
 
+/*!MD
+#### Vector4:length
+```lua
+number Length = Vector4:length()
+```
+Returns vector scalar length
+*/
 int lua_class_vector4_Length(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float x = v->x, y = v->y, z = v->z, w = v->w;
@@ -1724,6 +2452,13 @@ int lua_class_vector4_Length(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:normalize
+```lua
+Vector4:normalize()
+```
+Normalize provided quaternion
+*/
 Vector4 * _ptr_vector4_QuaternionNormalize(Vector4 * v){
   float l, il;
   float x = v->x, y = v->y, z = v->z, w = v->w;
@@ -1744,6 +2479,13 @@ int lua_class_vector4_Normalize(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qInvert
+```lua
+Vector4:qInvert()
+```
+Invert provided quaternion
+*/
 int lua_class_vector4_QuaternionInvert(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float l, il;
@@ -1758,6 +2500,13 @@ int lua_class_vector4_QuaternionInvert(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qMultiply
+```lua
+Vector4:qMultiply(Vector4 Vector)
+```
+Multiply quaternion to another (modifying it)
+*/
 int lua_class_vector4_QuaternionMultiply(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -1773,6 +2522,13 @@ int lua_class_vector4_QuaternionMultiply(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qLerp
+```lua
+Vector4:qLerp(Vector4 Vector, scale Amount)
+```
+Linear interpolate quaternion to another by given interpolant
+*/
 int lua_class_vector4_QuaternionLerp(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -1787,6 +2543,13 @@ int lua_class_vector4_QuaternionLerp(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qNlerp
+```lua
+Vector4:qNlerp(Vector4 Vector, scale Amount)
+```
+Linear interpolate quaternion to another by given interpolant, and normalize it
+*/
 Vector4 * _ptr_vector4_QuaternionNlerp(Vector4 * v1, Vector4 * v2, float amount){
   v1->x = v1->x + amount*(v2->x - v1->x);
   v1->y = v1->y + amount*(v2->y - v1->y);
@@ -1812,6 +2575,13 @@ int lua_class_vector4_QuaternionNlerp(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qSlerp
+```lua
+Vector4:qSlerp(Vector4 Vector, scale Amount)
+```
+Spherical interpolate quaternion to another by given interpolant
+*/
 int lua_class_vector4_QuaternionSlerp(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector4 * v2 = (Vector4 *)luaL_checkudata(L, 2, "Vector4");
@@ -1853,6 +2623,13 @@ int lua_class_vector4_QuaternionSlerp(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qFromVector3ToVector3
+```lua
+Vector4:qFromVector3ToVector3(Vector3 Vector1, Vector3 Vector2)
+```
+Calculate quaternion based on the rotation from one vector to another
+*/
 int lua_class_vector4_QuaternionFromVector3ToVector3(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -1873,6 +2650,13 @@ int lua_class_vector4_QuaternionFromVector3ToVector3(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qFromMatrix
+```lua
+Vector4:qFromMatrix(Matrix Matrix)
+```
+Set vector components to a quaternion for a given rotation matrix
+*/
 int lua_class_vector4_QuaternionFromMatrix(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Matrix  * m = (Matrix  *)luaL_checkudata(L, 2, "Matrix");
@@ -1925,6 +2709,13 @@ int lua_class_vector4_QuaternionFromMatrix(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qToMatrix
+```lua
+Matrix Matrix = Vector4:qToMatrix()
+```
+Returns a matrix for a given quaternion
+*/
 int lua_class_vector4_QuaternionToMatrix(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Matrix  * m = (Matrix *)luax_newobject(L, "Matrix", sizeof(Matrix));
@@ -1955,6 +2746,13 @@ int lua_class_vector4_QuaternionToMatrix(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qFromAxisAngle
+```lua
+Vector4:qFromAxisAngle(Vector3 Vector, number Angle)
+```
+Set vector components to a rotation quaternion for an angle and axis (radians)
+*/
 int lua_class_vector4_QuaternionFromAxisAngle(lua_State *L){
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Vector3 * v2 = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -1976,6 +2774,13 @@ int lua_class_vector4_QuaternionFromAxisAngle(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qToAxisAngle
+```lua
+Vector3 Vector, number Angle = Vector4:qToAxisAngle()
+```
+Returns the rotation angle and axis for a given quaternion
+*/
 int lua_class_vector4_QuaternionToAxisAngle(lua_State *L){
   lua_settop(L, 1);
   Vector4 * v1 = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
@@ -2002,7 +2807,13 @@ int lua_class_vector4_QuaternionToAxisAngle(lua_State *L){
   return 2;
 }
 
-
+/*!MD
+#### Vector4:qFromEuler
+```lua
+Vector4:qFromEuler(number Roll, number Pitch, number Yaw)
+```
+Set vector components to a quaternion equivalent of Euler angles
+*/
 int lua_class_vector4_QuaternionFromEuler(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   float roll  = luaL_checknumber(L, 2);
@@ -2025,6 +2836,13 @@ int lua_class_vector4_QuaternionFromEuler(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Vector4:qToEuler
+```lua
+number Roll, number Pitch, number Yaw = Vector4:qToEuler()
+```
+Return the Euler angles equivalent to quaternion (roll, pitch, yaw)
+*/
 int lua_class_vector4_QuaternionToEuler(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
 
@@ -2046,6 +2864,13 @@ int lua_class_vector4_QuaternionToEuler(lua_State *L){
   return 3;
 }
 
+/*!MD
+#### Vector4:qTransform
+```lua
+Vector4:qTransform(Matrix Matrix)
+```
+Transform a quaternion given a transformation matrix
+*/
 int lua_class_vector4_QuaternionTransform(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
   Matrix  * m = (Matrix  *)luaL_checkudata(L, 2, "Matrix");
@@ -2224,9 +3049,31 @@ luaL_Reg luaray_class_vector4[] = {
   {NULL, NULL}
 };
 
-
 /*!MD
 ## Color
+Color component ranges is 0-255
+Structure:
+
+| Field  | Type    |
+| :----- | :------ |
+| r      | integer |
+| g      | integer |
+| b      | integer |
+| a      | integer |
+
+| **Methods**                            | description 
+| :-----                                 | :-----------
+| [clone](#Colorclone)                   | Create copy of color
+| [get](#Colorget)                       | Return vector fields
+| [set](#Colorset)                       | Assing values to color components
+| [toInt](#ColortoInt)                   | Return color integer representation
+| [fromInt](#ColorfromInt)               | Set color components from a given integer
+| [normalize](#Colornormalize)           | Return normalized color components [float r/255, float g/255, float b/255, float a/255]
+| [fromNormalized](#ColorfromNormalized) | Set color components from a given normalized values
+| [toHSV](#ColortoHSV)                   | Return color hue, value and saturation
+| [fromHSV](#ColorfromHSV)               | Set color components from a given hue, value and saturation
+| [fade](#Colorfade)                     | Color fade-in or fade-out, alpha goes from 0.0f to 1.0f
+
 ### Initialization
 ```lua
 -- variants
@@ -2318,6 +3165,13 @@ int lua_class_color_new(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:clone
+```lua
+Color Color = Color:clone()
+```
+Creates copy of color
+*/
 int lua_class_color_Clone(lua_State *L){
   Color * c1 = (Color *)luaL_checkudata(L, 1, "Color");
   Color * c2 = (Color *)luax_newobject(L, "Color", sizeof(Color));
@@ -2325,6 +3179,15 @@ int lua_class_color_Clone(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:get
+```lua
+-- variants
+integer r, integer g, integer b, integer a = Color:get()
+table t = Color:get('t') -- t[r, g, b, a]
+```
+Return vector fields
+*/
 int lua_class_color_Get(lua_State *L){
   Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
@@ -2342,6 +3205,15 @@ int lua_class_color_Get(lua_State *L){
   return 4;
 }
 
+/*!MD
+#### Color:set
+```lua
+-- variants
+Color:set(integer r, integer g, integer b[, integer a])
+Color:set(table t) -- t[r, g, b, a]
+```
+Assing values to color components
+*/
 int lua_class_color_Set(lua_State *L){
   Color * c = (Color *)luaL_checkudata(L, 1, "Color");
 	c->r = luax_optinteger(L, 2, c->r);
@@ -2353,6 +3225,13 @@ int lua_class_color_Set(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:toInt
+```lua
+integer Color = Color:toInt()
+```
+Return color integer representation
+*/
 int lua_class_color_ToInteger(lua_State *L){
   Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   int ic = ColorToInt(*c);
@@ -2360,6 +3239,13 @@ int lua_class_color_ToInteger(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:fromInt
+```lua
+Color:fromInt(integer Color)
+```
+Set color components from a given integer
+*/
 int lua_class_color_FromInteger(lua_State *L){
   Color * c = (Color *)luaL_checkudata(L, 1, "Color");
   int hex   = luaL_checkinteger(L, 2);
@@ -2376,6 +3262,16 @@ int lua_class_color_ToString(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:normalize
+```lua
+-- variants
+Vector4 Vector = Color:normalize()
+float r, float g, float b, float a = Color:normalize('n')
+table t = Color:normalize('t')
+```
+Return normalized color components [float r/255, float g/255, float b/255, float a/255]
+*/
 int lua_class_color_Normalize(lua_State *L){
   Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
   if (lua_isstring(L, 2)){
@@ -2401,6 +3297,16 @@ int lua_class_color_Normalize(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:fromNormalized
+```lua
+-- variants
+Color:fromNormalized(Vector4 Vector)
+Color:fromNormalized(float r, float g, float b, float a)
+Color:fromNormalized(table t)
+```
+Set color components from a given normalized values
+*/
 int lua_class_color_FromNormalized(lua_State *L){
   Color *   c = (Color *)luaL_checkudata(L, 1, "Color");
   if (lua_isnumber(L, 2)){
@@ -2429,6 +3335,13 @@ int lua_class_color_FromNormalized(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:toHSV
+```lua
+number Hue, number Value, number Saturation = Color:toHSV()
+```
+Return color hue, value and saturation
+*/
 int lua_class_color_ToHSV(lua_State *L){
   Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
   Vector3 * v = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
@@ -2436,6 +3349,13 @@ int lua_class_color_ToHSV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:fromHSV
+```lua
+Color:fromHSV(number Hue, number Value, number Saturation)
+```
+Set color components from a given hue, value and saturation
+*/
 int lua_class_color_FromHSV(lua_State *L){
   Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
@@ -2445,6 +3365,13 @@ int lua_class_color_FromHSV(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Color:fade
+```lua
+Color:fade(number Alpha)
+```
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f
+*/
 int lua_class_color_Fade(lua_State *L){
   Color * c =   (Color *)luaL_checkudata(L, 1, "Color");
   int alpha = luaL_checkinteger(L, 2);

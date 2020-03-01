@@ -53,7 +53,6 @@ void luax_newclass(lua_State *L, char * classname, luaL_Reg *func) {
 	lua_rawset(L, -3);               // mt, "__index", ct
 	// pass all methods that start with _ to the metatable, and all others to the index table
 	bool usedIndex = 0;              // Checks custom index function
-	printf("Create class %s\n", classname);
 	for (; func->name; func++) {
 		if (!strcmp(func->name, "__index")) usedIndex = true;
 		lua_pushstring(L, func->name);

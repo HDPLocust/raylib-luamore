@@ -1024,30 +1024,30 @@ Load integer value from storage file (from defined position).
 ### Input-related functions: keyb
 #### IsKeyPressed
 ```lua
-boolean State = rl.core.IsKeyPressed(integer Key)
+boolean State = rl.core.IsKeyPressed(eKey Key[, ekey Key2, ...])
 ```
-Detect if a key has been pressed once.
+Detect if a key has been pressed once. See [eKey](#eKey).
 
 
 #### IsKeyDown
 ```lua
-boolean State = rl.core.IsKeyDown(integer Key)
+boolean State = rl.core.IsKeyDown(eKey Key[, eKey Key2, ...])
 ```
-Detect if a key is being pressed.
+Detect if a key is being pressed. See [eKey](#eKey).
 
 
 #### IsKeyReleased
 ```lua
-boolean State = rl.core.IsKeyReleased(integer Key)
+boolean State = rl.core.IsKeyReleased(eKey Key[, eKey Key2, ...])
 ```
-Detect if a key has been released once.
+Detect if a key has been released once. See [eKey](#eKey).
 
 
 #### IsKeyUp
 ```lua
-boolean State = rl.core.IsKeyUp(integer Key)
+boolean State = rl.core.IsKeyUp(eKey Key[, eKey Key2, ...])
 ```
-Detect if a key is NOT being pressed.
+Detect if a key is NOT being pressed. See [eKey](#eKey).
 
 
 #### GetKeyPressed
@@ -1073,9 +1073,9 @@ Get all user UTF-8 encoded string input chars.
 
 #### SetExitKey
 ```lua
-rl.core.SetExitKey(integer Key)
+rl.core.SetExitKey(eKey Key)
 ```
-Set a custom key to exit program (default is ESC).
+Set a custom key to exit program (default is ESC). See [eKey](#eKey).
 
 
 ### Input-related functions: gamepads
@@ -1325,7 +1325,7 @@ A, B, and C is additional info for various gestures:
 * `"DRAG"` returns Vector2 DragVector, float DragAngle if 'n' is not passed
 * `"DRAG"` returns integer DragVectorX, integer DragVectorY, float DragAngle if 'n' is passed
 * `"PINCH_IN"` returns Vector2 PinchVector, float PinchAngle if 'n' is not passed
-* `"PINCH_IN"` returns integer PinchVectorX, integer PinchVectorY, float PinchAngle if 'n' is passed
+* `"PINCH_IN"` returns float PinchVectorX, float PinchVectorY, float PinchAngle if 'n' is passed
 * `"PINCH_OUT"` same as `"PINCH_IN"`.
 
 
@@ -1346,8 +1346,8 @@ Get gesture hold time in milliseconds.
 #### GetGestureHoldDuration
 ```lua
 -- variants
-Vector2 DragVector     = rl.core.GetGestureDragVector()
-integer vX, integer vY = rl.core.GetGestureDragVector('n')
+Vector2 DragVector = rl.core.GetGestureDragVector()
+float vX, float vY = rl.core.GetGestureDragVector('n')
 ```
 Get gesture drag vector.
 
@@ -1362,8 +1362,8 @@ Get gesture drag angle.
 #### GetGesturePinchVector
 ```lua
 -- variants
-Vector2 PinchVector    = rl.core.GetGesturePinchVector()
-integer dX, integer dY = rl.core.GetGesturePinchVector('n')
+Vector2 PinchVector = rl.core.GetGesturePinchVector()
+float dX, float dY  = rl.core.GetGesturePinchVector('n')
 ```
 Get gesture pinch delta.
 
@@ -1397,30 +1397,30 @@ Update camera position for selected mode.
 
 #### SetCameraPanControl
 ```lua
-rl.core.SetCameraPanControl(integer panKey)
+rl.core.SetCameraPanControl(eKey panKey)
 ```
-Set camera pan key to combine with mouse movement (free camera).
+Set camera pan key to combine with mouse movement (free camera). See [Camera](#Camera), [eKey](#eKey).
 
 
 #### SetCameraAltControl
 ```lua
-rl.core.SetCameraAltControl(integer altKey)
+rl.core.SetCameraAltControl(eKey altKey)
 ```
-Set camera alt key to combine with mouse movement (free camera).
+Set camera alt key to combine with mouse movement (free camera). See [Camera](#Camera), [eKey](#eKey).
 
 
 #### SetCameraSmoothZoomControl
 ```lua
 rl.core.SetCameraSmoothZoomControl(integer szKey)
 ```
-Set camera smooth zoom key to combine with mouse (free camera).
+Set camera smooth zoom key to combine with mouse (free camera). See [Camera](#Camera), [eKeyboard](#eKeyboard).
 
 
 #### SetCameraMoveControls
 ```lua
-rl.core.SetCameraMoveControls(integer frontKey, integer backKey, integer rightKey, integer leftKey, integer upKey, integer downKey)
+rl.core.SetCameraMoveControls(eKey frontKey, eKey backKey, eKey rightKey, eKey leftKey, eKey upKey, eKey downKey)
 ```
-Set camera move controls (1st person and 3rd person cameras).
+Set camera move controls (1st person and 3rd person cameras). See [Camera](#Camera), [eKey](#eKey).
 
 
 # Classes
@@ -1428,18 +1428,43 @@ Set camera move controls (1st person and 3rd person cameras).
 
 Structure:
 
-| Field  | type  |
+| Field  | Type  |
 | :----- | :---- |
 | x      | float |
 | y      | float |
 
-Methods: 
-
-| Function                 | description 
-| :-----                   | :-----------
-| [clone](#Vector2_clone)  | Creates copy of vector
-| [get](#Vector2:get)      | Returns vector fields
-
+| **Methods**                      | description 
+| :-----                           | :-----------
+| [clone](#Vector2clone)           | Creates copy of vector
+| [get](#Vector2get)               | Returns vector fields
+| [set](#Vector2set)               | Assing values to vector
+| [add](#Vector2add)               | Add vector to vector (modifying it)
+| [subtract](#Vector2subtract)     | Subtract vector from vector (modifying it)
+| [length](#Vector2length)         | Returns vector scalar length
+| [dotProcuct](#Vector2dotProduct) | Returns vector scalar dot product
+| [distance](#Vector2distance)     | Returns scalar distance between two vectors
+| [angle](#Vector2angle)           | Returns scalar angle between two vectors (degrees)
+| [angleRad](#Vector2angleRad)     | Returns scalar angle between two vectors (radians)
+| [scale](#Vector2scale)           | Multiply each component of vector to scalar
+| [multiplyV](#Vector2multiplyV)   | Multiply vector to another vector (modifying it)
+| [multiply](#Vector2multiply)     | Multiply vector to scalar or another vector (modifying it)
+| [negate](#Vector2negate)         | Negate each component of vector (-Vec2.x, -Vec2.y)
+| [divide](#Vector2divide)         | Divide vector to scalar or another vector (modifying it)
+| [divideV](#Vector2divideV)       | Divide vector to another vector (modifying it)
+| [normalize](#Vector2normalize)   | Normalize vector (divide each component lo vector length)
+| [lerp](#Vector2lerp)             | Interpolate vector to another by given interpolant
+| **Overloads**                    | Note: In the mul/div methods with numbers, the vector should be in FIRST place, `NewVec2 = Vec2 * 5` is ok `NewVec2 = 5 * Vec2` raises error
+| +: `NewVec2 = Vec2A + Vec2B`     | Create a new vector that is the sum of two vectors
+| -: `NewVec2 = Vec2A - Vec2B`     | Create a new vector that is the subtraction of two vectors
+| *: `NewVec2 = Vec2A * Vec2B`     | Create a new vector that is the multiplication of two vectors
+| *: `NewVec2 = Vec2 * Num`        | Create a new vector that is the multiplication of vector by number (scale)
+| /: `NewVec2 = Vec2A / Vec2B`     | Create a new vector that is the division of two vectors
+| /: `NewVec2 = Vec2 / Num`        | Create a new vector that is the division of vector by number (divide each vector component)
+| #: `Len = #Vec2A`                | Returns vector scalar length (:length shortcut)
+| ^: `NewVec2 = Vec2A ^ VecB`      | Create a new vector that is the power of two vectors
+| ^: `NewVec2 = Vec2 ^ Num`        | Create a new vector that is the power of vector to number
+| =: `isEqual = Vec2A == Vec2B`    | Checks vectors is equal
+| -: `negVec2 = -Vec2`             | Creates new vector that is negate of another
 
 ### Initialization
 ```lua
@@ -1463,13 +1488,13 @@ Clones Vector2 object.
 #### Vector2:get
 ```lua
 -- variants
-float x, float y = Vector2:get()
+number x, number y = Vector2:get()
 table t = Vector2:get('t') --> {x, y}
 ```
 Get Vector2 components.
 
 
-#### Set
+#### Vector2:set
 ```lua
 -- variants
 Vector2:set(float x, float y)
@@ -1478,7 +1503,167 @@ Vector2:set(table t) -- [x, y]
 Set Vector2 components.
 
 
+#### Vector2:add
+```lua
+Vector2:add(Vector2 Vector)
+```
+Add vector to vector (modifying it)
+
+
+#### Vector2:subtract
+```lua
+Vector2:subtract(Vector2 Vector)
+```
+Subtract vector from vector (modifying it)
+
+
+#### Vector2:length
+```lua
+number Length = Vector2:length()
+```
+Returns vector scalar length
+
+
+#### Vector2:dotProduct
+```lua
+number Dot = Vector2:dotProduct(Vector2 Vector)
+```
+Returns vector scalar dot product
+
+
+#### Vector2:distance
+```lua
+number Distance = Vector2:distance(Vector2 Vector)
+```
+Returns scalar distance between two vectors
+
+
+#### Vector2:angle
+```lua
+number Angle = Vector2:angle(Vector2 Vector)
+```
+Returns scalar angle between two vectors (degrees)
+
+
+#### Vector2:angleRad
+```lua
+number Angle = Vector2:angleRad(Vector2 Vector)
+```
+Returns scalar angle between two vectors (radians)
+
+
+#### Vector2:scale
+```lua
+Vector2:scale(number Scale)
+```
+Multiply each component of vector to scalar
+
+
+#### Vector2:multiplyV
+```lua
+Vector2:multiplyV(Vector2 Vector)
+```
+Multiply vector to another vector (modifying it)
+
+
+#### Vector2:multiply
+```lua
+-- variants
+Vector2:multiply(Vector2 Vector)
+Vector2:multiply(number Scale)
+```
+Multiply vector to scalar or another vector (modifying it)
+
+
+#### Vector2:negate
+```lua
+Vector2:negate()
+```
+Negate each component of vector (-Vec2.x, -Vec2.y)
+
+
+#### Vector2:divide
+```lua
+-- variants
+Vector2:divide(Vector2 Vector)
+Vector2:divide(number Scale)
+```
+Divide vector to scalar or another vector (modifying it)
+
+
+#### Vector2:divideV
+```lua
+Vector2:divideV(Vector2 Vector)
+```
+Divide vector to another vector (modifying it)
+
+
+#### Vector2:normalize
+```lua
+Vector2:normalize()
+```
+Normalize vector (divide each component lo vector length)
+
+
+#### Vector2:lerp
+```lua
+Vector2:lerp(Vector2 Vector, number Amount)
+```
+Interpolate vector to another by given interpolant
+
+
 ## Vector3
+
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+| z      | float |
+
+| **Methods**                                      | description 
+| :-----                                           | :-----------
+| [clone](#Vector3clone)                           | Creates copy of vector
+| [get](#Vector3get)                               | Returns vector fields
+| [set](#Vector3set)                               | Assing values to vector
+| [add](#Vector3add)                               | Add vector to vector (modifying it)
+| [subtract](#Vector3subtract)                     | Subtract vector from vector (modifying it)
+| [scale](#Vector3scale)                           | Multiply each component of vector to scalar
+| [multiplyV](#Vector3multiplyV)                   | Multiply vector to another vector (modifying it)
+| [multiply](#Vector3multiply)                     | Multiply vector to scalar or another vector (modifying it)
+| [crossProduct](#Vector3crossProduct)             | Transform vector to cross product of two vectors
+| [perpendicular](#Vector3perpendicular)           | Calculate one vector perpendicular vector
+| [length](#Vector3length)                         | Returns vector scalar length
+| [dotProduct](#Vector3dotProduct)                 | Returns scalar dot product of two vectors
+| [distance](#Vector3distance)                     | Returns scalar distance between two vectors
+| [negate](#Vector3negate)                         | Negate each component of vector (-Vec3.x, -Vec3.y, -Vec3.z)
+| [divide](#Vector3divide)                         | Divide vector to scalar or another vector (modifying it)
+| [divideV](#Vector3divideV)                       | Divide vector to another vector (modifying it)
+| [normalize](#Vector3normalize)                   | Normalize vector (divide each component lo vector length)
+| [orthoNormalize](#Vector3orthoNormalize)         | Makes vectors normalized and orthogonal to each other
+| [transform](#Vector3transform)                   | Transforms a vector by a given Matrix
+| [rotateByQuaternion](#Vector3rotateByQuaternion) | Transform a vector by quaternion rotation
+| [lerp](#Vector3lerp)                             | Interpolate vector to another by given interpolant
+| [reflect](#Vector3reflect)                       | Calculate reflected vector to normal
+| [min](#Vector3min)                               | Return min value for each pair of components
+| [max](#Vector3max)                               | Return max value for each pair of components
+| [barycenter](#Vector3barycenter)                 | Create new vector that is barycenter coordinates (u, v, w) for point p with respect to triangle (a, b, c)
+| [angle](#Vector3angle)                           | Returns scalar angle between two vectors (degrees)
+| [angleRad](#Vector3angleRad)                     | Returns scalar angle between two vectors (radians)
+| **Overloads**                                    | Note: In the mul/div methods with numbers, the vector should be in FIRST place, `NewVec3 = Vec3 * 5` is ok `NewVec3 = 5 * Vec3` raises error
+| +: `NewVec3 = Vec3A + Vec3B`                     | Create a new vector that is the sum of two vectors
+| -: `NewVec3 = Vec3A - Vec3B`                     | Create a new vector that is the subtraction of two vectors
+| *: `NewVec3 = Vec3A * Vec3B`                     | Create a new vector that is the multiplication of two vectors
+| *: `NewVec3 = Vec3 * Num`                        | Create a new vector that is the multiplication of vector by number (scale)
+| /: `NewVec3 = Vec3A / Vec3B`                     | Create a new vector that is the division of two vectors
+| /: `NewVec3 = Vec3 / Num`                        | Create a new vector that is the division of vector by number (divide each vector component)
+| #: `Len = #Vec3`                                 | Returns vector scalar length (:length shortcut)
+| ^: `NewVec3 = Vec3A ^ Vec3B`                     | Create a new vector that is the power of two vectors
+| ^: `NewVec3 = Vec3 ^ Num`                        | Create a new vector that is the power of vector to number
+| =: `isEqual = Vec3A == Vec3B`                    | Checks vectors is equal
+| -: `NegVec3 = -Vec3`                             | Creates new vector that is negate of another
+
 ### Initialization
 ```lua
 -- variants
@@ -1489,7 +1674,245 @@ Vector3 Vec3 = rl.Vector3(table t)                        --> vec3[ t[1], t[2], 
 Creates new Vector3 object.
 
 
+### Methods
+
+#### Vector3:clone
+```lua
+Vector3 Vec3 = Vector3:clone()
+```
+Clones Vector3 object.
+
+
+#### Vector3:get
+```lua
+-- variants
+number x, number y, number z = Vector3:get()
+table t = Vector3:get('t') --> {x, y, z}
+```
+Get Vector3 components.
+
+
+#### Vector3:set
+```lua
+-- variants
+Vector3:set(number x, number y, number z)
+Vector3:set(table t) -- [x, y, z]
+```
+Set Vector3 components.
+
+
+#### Vector3:add
+```lua
+Vector3:add(Vector3 Vector)
+```
+Add vector to vector (modifying it)
+
+
+#### Vector3:subtract
+```lua
+Vector3:subtract(Vector3 Vector)
+```
+Subtract vector to vector (modifying it)
+
+
+#### Vector3:scale
+```lua
+Vector3:scale(number Scale)
+```
+Multiply each component of vector to scalar
+
+
+#### Vector3:multiplyV
+```lua
+Vector3:multiplyV(Vector3 Vector)
+```
+Multiply vector to another vector (modifying it)
+
+
+#### Vector3:multiply
+```lua
+-- variants
+Vector3:multiply(Vector3 Vector)
+Vector3:multiply(number Scale)
+```
+Multiply vector to scalar or another vector (modifying it)
+
+
+#### Vector3:crossProduct
+```lua
+Vector3:crossProduct(Vector3 Vector)
+```
+Transform vector to cross product of two vectors
+
+
+#### Vector3:perpendicular
+```lua
+Vector3:perpendicular(Vector3 Vector)
+```
+Calculate one vector perpendicular vector
+
+
+#### Vector3:length
+```lua
+number Length = Vector3:length()
+```
+Returns vector scalar length
+
+
+#### Vector3:dotProduct
+```lua
+number Dot = Vector3:dotProduct(Vector3 Vector)
+```
+Returns scalar dot product of two vectors
+
+
+#### Vector3:distance
+```lua
+number Distance = Vector3:distance(Vector3 Vector)
+```
+Returns scalar distance between two vectors
+
+
+#### Vector3:negate
+```lua
+Vector3:negate()
+```
+Negate each component of vector (-Vec3.x, -Vec3.y, -Vec3.z)
+
+
+#### Vector3:divide
+```lua
+-- variants
+Vector3:divide(Vector3 Vector)
+Vector3:divide(number Scale)
+```
+Divide vector to scalar or another vector (modifying it)
+
+
+#### Vector3:divideV
+```lua
+Vector3:divideV(Vector3 Vector)
+```
+Divide vector to another vector (modifying it)
+
+
+#### Vector3:normalize
+```lua
+Vector3:normalize()
+```
+Normalize vector (divide each component lo vector length)
+
+
+#### Vector3:orthoNormalize
+```lua
+Vector3:orthoNormalize(Vector3 Vector)
+```
+Makes vectors normalized and orthogonal to each other modifying both
+
+
+#### Vector3:transform
+```lua
+Vector3:transform(Matrix Matrix)
+```
+Transforms a vector by a given Matrix
+
+
+#### Vector3:rotateByQuaternion
+```lua
+Vector3:rotateByQuaternion(Vector4 Quaternion)
+```
+Transform a vector by quaternion rotation
+
+
+#### Vector3:lerp
+```lua
+Vector3:lerp(Vector3 Vector, number Amount)
+```
+Interpolate vector to another by given interpolant
+
+
+#### Vector3:reflect
+```lua
+Vector3:reflect(Vector3 Normal)
+```
+Calculate reflected vector to normal
+
+
+#### Vector3:min
+```lua
+number Min = Vector3:min()
+```
+Return min value for each pair of components
+
+
+#### Vector3:max
+```lua
+number max = Vector3:min()
+```
+Return max value for each pair of components
+
+
+#### Vector3:barycenter
+```lua
+Vector3 Barycenter = Vector3:barycenter(Vector3 A, Vector3 B, Vector3 C)
+```
+Create new vector that is barycenter coordinates (u, v, w) for point p with respect to triangle (A, B, C)
+
+
 ## Matrix
+
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| m1     | float |
+| m2     | float |
+| m3     | float |
+| m4     | float |
+| m5     | float |
+| m6     | float |
+| m7     | float |
+| m8     | float |
+| m9     | float |
+| m10    | float |
+| m11    | float |
+| m12    | float |
+| m13    | float |
+| m14    | float |
+| m15    | float |
+| m16    | float |
+
+| **Methods**                                     | description 
+| :-----                                          | :-----------
+| [clone](#Matrixclone)                           | Creates copy of matrix
+| [get](#Matrixget)                               | Returns matrix fields
+| [set](#Matrixset)                               | Assing values to matrix
+| [determinant](#Matrixdeterminant)               | Compute matrix determinant
+| [trace](#Matrixtrace)                           | Returns the trace of the matrix (sum of the values along the diagonal)
+| [transpose](#Matrixtranspose)                   | Transposes provided matrix (modifying it)
+| [invert](#Matrixinvert)                         | Invert provided matrix (modifying it)
+| [normalize](#Matrixnormalize)                   | Normalize provided matrix (modifying it)
+| [identity](#Matrixidentity)                     | Modify matrix to identity matrix
+| [add](#Matrixadd)                               | Add matrix to matrix (modifying it)
+| [subtract](#Matrixsubtract)                     | Subtract matrix from matrix (modifying it)
+| [translate](#Matrixtranslate)                   | Modify matrix to translation by given vector matrix
+| [rotate](#Matrixrotate)                         | Modify matrix to rotation matrix from axis and angle (radians)
+| [rotateXYZ](#MatrixrotateXYZ)                   | Rotate matrix to given Vector3 along XYZ-axes (angles in radians)
+| [rotateX](#MatrixrotateX)                       | Rotate matrix to given angle along X-axis (angle in radians)
+| [rotateY](#MatrixrotateY)                       | Rotate matrix to given angle along Y-axis. (angle in radians)
+| [rotateZ](#MatrixrotateZ)                       | Rotate matrix to given angle along Z-axis. (angle in radians)
+| [scale](#Matrixscale)                           | Scale matrix by given vector
+| [multiply](#Matrixmultiply)                     | Multiply matrix to another (modifying it)
+| [frustum](#Matrixfrustum)                       | Modify matrix to perspective projection matrix
+| [perspective](#Matrixperspective)               | Modify matrix to perspective projection matrix (by angles in radians)
+| [ortho](#Matrixortho)                           | Modify matrix to orthographic projection matrix
+| [lookAt](#MatrixlookAt)                         | Modify matrix to look-at point by three vectors
+| **Overloads**                                   | 
+| +: `NewVec3 = MatrixA + MatrixB`                | Create a new matrix that is the sum of two matrices
+| -: `NewVec3 = MatrixA - MatrixB`                | Create a new matrix that is the subtraction of two matrices
+| *: `NewVec3 = MatrixA * MatrixB`                | Create a new matrix that is the multiplication of two matrices
+| =: `isEqual = MatrixA == MatrixB`               | Checks matrices is equal
+
 ### Initialization
 ```lua
 -- variants
@@ -1499,7 +1922,229 @@ Matrix Mat = rl.Matrix(table t)                        --> Matrix[ t[1], t[2], .
 Creates new Matrix object.
 
 
+#### Matrix:clone
+```lua
+Matrix Matrix = Matrix:clone()
+```
+Creates copy of matrix
+
+
+#### Matrix:get
+```lua
+-- variants
+number m1, number m2, ... number m16 = Matrix:get()
+table Table = Matrix:get('t') --> Table[m1, m2, ... m16]
+```
+Returns matrix fields
+
+
+#### Matrix:set
+```lua
+-- variants
+Matrix:set(number m1, number m2, ... number m16)
+Matrix:set(table Table) -- Table[m1, m2, ... m16]
+```
+Assing values to matrix
+
+
+#### Matrix:determinant
+```lua
+number Determinant = Matrix:determinant()
+```
+Compute matrix determinant
+
+
+#### Matrix:trace
+```lua
+number Trace = Matrix:trace()
+```
+Returns the trace of the matrix (sum of the values along the diagonal)
+
+
+#### Matrix:transpose
+```lua
+Matrix:transpose()
+```
+Transposes provided matrix (modifying it)
+
+
+#### Matrix:invert
+```lua
+Matrix:invert()
+```
+Transposes provided matrix (modifying it)
+
+
+#### Matrix:normalize
+```lua
+Matrix:normalize()
+```
+Normalize provided matrix (modifying it)
+
+
+#### Matrix:identity
+```lua
+Matrix:identity()
+```
+Modify matrix to identity matrix
+
+
+#### Matrix:add
+```lua
+Matrix:add(Matrix Matrix)
+```
+Add matrix to matrix (modifying it)
+
+
+#### Matrix:subtract
+```lua
+Matrix:subtract(Matrix Matrix)
+```
+Subtract matrix from matrix (modifying it)
+
+
+#### Matrix:translate
+```lua
+-- variants
+Matrix:translate(number x, number y, number z)
+Matrix:translate(table Translate) -- Translate[x, y, z]
+Matrix:translate(Vector3 Vector)
+```
+Modify matrix to translation by given vector matrix
+
+
+#### Matrix:rotate
+```lua
+Matrix:rotate(Vector3 Vector, number Angle)
+```
+Modify matrix to rotation matrix from axis and angle (radians)
+
+
+#### Matrix:rotateXYZ
+```lua
+Matrix:rotateXYZ(Vector3 Vector)
+```
+Rotate matrix to given Vector3 (angles in radians)
+
+
+#### Matrix:rotateX
+```lua
+Matrix:rotateX(number Angle)
+```
+Rotate matrix to given angle along X-axis. (angle in radians)
+
+
+#### Matrix:rotateY
+```lua
+Matrix:rotateY(number Angle)
+```
+Rotate matrix to given angle along Y-axis. (angle in radians)
+
+
+#### Matrix:rotateZ
+```lua
+Matrix:rotateZ(number Angle)
+```
+Rotate matrix to given angle along Z-axis. (angle in radians)
+
+
+#### Matrix:scale
+```lua
+-- variants
+Matrix:scale(number x, number y, number z)
+Matrix:scale(table Scale)    -- Scale[x, y, z]
+Matrix:scale(Vector3 Vector)
+
+```
+Scale matrix by given vector
+
+
+#### Matrix:multiply
+```lua
+-- variants
+Matrix:multiply(Matrix Matrix)
+```
+Multiply matrix to another (modifying it)
+
+
+#### Matrix:frustrum
+```lua
+Matrix:frustum(number Left, number Right, number Bottom, numner Top, number Near, number Far)
+```
+Modify matrix to perspective projection matrix
+
+
+#### Matrix:perspective
+```lua
+Matrix:perspective(number FovY, number Aspect, number Near, numner Far, number Top)
+```
+Modify matrix to perspective projection matrix (by angles in radians)
+
+
+#### Matrix:ortho
+```lua
+Matrix:ortho(number Left, number Right, number Bottom, numner Top, number Near, number Far)
+```
+Modify matrix to orthographic projection matrix
+
+
+#### Matrix:lookAt
+```lua
+Matrix:lookAt(Vector3 Eye, Vector3 Target, Vector3 Up)
+```
+Modify matrix to look-at point by three vectors
+
+
 ## Vector4
+Vector4 also Quaternion, so it have Quaternion methods.
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+| z      | float |
+| w      | float |
+
+| **Methods**                                            | description 
+| :-----                                                 | :-----------
+| [clone](#Vector4clone)                                 | Creates copy of vector
+| [get](#Vector4get)                                     | Returns vector fields
+| [set](#Vector4set)                                     | Assing values to vector
+| [add](#Vector4add)                                     | Add vector to vector (modifying it)
+| [subtract](#Vector4subtract)                           | Subtract vector from vector (modifying it)
+| [scale](#Vector4scale)                                 | Multiply each component of vector to scalar
+| [multiplyV](#Vector4multiplyV)                         | Multiply vector to another vector (modifying it)
+| [multiply](#Vector4multiply)                           | Multiply vector to scalar or another vector (modifying it)
+| [identity](#Vector4identity)                           | Set vector components to quaternion identity
+| [length](#Vector4length)                               | Returns vector scalar length
+| [normalize](#Vector4normalize)                         | Normalize provided quaternion
+| [qInvert](#Vector4qInvert)                             | Invert provided quaternion
+| [qMultiply](#Vector4qMultiply)                         | Multiply quaternion to another (modifying it)
+| [qLerp](#Vector4qLerp)                                 | Linear interpolate quaternion to another by given interpolant
+| [qNlerp](#Vector4qNlerp)                               | Linear interpolate quaternion to another by given interpolant, and normalize it
+| [qSlerp](#Vector4qSlerp)                               | Spherical interpolate quaternion to another by given interpolant
+| [qFromVector3ToVector3](#Vector4qFromVector3ToVector3) | Calculate quaternion based on the rotation from one vector to another
+| [qFromMatrix](#Vector4qFromMatrix)                     | Set vector components to a quaternion for a given rotation matrix
+| [qToMatrix](#Vector4qToMatrix)                         | Returns a matrix for a given quaternion
+| [qFromAxisAngle](#Vector4qFromAxisAngle)               | Set vector components to a rotation quaternion for an angle and axis (radians)
+| [qToAxisAngle](#Vector4qToAxisAngle)                   | Returns the rotation angle and axis for a given quaternion
+| [qFromEuler](#Vector4qFromEuler)                       | Set vector components to a quaternion equivalent of Euler angles
+| [qToEuler](#Vector4qToEuler)                           | Return the Euler angles equivalent to quaternion (roll, pitch, yaw)
+| [qTransform](#Vector4qTransform)                       | Transform a quaternion given a transformation matrix
+| **Overloads**                                          | Note: In the mul/div methods with numbers, the vector should be in FIRST place, `NewVec4 = Vec4 * 5` is ok `NewVec4 = 5 * Vec4` raises error
+| +: `NewVec4 = Vec4A + Vec4B`                           | Create a new vector that is the sum of two vectors
+| -: `NewVec4 = Vec4A - Vec4B`                           | Create a new vector that is the subtraction of two vectors
+| *: `NewVec4 = Vec4A * Vec4B`                           | Create a new vector that is the multiplication of two vectors
+| *: `NewVec4 = Vec4A * NumB`                            | Create a new vector that is the multiplication of vector by number (scale)
+| /: `NewVec4 = Vec4A / Vec4B`                           | Create a new vector that is the division of two vectors
+| /: `NewVec4 = Vec4A / NumB`                            | Create a new vector that is the division of vector by number (divide each vector component)
+| #: `Len = #Vec4`                                       | Returns vector scalar length (:length shortcut)
+| ^: `NewVec4 = Vec4A ^ Vec4B`                           | Create a new vector that is the power of two vectors
+| ^: `NewVec4 = Vec4A ^ NumB`                            | Create a new vector that is the power of vector to number
+| =: `isEqual = Vec4A == Vec4B`                          | Checks vectors is equal
+| -: `NegVec4 = -Vec4`                                   | Creates new vector that is negate of another
+
 ### Initialization
 ```lua
 -- variants
@@ -1510,7 +2155,204 @@ Vector4 Vec4 = rl.Vector4(table t)                        --> Vec4[ t[1], t[2], 
 Creates new Vector4 object.
 
 
+#### Vector4:clone
+```lua
+Vector4 Vec4 = Vector4:clone()
+```
+Creates copy of vector
+
+
+#### Vector4:get
+```lua
+-- variants
+number x, number y, number z, number w = Vector4:get()
+table t = Vector4:get('t') --> {x, y, z, w}
+```
+Get Vector4 components.
+
+
+#### Vector4:set
+```lua
+-- variants
+Vector4:set(number x, number y, number z, number w)
+Vector4:set(table t) -- [x, y, z, w]
+```
+Set Vector4 components.
+
+
+#### Vector4:add
+```lua
+Vector4:add(Vector4 Vector)
+```
+Add vector to vector (modifying it)
+
+
+#### Vector4:subtract
+```lua
+Vector4:subtract(Vector4 Vector)
+```
+Subtract vector from vector (modifying it)
+
+
+#### Vector4:scale
+```lua
+Vector4:subtract(number Scale)
+```
+Multiply each component of vector to scalar
+
+
+#### Vector4:multiplyV
+```lua
+Vector4:multiplyV(Vector4 Vector)
+```
+Multiply vector to another vector (modifying it)
+
+
+#### Vector4:multiply
+```lua
+-- variants
+Vector4:multiply(number Scale)
+Vector4:multiply(Vector4 Vector)
+```
+Multiply vector to scalar or another vector (modifying it)
+
+
+#### Vector4:identity
+```lua
+Vector4:identity()
+```
+Set vector components to quaternion identity
+
+
+#### Vector4:length
+```lua
+number Length = Vector4:length()
+```
+Returns vector scalar length
+
+
+#### Vector4:normalize
+```lua
+Vector4:normalize()
+```
+Normalize provided quaternion
+
+
+#### Vector4:qInvert
+```lua
+Vector4:qInvert()
+```
+Invert provided quaternion
+
+
+#### Vector4:qMultiply
+```lua
+Vector4:qMultiply(Vector4 Vector)
+```
+Multiply quaternion to another (modifying it)
+
+
+#### Vector4:qLerp
+```lua
+Vector4:qLerp(Vector4 Vector, scale Amount)
+```
+Linear interpolate quaternion to another by given interpolant
+
+
+#### Vector4:qNlerp
+```lua
+Vector4:qNlerp(Vector4 Vector, scale Amount)
+```
+Linear interpolate quaternion to another by given interpolant, and normalize it
+
+
+#### Vector4:qSlerp
+```lua
+Vector4:qSlerp(Vector4 Vector, scale Amount)
+```
+Spherical interpolate quaternion to another by given interpolant
+
+
+#### Vector4:qFromVector3ToVector3
+```lua
+Vector4:qFromVector3ToVector3(Vector3 Vector1, Vector3 Vector2)
+```
+Calculate quaternion based on the rotation from one vector to another
+
+
+#### Vector4:qFromMatrix
+```lua
+Vector4:qFromMatrix(Matrix Matrix)
+```
+Set vector components to a quaternion for a given rotation matrix
+
+
+#### Vector4:qToMatrix
+```lua
+Matrix Matrix = Vector4:qToMatrix()
+```
+Returns a matrix for a given quaternion
+
+
+#### Vector4:qFromAxisAngle
+```lua
+Vector4:qFromAxisAngle(Vector3 Vector, number Angle)
+```
+Set vector components to a rotation quaternion for an angle and axis (radians)
+
+
+#### Vector4:qToAxisAngle
+```lua
+Vector3 Vector, number Angle = Vector4:qToAxisAngle()
+```
+Returns the rotation angle and axis for a given quaternion
+
+
+#### Vector4:qFromEuler
+```lua
+Vector4:qFromEuler(number Roll, number Pitch, number Yaw)
+```
+Set vector components to a quaternion equivalent of Euler angles
+
+
+#### Vector4:qToEuler
+```lua
+number Roll, number Pitch, number Yaw = Vector4:qToEuler()
+```
+Return the Euler angles equivalent to quaternion (roll, pitch, yaw)
+
+
+#### Vector4:qTransform
+```lua
+Vector4:qTransform(Matrix Matrix)
+```
+Transform a quaternion given a transformation matrix
+
+
 ## Color
+Color component ranges is 0-255
+Structure:
+
+| Field  | Type    |
+| :----- | :------ |
+| r      | integer |
+| g      | integer |
+| b      | integer |
+| a      | integer |
+
+| **Methods**                            | description 
+| :-----                                 | :-----------
+| [clone](#Colorclone)                   | Create copy of color
+| [get](#Colorget)                       | Return vector fields
+| [set](#Colorset)                       | Assing values to color components
+| [toInt](#ColortoInt)                   | Return color integer representation
+| [fromInt](#ColorfromInt)               | Set color components from a given integer
+| [normalize](#Colornormalize)           | Return normalized color components [float r/255, float g/255, float b/255, float a/255]
+| [fromNormalized](#ColorfromNormalized) | Set color components from a given normalized values
+| [toHSV](#ColortoHSV)                   | Return color hue, value and saturation
+| [fromHSV](#ColorfromHSV)               | Set color components from a given hue, value and saturation
+| [fade](#Colorfade)                     | Color fade-in or fade-out, alpha goes from 0.0f to 1.0f
+
 ### Initialization
 ```lua
 -- variants
@@ -1550,6 +2392,86 @@ Available string colors:
 | `"magenta"`   | `{ 255, 0,   255 }` | #ff00ff
 | `"raywhite"`  | `{ 245, 245, 245 }` | #f5f5f5
 
+
+
+#### Color:clone
+```lua
+Color Color = Color:clone()
+```
+Creates copy of color
+
+
+#### Color:get
+```lua
+-- variants
+integer r, integer g, integer b, integer a = Color:get()
+table t = Color:get('t') -- t[r, g, b, a]
+```
+Return vector fields
+
+
+#### Color:set
+```lua
+-- variants
+Color:set(integer r, integer g, integer b[, integer a])
+Color:set(table t) -- t[r, g, b, a]
+```
+Assing values to color components
+
+
+#### Color:toInt
+```lua
+integer Color = Color:toInt()
+```
+Return color integer representation
+
+
+#### Color:fromInt
+```lua
+Color:fromInt(integer Color)
+```
+Set color components from a given integer
+
+
+#### Color:normalize
+```lua
+-- variants
+Vector4 Vector = Color:normalize()
+float r, float g, float b, float a = Color:normalize('n')
+table t = Color:normalize('t')
+```
+Return normalized color components [float r/255, float g/255, float b/255, float a/255]
+
+
+#### Color:fromNormalized
+```lua
+-- variants
+Color:fromNormalized(Vector4 Vector)
+Color:fromNormalized(float r, float g, float b, float a)
+Color:fromNormalized(table t)
+```
+Set color components from a given normalized values
+
+
+#### Color:toHSV
+```lua
+number Hue, number Value, number Saturation = Color:toHSV()
+```
+Return color hue, value and saturation
+
+
+#### Color:fromHSV
+```lua
+Color:fromHSV(number Hue, number Value, number Saturation)
+```
+Set color components from a given hue, value and saturation
+
+
+#### Color:fade
+```lua
+Color:fade(number Alpha)
+```
+Color fade-in or fade-out, alpha goes from 0.0f to 1.0f
 
 
 ## Rectangle
@@ -1730,8 +2652,9 @@ Rectangle Rect = rl.Rectangle(table t) --> Rectangle[ x = t[1], y = t[2], width 
 
 
 ## Enums
-### eKeyboard.
-Any keyboard function accepts string or integer key representation.
+### eKey
+eKey is the string or integer representation of keyboard scancode in American layout.
+Any keyboard function accepts strings and integers both.
 Representation layout:
 
 | integer                  | string     | description
@@ -1811,18 +2734,18 @@ Representation layout:
 | 284                      | pause      | Pause key
 | 348                      | menu       | Menu key
 | **Function keys**        |            |
-| 290                      | f1         | 
-| 291                      | f2         | 
-| 292                      | f3         | 
-| 293                      | f4         | 
-| 294                      | f5         | 
-| 295                      | f6         | 
-| 296                      | f7         | 
-| 297                      | f8         | 
-| 298                      | f9         | 
-| 299                      | f10        | 
-| 300                      | f11        | 
-| 301                      | f12        | 
+| 290                      | f1         | The 1st function key
+| 291                      | f2         | The 2nd function key
+| 292                      | f3         | The 3rd function key
+| 293                      | f4         | The 4th function key
+| 294                      | f5         | The 5th function key
+| 295                      | f6         | The 6th function key
+| 296                      | f7         | The 7th function key
+| 297                      | f8         | The 8th function key
+| 298                      | f9         | The 9th function key
+| 299                      | f10        | The 10th function key
+| 300                      | f11        | The 11th function key	
+| 301                      | f12        | The 12th function key
 | **Modifier keys**        |            |
 | 340                      | lshift     | Left shift key
 | 341                      | lctrl      | Left control key
