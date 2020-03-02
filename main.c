@@ -929,7 +929,7 @@ int lua_core_GetCameraMatrix2D(lua_State *L){
 /*!MD
 #### GetWorldToScreen
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
+Vector2 ScreenV = rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
 Returns the screen space position for a 3d world space position.
 See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
@@ -945,7 +945,7 @@ int lua_core_GetWorldToScreen(lua_State *L){
 /*!MD
 #### GetWorldToScreenEx
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
+Vector2 ScreenV = rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
 Returns size position for a 3d world space position.
 See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
@@ -963,7 +963,7 @@ int lua_core_GetWorldToScreenEx(lua_State *L){
 /*!MD
 #### GetWorldToScreen2D
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
+Vector2 ScreenV = rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
 Returns the screen space position for a 2d camera world space position.
 See [Vector2](#Vector2), [Camera2D](#Camera2D).
@@ -979,7 +979,7 @@ int lua_core_GetWorldToScreen2D(lua_State *L){
 /*!MD
 #### GetScreenToWorld2D
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
+Vector2 ScreenV = rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
 Returns the world space position for a 2d camera screen space position.
 See [Vector2](#Vector2), [Camera2D](#Camera2D).
@@ -1009,7 +1009,7 @@ int lua_core_SetTargetFPS(lua_State *L){
 /*!MD
 #### GetFPS
 ```lua
-integer FPS = Matrix rl.core.GetFPS()
+integer FPS = rl.core.GetFPS()
 ```
 Returns current FPS.
 */
@@ -1021,7 +1021,7 @@ int lua_core_GetFPS(lua_State *L){
 /*!MD
 #### GetFrameTime
 ```lua
-float DT = Matrix rl.core.GetFrameTime()
+float DT = rl.core.GetFrameTime()
 ```
 Returns time in seconds for last frame drawn.
 */
@@ -1033,7 +1033,7 @@ int lua_core_GetFrameTime(lua_State *L){
 /*!MD
 #### GetTime
 ```lua
-float Time = Matrix rl.core.GetTime()
+float Time = rl.core.GetTime()
 ```
 Returns elapsed time in seconds since InitWindow().
 */

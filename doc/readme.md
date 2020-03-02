@@ -625,7 +625,7 @@ See [Matrix](#Matrix), [Camera2D](#Camera2D).
 
 #### GetWorldToScreen
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
+Vector2 ScreenV = rl.core.GetWorldToScreen(Vector3 Vector, Camera3D Camera)
 ```
 Returns the screen space position for a 3d world space position.
 See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
@@ -633,7 +633,7 @@ See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
 
 #### GetWorldToScreenEx
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
+Vector2 ScreenV = rl.core.GetWorldToScreenEx(Vector3 Vector, Camera3D Camera, integer Width, integer Height)
 ```
 Returns size position for a 3d world space position.
 See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
@@ -641,7 +641,7 @@ See [Vector2](#Vector2), [Vector3](#Vector3), [Camera3D](#Camera3D).
 
 #### GetWorldToScreen2D
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
+Vector2 ScreenV = rl.core.GetWorldToScreen2D(Vector2 Vector, Camera2D Camera)
 ```
 Returns the screen space position for a 2d camera world space position.
 See [Vector2](#Vector2), [Camera2D](#Camera2D).
@@ -649,7 +649,7 @@ See [Vector2](#Vector2), [Camera2D](#Camera2D).
 
 #### GetScreenToWorld2D
 ```lua
-Vector2 ScreenV = Matrix rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
+Vector2 ScreenV = rl.core.GetScreenToWorld2D(Vector2 Vector, Camera2D Camera)
 ```
 Returns the world space position for a 2d camera screen space position.
 See [Vector2](#Vector2), [Camera2D](#Camera2D).
@@ -665,21 +665,21 @@ Set target FPS (maximum).
 
 #### GetFPS
 ```lua
-integer FPS = Matrix rl.core.GetFPS()
+integer FPS = rl.core.GetFPS()
 ```
 Returns current FPS.
 
 
 #### GetFrameTime
 ```lua
-float DT = Matrix rl.core.GetFrameTime()
+float DT = rl.core.GetFrameTime()
 ```
 Returns time in seconds for last frame drawn.
 
 
 #### GetTime
 ```lua
-float Time = Matrix rl.core.GetTime()
+float Time = rl.core.GetTime()
 ```
 Returns elapsed time in seconds since InitWindow().
 
@@ -1463,7 +1463,7 @@ Structure:
 | #: `Len = #Vec2A`                | Returns vector scalar length (:length shortcut)
 | ^: `NewVec2 = Vec2A ^ VecB`      | Create a new vector that is the power of two vectors
 | ^: `NewVec2 = Vec2 ^ Num`        | Create a new vector that is the power of vector to number
-| =: `isEqual = Vec2A == Vec2B`    | Checks vectors is equal
+| =: `isEqual = Vec2A == Vec2B`    | Checks vectors equality
 | -: `negVec2 = -Vec2`             | Creates new vector that is negate of another
 
 ### Initialization
@@ -1661,7 +1661,7 @@ Structure:
 | #: `Len = #Vec3`                                 | Returns vector scalar length (:length shortcut)
 | ^: `NewVec3 = Vec3A ^ Vec3B`                     | Create a new vector that is the power of two vectors
 | ^: `NewVec3 = Vec3 ^ Num`                        | Create a new vector that is the power of vector to number
-| =: `isEqual = Vec3A == Vec3B`                    | Checks vectors is equal
+| =: `isEqual = Vec3A == Vec3B`                    | Checks vectors equality
 | -: `NegVec3 = -Vec3`                             | Creates new vector that is negate of another
 
 ### Initialization
@@ -2142,7 +2142,7 @@ Structure:
 | #: `Len = #Vec4`                                       | Returns vector scalar length (:length shortcut)
 | ^: `NewVec4 = Vec4A ^ Vec4B`                           | Create a new vector that is the power of two vectors
 | ^: `NewVec4 = Vec4A ^ NumB`                            | Create a new vector that is the power of vector to number
-| =: `isEqual = Vec4A == Vec4B`                          | Checks vectors is equal
+| =: `isEqual = Vec4A == Vec4B`                          | Checks vectors equality
 | -: `NegVec4 = -Vec4`                                   | Creates new vector that is negate of another
 
 ### Initialization

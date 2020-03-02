@@ -51,7 +51,7 @@ Structure:
 | #: `Len = #Vec2A`                | Returns vector scalar length (:length shortcut)
 | ^: `NewVec2 = Vec2A ^ VecB`      | Create a new vector that is the power of two vectors
 | ^: `NewVec2 = Vec2 ^ Num`        | Create a new vector that is the power of vector to number
-| =: `isEqual = Vec2A == Vec2B`    | Checks vectors is equal
+| =: `isEqual = Vec2A == Vec2B`    | Checks vectors equality
 | -: `negVec2 = -Vec2`             | Creates new vector that is negate of another
 
 ### Initialization
@@ -563,7 +563,7 @@ Structure:
 | #: `Len = #Vec3`                                 | Returns vector scalar length (:length shortcut)
 | ^: `NewVec3 = Vec3A ^ Vec3B`                     | Create a new vector that is the power of two vectors
 | ^: `NewVec3 = Vec3 ^ Num`                        | Create a new vector that is the power of vector to number
-| =: `isEqual = Vec3A == Vec3B`                    | Checks vectors is equal
+| =: `isEqual = Vec3A == Vec3B`                    | Checks vectors equality
 | -: `NegVec3 = -Vec3`                             | Creates new vector that is negate of another
 
 ### Initialization
@@ -2223,7 +2223,7 @@ Structure:
 | #: `Len = #Vec4`                                       | Returns vector scalar length (:length shortcut)
 | ^: `NewVec4 = Vec4A ^ Vec4B`                           | Create a new vector that is the power of two vectors
 | ^: `NewVec4 = Vec4A ^ NumB`                            | Create a new vector that is the power of vector to number
-| =: `isEqual = Vec4A == Vec4B`                          | Checks vectors is equal
+| =: `isEqual = Vec4A == Vec4B`                          | Checks vectors equality
 | -: `NegVec4 = -Vec4`                                   | Creates new vector that is negate of another
 
 ### Initialization
