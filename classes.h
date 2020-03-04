@@ -111,7 +111,7 @@ Get Vector2 components.
 */
 int lua_class_vector2_Get(lua_State *L){
   Vector2 * v = (Vector2 *)luaL_checkudata(L, 1, "Vector2");
-  if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
+  if (luax_optstring(L, 2, "\0")[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, (float)v->x);
     luax_tnnumber(L, 2, (float)v->y);
@@ -626,7 +626,7 @@ Get Vector3 components.
 */
 int lua_class_vector3_Get(lua_State *L){
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 1, "Vector3");
-  if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
+  if (luax_optstring(L, 2, "\0")[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, (float)v->x);
     luax_tnnumber(L, 2, (float)v->y);
@@ -1383,7 +1383,7 @@ Returns matrix fields
 */
 int lua_class_matrix_Get(lua_State *L){
   Matrix * m = (Matrix *)luaL_checkudata(L, 1, "Matrix");
-  if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
+  if (luax_optstring(L, 2, "\0")[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L,  1, (float)m->m0);
     luax_tnnumber(L,  2, (float)m->m1);
@@ -2283,7 +2283,7 @@ Get Vector4 components.
 */
 int lua_class_vector4_Get(lua_State *L){
   Vector4 * v = (Vector4 *)luaL_checkudata(L, 1, "Vector4");
-  if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
+  if (luax_optstring(L, 2, "\0")[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, (float)v->x);
     luax_tnnumber(L, 2, (float)v->y);
@@ -3118,7 +3118,7 @@ int lua_class_color_new(lua_State *L){
   Color * c = (Color *)luax_newobject(L, "Color", sizeof(Color));
 
   if (lua_istable(L, 1)){
-    for (int i = 0; i < 4; i++) lua_rawgeti (L, 1, i + 1);
+    for (int i = 0; i < 4; i++) lua_rawgeti(L, 1, i + 1);
     c->r = luax_optinteger(L, -4, 0);
     c->g = luax_optinteger(L, -3, 0);
     c->b = luax_optinteger(L, -2, 0);
@@ -3150,6 +3150,7 @@ int lua_class_color_new(lua_State *L){
     else if (!strcmp(s, "beige"))      *c = BEIGE;
     else if (!strcmp(s, "brown"))      *c = BROWN;
     else if (!strcmp(s, "darkbrown"))  *c = DARKBROWN;
+    else if (!strcmp(s, "white"))      *c = WHITE;
     else if (!strcmp(s, "black"))      *c = BLACK;
     else if (!strcmp(s, "blank"))      *c = BLANK;
     else if (!strcmp(s, "magenta"))    *c = MAGENTA;
@@ -3157,10 +3158,10 @@ int lua_class_color_new(lua_State *L){
     return 1;
   }
 
-	c->r = luax_optinteger(L, 1, 0);
-	c->g = luax_optinteger(L, 2, 0);
-	c->b = luax_optinteger(L, 3, 0);
-	c->a = luax_optinteger(L, 4, 255);
+  c->r = luax_optinteger(L, 1, 0);
+  c->g = luax_optinteger(L, 2, 0);
+  c->b = luax_optinteger(L, 3, 0);
+  c->a = luax_optinteger(L, 4, 255);
 
   return 1;
 }
@@ -3190,7 +3191,7 @@ Return vector fields
 */
 int lua_class_color_Get(lua_State *L){
   Color * c = (Color *)luaL_checkudata(L, 1, "Color");
-  if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
+  if (luax_optstring(L, 2, "\0")[0] == 't'){
     lua_newtable(L);
 		luax_tnnumber(L, 1, (float)c->r / 255.0f);
 		luax_tnnumber(L, 2, (float)c->g / 255.0f);
@@ -3437,6 +3438,34 @@ luaL_Reg luaray_class_color[] = {
 
 /*!MD
 ## Rectangle
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+| width  | float |
+| height | float |
+
+| **Methods**                                    | description
+| :---------------------------------------       | :-----------
+| [clone](#Rectangleclone)                       | Create copy of rectangle
+| [get](#Rectangleget)                           | Return vector fields
+| [set](#Rectangleset)                           | Assing values to rectangle fields
+| [move](#Rectanglemove)                         | Move rectangle by vector
+| [getPosition](#RectanglegetPosition)           | Return rectangle position
+| [setPosition](#RectanglesetPosition)           | Set rectangle position
+| [getDimensions](#RectanglegetDimensions)       | Return rectangle width and height
+| [setDimensions](#RectanglesetDimensions)       | Set rectangle width and height
+| [draw](#Rectangledraw)                         | Draw rectangle
+| [drawPro](#RectangledrawPro)                   | Draw rectangle with angle and offset
+| [drawRounded](#RectangledrawRounded)           | Draw rectangle with rounded corners
+| [drawGradient](#RectangledrawGradient)         | Draw rectangular color gradient
+| [collideRect](#RectanglecollideRect)           | Check collision between two rectangles
+| [collideCircle](#RectanglecollideCircle)       | Check collision between circle and rectangle
+| [getCollisionRect](#RectanglegetCollisionRect) | Get collision rectangle for two rectangles collision
+| [collidePoint](#RectanglecollidePoint)         | Check if point is inside rectangle
+
 ### Initialization
 ```lua
 -- variants
@@ -3472,6 +3501,13 @@ int lua_class_rectangle_new(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Rectangle:clone
+```lua
+Rectangle rec = Rectangle:clone()
+```
+Create copy of rectangle
+*/
 int lua_class_rectangle_Clone(lua_State *L){
   Rectangle * r1 = (Color *)luaL_checkudata(L, 1, "Rectangle");
   Rectangle * r2 = (Color *)luax_newobject(L, "Rectangle", sizeof(Rectangle));
@@ -3482,9 +3518,18 @@ int lua_class_rectangle_Clone(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Rectangle:get
+```lua
+-- variants
+number x, number y, number width, number height = Rectangle:get()
+table Table = Rectangle:get('t') -- Table[x, y, width, height]
+```
+Return vector fields
+*/
 int lua_class_rectangle_Get(lua_State *L){
   Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
-  if (lua_isstring(L, 2) && luaL_checkstring(L, 2)[0] == 't'){
+  if (luax_optstring(L, 2, "\0")[0] == 't'){
     lua_newtable(L);
     luax_tnnumber(L, 1, r->x);
     luax_tnnumber(L, 2, r->y);
@@ -3496,10 +3541,16 @@ int lua_class_rectangle_Get(lua_State *L){
   lua_pushnumber(L, r->y);
   lua_pushnumber(L, r->width);
   lua_pushnumber(L, r->height);
-
   return 1;
 }
 
+/*!MD
+#### Rectangle:set
+```lua
+Rectangle:set(number x, number y, number width, number height)
+```
+Assing values to rectangle fields
+*/
 int lua_class_rectangle_Set(lua_State *L){
   Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 
@@ -3512,6 +3563,13 @@ int lua_class_rectangle_Set(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Rectangle:move
+```lua
+Rectangle:move(number vx, number vy)
+```
+Move rectangle by vector
+*/
 int lua_class_rectangle_Move(lua_State *L){
   Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
 	float vx = luax_optinteger(L, 2, 0.0f);
@@ -3527,8 +3585,18 @@ int lua_class_rectangle_Move(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Rectangle:getPosition
+```lua
+-- variants
+number x, number y = Rectangle:getPosition()
+Vector2 Position = Rectangle:getPosition('v')
+table Position = Rectangle:getPosition('t')
+```
+Return rectangle position
+*/
 int lua_class_rectangle_GetPosition(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
 	if (lua_type(L, 2) == LUA_TSTRING){
 		char c = luaL_checkstring(L, 1)[0];
 		if (c == 'v'){ // return Vector2
@@ -3550,11 +3618,21 @@ int lua_class_rectangle_GetPosition(lua_State *L){
   return 2;
 }
 
+/*!MD
+#### Rectangle:setPosition
+```lua
+-- variants
+Rectangle:setPosition(number x, number y)
+Rectangle:setPosition(Vector2 Position)
+Rectangle:setPosition(table Position)
+```
+Set rectangle position
+*/
 int lua_class_rectangle_SetPosition(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
 	float vx = luax_optinteger(L, 2, r->x);
 	float vy = luax_optinteger(L, 3, r->y);
-	if (lua_type(L, 2) == LUA_TUSERDATA){
+	if (luax_isclass(L, 2, "Vector2")){
 		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
 		vx = v->x; vy = v->y;
 	}
@@ -3570,8 +3648,18 @@ int lua_class_rectangle_SetPosition(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Rectangle:getDimensions
+```lua
+-- variants
+number x, number y = Rectangle:getDimensions()
+Vector2 Position = Rectangle:getDimensions('v')
+table Position = Rectangle:getDimensions('t')
+```
+Return rectangle width and height
+*/
 int lua_class_rectangle_GetDimensions(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
 	if (lua_type(L, 2) == LUA_TSTRING){
 		char c = luaL_checkstring(L, 1)[0];
 		if (c == 'v'){ // return Vector2
@@ -3593,11 +3681,21 @@ int lua_class_rectangle_GetDimensions(lua_State *L){
   return 2;
 }
 
+/*!MD
+#### Rectangle:setDimensions
+```lua
+-- variants
+Rectangle:setDimensions(number x, number y)
+Rectangle:setDimensions(Vector2 Position)
+Rectangle:setDimensions(table Position)
+```
+Set rectangle width and height
+*/
 int lua_class_rectangle_SetDimensions(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
 	float vx = luax_optinteger(L, 2, r->x);
 	float vy = luax_optinteger(L, 3, r->y);
-	if (lua_type(L, 2) == LUA_TUSERDATA){
+	if (luax_checkclass(L, 2, "Vector2")){
 		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
 		vx = v->x; vy = v->y;
 	}
@@ -3613,28 +3711,191 @@ int lua_class_rectangle_SetDimensions(lua_State *L){
   return 1;
 }
 
+/*!MD
+#### Rectangle:draw
+```lua
+Rectangle:draw(string Mode, Color Color)
+```
+Draw rectangle.
+Available modes: `"fill"`, `"line"`
+*/
 int lua_class_rectangle_Draw(lua_State *L){
   Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
-	if (luaobject_isclass(L, 2, "Color")){
-		Color * c = (Color *)luaL_checkudata(L, 2, "Color");
-		DrawRectangleRec(*r, *c);
-		lua_settop(L, 1);
-		return 1;
-	}
-	
-	if (luaobject_isclass(L, 2, "Vector2")){
-		Vector2 * v = (Vector2 *)luaL_checkudata(L, 2, "Vector2");
-		float a   = luax_optnumber(L, 3, 0.0f);
-		Color * c = (Color *)luaL_checkudata(L, 4, "Color");
-		DrawRectanglePro(*r, *v, a, *c);
-		lua_settop(L, 1);
-		return 1;
-	}
-	
-	lua_pushfstring(L, "Arg#1 Color or Vector2 expected, got %s", luaL_typename(L, 1));
-	lua_error(L);
-  return 0;
+  const char * mode = luaL_checkstring(L, 2);
+  Color * c = (Color *)luaL_checkudata(L, 3, "Color");
+
+       if (!strcmp(mode, "fill")) DrawRectangle(r->x, r->y, r->width, r->height, *c);
+  else if (!strcmp(mode, "line")) DrawRectangleLines(r->x, r->y, r->width, r->height, *c);
+  else return luaL_error(L, "bad argument #1: string \"fill\" or \"line\" expected");
+  lua_settop(L, 1);
+  return 1;
 }
+
+/*!MD
+#### Rectangle:drawPro
+```lua
+-- variants
+Rectangle:drawPro(Color Color[, Vector2 OriginOffset, number Angle])
+Rectangle:drawPro(Color Color[, number OffsetX, number OffsetY, number Angle])
+```
+Draw filled rectangle with angle and offset
+*/
+int lua_class_rectangle_DrawPro(lua_State *L){
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  Color * c     = (Color *)luaL_checkudata(L, 2, "Color");
+  float angle = luaL_checknumber(L, 3);
+  Vector2 v = {0};
+
+  if (lua_isnumber(L, 4)){
+    v.x = luaL_checknumber(L, 4);
+    v.y = luaL_checknumber(L, 5);
+  }
+  else if (luax_isclass(L, 4, "Vector2")){
+    v = *(Vector2 *)luaL_checkudata(L, 4, "Vector2");
+  }
+
+  DrawRectanglePro(*r, v, angle, *c);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Rectangle:drawRounded
+```lua
+Rectangle:drawRounded(string Mode, Color Color, number Roundness[, integer Segments, float LineThick])
+```
+Draw rectangle with rounded corners
+Available modes: `"fill"`, `"line"`
+*/
+int lua_class_rectangle_DrawRounded(lua_State *L){
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  const char * mode = luaL_checkstring(L, 2);
+  Color * c = (Color *)luaL_checkudata(L, 3, "Color");
+  float roundness = luaL_checknumber(L, 4);
+  int   segments  = luax_optnumber(L, 5, roundness / 2.0);
+  int   lineThick = luax_optnumber(L, 6, 1);
+
+       if (!strcmp(mode, "fill")) DrawRectangleRounded(*r, roundness, segments, *c);
+  else if (!strcmp(mode, "line")) DrawRectangleRoundedLines(*r, roundness, segments, lineThick, *c);
+  else return luaL_error(L, "bad argument #1: string \"fill\" or \"line\" expected");
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Rectangle:drawGradient
+```lua
+-- variants
+Rectangle:drawGradient(string Mode, Color A, Color B)
+Rectangle:drawGradient(Color A, Color B, Color C, Color D)
+```
+Draw rectangular color gradient
+Available modes: `"h"`, `"v"` for horizontal and vertical gradients
+*/
+int lua_class_rectangle_DrawGradient(lua_State *L){
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+
+  if (luax_type(L, 2, LUA_TSTRING)){
+    Color * c1 = (Color *)luaL_checkudata(L, 3, "Color");
+    Color * c2 = (Color *)luaL_checkudata(L, 4, "Color");
+    if (luaL_checkstring(L, 2)[0] == 'v')  DrawRectangleGradientV(r->x, r->y, r->width, r->height, *c1, *c2);
+    else                                   DrawRectangleGradientH(r->x, r->y, r->width, r->height, *c1, *c2);
+    lua_settop(L, 1);
+    return 1;
+  }
+
+  Color * c1 = (Color *)luaL_checkudata(L, 2, "Color");
+  Color * c2 = (Color *)luaL_checkudata(L, 3, "Color");
+  Color * c3 = (Color *)luaL_checkudata(L, 4, "Color");
+  Color * c4 = (Color *)luaL_checkudata(L, 5, "Color");
+  DrawRectangleGradientEx(*r, *c1, *c2, *c3, *c4);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Rectangle:collideRect
+```lua
+boolean isCollide = Rectangle:collideRect(Rectangle Rect)
+```
+Check collision between two rectangles
+*/
+int lua_class_rectangle_CollideRect(lua_State *L){
+  Rectangle * r1 = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r2 = (Rectangle *)luaL_checkudata(L, 2, "Rectangle");
+  bool result = CheckCollisionRecs(*r1, *r2);
+  lua_pushboolean(L, result);
+  return 1;
+}
+
+/*!MD
+#### Rectangle:collideCircle
+```lua
+-- variants
+boolean isCollide = Rectangle:collideCircle(Vector2 Center, number Radius)
+boolean isCollide = Rectangle:collideCircle(number CenterX, number CenterY, number Radius)
+```
+Check collision between circle and rectangle
+*/
+int lua_class_rectangle_CollideCircle(lua_State *L){
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  Vector2 cPos = {0};
+  float   cRad = 0.0f;
+  if (luax_isclass(L, 2, "Vector2")){
+    cPos = *(Vector2 *)luaL_checkudata(L, 2, "Vector2");
+    cRad = luaL_checknumber(L, 3);
+  }
+  else if (lua_isnumber(L, 2)){
+    cPos.x = luaL_checknumber(L, 2);
+    cPos.y = luaL_checknumber(L, 3);
+    cRad   = luaL_checknumber(L, 4);
+  }
+
+  bool result = CheckCollisionCircleRec(cPos, cRad, *r);
+  lua_pushboolean(L, result);
+  return 1;
+}
+
+/*!MD
+#### Rectangle:getCollisionRect
+```lua
+Rectangle CollRect = Rectangle:getCollisionRect(Rectangle Rect)
+```
+Get collision rectangle for two rectangles collision
+*/
+int lua_class_rectangle_GetCollisionRec(lua_State *L){
+  Rectangle * r1 = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r2 = (Rectangle *)luaL_checkudata(L, 2, "Rectangle");
+  Rectangle * r3 = (Rectangle *)luax_newobject(L, "Rectangle", sizeof(Rectangle));
+  *r3 = GetCollisionRec(*r1, *r2);
+  return 1;
+}
+
+/*!MD
+#### Rectangle:collidePoint
+```lua
+-- variants
+boolean isCollide = Rectangle:collidePoint(Vector2 Point)
+boolean isCollide = Rectangle:collidePoint(number PointX, number PointY)
+```
+Check if point is inside rectangle
+*/
+int lua_class_rectangle_CollidePoint(lua_State *L){
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
+  Vector2 point = {0};
+  if (luax_isclass(L, 2, "Vector2")){
+    point = *(Vector2 *)luaL_checkudata(L, 2, "Vector2");
+  }
+  else if (lua_isnumber(L, 2)){
+    point.x = luaL_checknumber(L, 2);
+    point.y = luaL_checknumber(L, 3);
+  }
+
+  bool result = CheckCollisionPointRec(point, *r);
+  lua_pushboolean(L, result);
+  return 1;
+}
+
 
 // meta
 int lua_class_rectangle__Index(lua_State *L){
@@ -3664,36 +3925,694 @@ int lua_class_rectangle__Newindex(lua_State *L){
 }
 
 int lua_class_rectangle__ToString(lua_State *L){
-  Rectangle * r = (Color *)luaL_checkudata(L, 1, "Rectangle");
+  Rectangle * r = (Rectangle *)luaL_checkudata(L, 1, "Rectangle");
   lua_pushfstring(L, "Rectangle[%f, %f, %f, %f]: %0.8x", r->x, r->y, r->width, r->height, r);
   return 1;
 }
 
 luaL_Reg luaray_class_rectangle[] = {
-  {"clone",          lua_class_rectangle_Clone},
-  {"get",            lua_class_rectangle_Get},
-  {"set",            lua_class_rectangle_Set},
-  {"move",           lua_class_rectangle_Move},
-  {"getPosition",    lua_class_rectangle_GetPosition},
-  {"setPosition",    lua_class_rectangle_SetPosition},
-  {"getDimensions",  lua_class_rectangle_GetDimensions},
-  {"setDimensions",  lua_class_rectangle_SetDimensions},
-  {"draw",           lua_class_rectangle_Draw},
+  {"clone",            lua_class_rectangle_Clone},
+  {"get",              lua_class_rectangle_Get},
+  {"set",              lua_class_rectangle_Set},
+  {"move",             lua_class_rectangle_Move},
+  {"getPosition",      lua_class_rectangle_GetPosition},
+  {"setPosition",      lua_class_rectangle_SetPosition},
+  {"getDimensions",    lua_class_rectangle_GetDimensions},
+  {"setDimensions",    lua_class_rectangle_SetDimensions},
+  {"draw",             lua_class_rectangle_Draw},
+  {"drawPro",          lua_class_rectangle_DrawPro},
+  {"drawRounded",      lua_class_rectangle_DrawRounded},
+  {"drawGradient",     lua_class_rectangle_DrawGradient},
+  {"collideRect",      lua_class_rectangle_CollideRect},
+  {"collideCircle",    lua_class_rectangle_CollideCircle},
+  {"getCollisionRect", lua_class_rectangle_GetCollisionRec},
+  {"collidePoint",     lua_class_rectangle_CollidePoint},
   // meta
-  {"__index",        lua_class_rectangle__Index},
-  {"__newindex",     lua_class_rectangle__Newindex},
-  {"__tostring",     lua_class_rectangle__ToString},
+  {"__index",          lua_class_rectangle__Index},
+  {"__newindex",       lua_class_rectangle__Newindex},
+  {"__tostring",       lua_class_rectangle__ToString},
   {NULL, NULL}
 };
 
-
 /*!MD
 ## Image
+Structure:
+
+| Field   | Type    |
+| :------ | :------ |
+| data    | string  |
+| width   | integer |
+| height  | integer |
+| mipmaps | integer |
+| format  | integer |
+
+Structure is read-only.
+Data stored in CPU memory (RAM), cannot be drawed directly.
+
+| **Methods**                                | description
+| :---------------------------------------   | :-----------
+| [clone](#Imageclone)                       | Create copy of image
+| [subImage](#ImagesubImage)                 | Create an image from another image piece
+| [toPOT](#ImagetoPOT)                       | Convert image to POT (power-of-two)
+| [getFormat](#ImagegetFormat)               | Get image data format
+| [setFormat](#ImagesetFormat)               | Convert image data to desired format
+| [alphaMask](#ImagealphaMask)               | Apply alpha mask to image
+| [alphaClear](#ImagealphaClear)             | Clear alpha channel to desired color
+| [alphaCrop](#ImagealphaCrop)               | Crop image depending on alpha value
+| [alphaPremultiply](#ImagealphaPremultiply) | Premultiply alpha channel
+| [crop](#Imagecrop)                         | Crop an image to a defined rectangle
+| [resize](#Imageresize)                     | Resize image (Bicubic scaling algorithm)
+| [resizeNN](#ImageresizeNN)                 | Resize image (Nearest-Neighbor scaling algorithm)
+| [resizeCanvas](#ImageresizeCanvas)         | Resize canvas and fill with color
+| [genMipmaps](#ImagegenMipmaps)             | Generate all mipmap levels for a provided image
+| [dither](#Imagedither)                     | Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
+| [extractPalette](#ImageextractPalette)     | Extract color palette from image to maximum size
+| [drawImage](#ImagedrawImage)               | Draw a source image within a destination image (tint applied to source)
+| [drawRectangle](#ImagedrawRectangle)       | Draw rectangle within an image
+| [drawText](#ImagedrawText)                 | Draw text within an image
+| [flip](#Imageflip)                         | Flip image
+| [rotate](#Imagerotate)                     | Rotate image
+| [tint](#Imagetint)                         | Modify image color: tint
+| [invert](#Imageinvert)                     | Modify image color: invert
+| [grayscale](#Imagegrayscale)               | Modify image color: grayscale
+| [contrast](#Imagecontrast)                 | Modify image color: contrast (-100 to 100)
+| [brightness](#Imagebrightness)             | Modify image color: brightness (-255 to 255)
+| [replaceColor](#ImagereplaceColor)         | Modify image color: replace color
+
 ### Initialization
 ```lua
---
+-- variants
+Image Img = rl.Image(string Filename)
+Image Img = rl.Image(integer Width, integer Height, eTexture Format[, Color FillColor])
 ```
+Creates new Image object.
+See [eTexture](eTexture).
 */
+int lua_class_image_new(lua_State *L){
+  if (luax_type(L, 1, LUA_TSTRING)){
+    const char * fname = luaL_checkstring(L, 1);
+    if (!FileExists(fname))
+      return luaL_error(L, "Can't load image \"%s\", file is not exists", fname);
+    Image * img = (Image *)luax_newobject(L, "Image", sizeof(Image));
+    *img = LoadImage(fname);
+    return 1;
+  }
+  int width  = luaL_checkinteger(L, 1);
+  int height = luaL_checkinteger(L, 2);
+  int format = ray_enums_getFromStack(L, 3, ray_lua_enum_texturefmt);
+  Color color = luax_isclass(L, 4, "Color") ? *(Color *)luaL_checkudata(L, 4, "Color") : BLANK;
+  Image * img = (Image *)luax_newobject(L, "Image", sizeof(Image));
+  *img = LoadImagePro(NULL, 0, 0, format);
+  ImageResizeCanvas(img, width, height, 0, 0, color);
+  return 1;
+}
+
+/*!MD
+#### Image:clone
+```lua
+Image Img = Image:clone()
+```
+Create copy of image
+*/
+int lua_class_image_Clone(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  Image * copy = (Image *)luax_newobject(L, "Image", sizeof(Image));
+  *copy = ImageCopy(*img);
+  return 1;
+}
+
+/*!MD
+#### Image:subImage
+```lua
+-- variants
+Image subImage = Image:subImage(integer X, integer Y, integer Width, integer Height)
+Image subImage = Image:subImage(Rectangle Rect)
+```
+Create an image from another image piece
+See [Rectangle](Rectangle).
+*/
+int lua_class_image_SubImage(lua_State *L){
+  Image *   src  = (Image *)luaL_checkudata(L, 1, "Image");
+  Rectangle rect = {0};
+
+  if (luax_type(L, 2, LUA_TNUMBER)){
+    rect.x      = luaL_checknumber(L, 2);
+    rect.y      = luaL_checknumber(L, 3);
+    rect.width  = luaL_checknumber(L, 4);
+    rect.height = luaL_checknumber(L, 5);
+  }
+  else rect = *(Rectangle *)luaL_checkudata(L, 2, "Rectangle");
+  
+  Image * dst = (Image *)luax_newobject(L, "Image", sizeof(Image));
+  *dst = ImageFromImage(*src, rect);
+  return 1;
+}
+
+/*!MD
+#### Image:toPOT
+```lua
+Image subImgage = Image:toPOT(Color Color)
+```
+Convert image to POT (power-of-two).
+See [Color](Color).
+*/
+int lua_class_image_toPOT(lua_State *L){
+  Image * img   = (Image *)luaL_checkudata(L, 1, "Image");
+  Color * color = luax_checkclass(L, 2, "Color");
+  ImageToPOT(img, *color);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:getFormat
+```lua
+eTexture ImageFormat = Image:getFormat()
+```
+Get image data format
+See [eTexture](eTexture)
+*/
+int lua_class_image_GetFormat(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  const char * fmt = ray_enums_string(L, img->format, ray_lua_enum_texturefmt);
+  lua_pushstring(L, fmt);
+  return 1;
+}
+
+/*!MD
+#### Image:setFormat
+```lua
+Image:setFormat(eTexture ImageFormat)
+```
+Convert image data to desired format
+See [eTexture](eTexture)
+*/
+int lua_class_image_SetFormat(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  int eFmt = ray_enums_getFromStack(L, 2, ray_lua_enum_texturefmt);
+  ImageFormat(img, eFmt);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:alphaMask
+```lua
+Image Image = Image:alphaMask(Image Mask)
+```
+Apply alpha mask to image, returns modified image for chaining.
+*/
+int lua_class_image_AlphaMask(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  Image * mask = (Image *)luaL_checkudata(L, 2, "Image");
+  ImageAlphaMask(img, *mask);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:alphaClear
+```lua
+Image Image = Image:alphaClear(number Treshold, Color Color)
+```
+Clear alpha channel to desired color, returns modified image for chaining.
+See [Color](Color).
+*/
+int lua_class_image_AlphaClear(lua_State *L){
+  Image * img      = (Image *)luaL_checkudata(L, 1, "Image");
+  float   treshold = luaL_checknumber(L, 2);
+  Color * color    = luax_checkclass(L, 3, "Color");
+  ImageAlphaClear(img, *color, treshold);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:alphaCrop
+```lua
+Image Image = Image:alphaCrop(number Treshold)
+```
+Crop image depending on alpha value, returns modified image for chaining.
+*/
+int lua_class_image_AlphaCrop(lua_State *L){
+  Image * img      = (Image *)luaL_checkudata(L, 1, "Image");
+  float   treshold = luaL_checknumber(L, 2);
+  ImageAlphaCrop(img, treshold);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:alphaPremultiply
+```lua
+Image Image = Image:alphaPremultiply(number Treshold)
+```
+Premultiply alpha channel, returns modified image for chaining.
+*/
+int lua_class_image_AlphaPremultiply(lua_State *L){
+  Image * img = (Image *)luaL_checkudata(L, 1, "Image");
+  ImageAlphaPremultiply(img);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:crop
+```lua
+-- variants
+Image croppedImage = Image:crop(integer X, integer Y, integer Width, integer Height)
+Image croppedImage = Image:crop(Rectangle Rect)
+```
+Crop an image to a defined rectangle.
+See [Rectangle](Rectangle).
+*/
+int lua_class_image_Crop(lua_State *L){
+  Image *   img  = (Image *)luaL_checkudata(L, 1, "Image");
+  Rectangle rect = {0};
+  if (luax_type(L, 2, LUA_TNUMBER)){
+    rect.x      = luaL_checkinteger(L, 2);
+    rect.y      = luaL_checkinteger(L, 3);
+    rect.width  = luaL_checkinteger(L, 4);
+    rect.height = luaL_checkinteger(L, 5);
+  }
+  else rect = *(Rectangle *)luax_checkclass(L, 2, "Rectangle");
+  ImageCrop(img, rect);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:resize
+```lua
+Image Image = Image:resize(integer Width, integer Height)
+```
+Resize image (Bicubic scaling algorithm), returns modified image for chaining.
+*/
+int lua_class_image_Resize(lua_State *L){
+  Image * img = (Image *)luaL_checkudata(L, 1, "Image");
+  int width   = luaL_checkinteger(L, 2);
+  int height  = luaL_checkinteger(L, 3);
+  ImageResize(img, width, height);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:resizeNN
+```lua
+Image Image = Image:resizeNN(integer Width, integer Height)
+```
+Resize image (Bicubic scaling algorithm), returns modified image for chaining.
+*/
+int lua_class_image_ResizeNN(lua_State *L){
+  Image * img = (Image *)luaL_checkudata(L, 1, "Image");
+  int width   = luaL_checkinteger(L, 2);
+  int height  = luaL_checkinteger(L, 3);
+  ImageResizeNN(img, width, height);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:resizeCanvas
+```lua
+Image Image = Image:resizeCanvas(integer Width, integer Height[, integer OffsetX, integer OffsetY, Color FillColor])
+```
+Resize canvas and fill with color, returns modified image for chaining.
+See [Color](Color).
+*/
+int lua_class_image_ResizeCanvas(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  int width    = luaL_checkinteger(L, 2);
+  int height   = luaL_checkinteger(L, 3);
+  int offsetX  = luax_optinteger(L, 4, 0);
+  int offsetY  = luax_optinteger(L, 5, 0);
+  Color color  = BLANK;
+  if (luax_isclass(L, 6, "Color")) color = *(Color *)luax_checkclass(L, 6, "Color");
+  ImageResizeCanvas(img, width, height, offsetX, offsetY, color);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:genMipmaps
+```lua
+Image Image = Image:genMipmaps()
+```
+Generate all mipmap levels for a provided image, returns modified image for chaining.
+*/
+int lua_class_image_Mipmaps(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  ImageMipmaps(img);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:dither
+```lua
+Image Image = Image:dither(integer rBpp, integer gBpp, integer bBpp, integer aBpp)
+```
+Dither image data to 16bpp or lower (Floyd-Steinberg dithering), returns modified image for chaining.
+*/
+int lua_class_image_Dither(lua_State *L){
+  Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
+  int rBpp = luaL_checkinteger(L, 2);
+  int gBpp = luaL_checkinteger(L, 3);
+  int bBpp = luaL_checkinteger(L, 4);
+  int aBpp = luaL_checkinteger(L, 5);
+  ImageDither(img, rBpp, gBpp, bBpp, aBpp);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:extractPalette
+```lua
+table Colors = Image:extractPalette([integer MaxColorCount = 256])
+```
+Extract color palette from image to maximum size.
+See [Color](Color).
+*/
+int lua_class_image_ExtractPalette(lua_State *L){
+  Image * img   = (Image *)luaL_checkudata(L, 1, "Image");
+  int     max   = luax_optnumber(L, 2, 256);
+  int     count = 0;
+  Color*  palette = ImageExtractPalette(*img, max, &count);
+  lua_newtable(L);
+  for (int i = 1; i <= count; i++){
+    lua_pushnumber(L, i);
+    Color * c = luax_newobject(L, "Color", sizeof(Color));
+    *c = palette[i];
+    lua_rawset(L, -3);
+  }
+  RL_FREE(palette);
+  return 1;
+}
+
+/*!MD
+#### Image:drawImage
+```lua
+Image Image = Image:drawImage(Image Src, Rectangle SrcRect, Rectangle DstRect[, Color Tint])
+```
+Draw a source image within a destination image (tint applied to source), returns modified image for chaining.
+See [Rectangle](Rectangle), [Color](Color).
+*/
+int lua_class_image_DrawImage(lua_State *L){
+  Image     * dst     = (Image *)luaL_checkudata(L, 1, "Image");
+  Image     * src     = (Image *)luaL_checkudata(L, 2, "Image");
+  Rectangle * srcRect = (Rectangle *)luaL_checkudata(L, 3, "Rectangle");
+  Rectangle * dstRect = (Rectangle *)luaL_checkudata(L, 4, "Rectangle");
+  Color     * tInt    = luax_isclass(L, 5, "Color") ? (Color *)luaL_checkudata(L, 5, "Color") : &WHITE;
+  ImageDraw(dst, *src, *srcRect, *dstRect, *tInt);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:drawRectangle
+```lua
+Image Image = Image:drawRectangle(string Mode, Rectangle Rect[, Color Color[, Integer LineThick])
+```
+Draw a source image within a destination image (tint applied to source), returns modified image for chaining.
+See [Rectangle](Rectangle), [Color](Color).
+Available modes: `"fill"`, `"line"`.
+*/
+int lua_class_image_DrawRectangle(lua_State *L){
+  Image      * dst   = (Image *)luaL_checkudata(L, 1, "Image");
+  const char * mode  = luaL_checkstring(L, 2);
+  Rectangle  * rect  = (Rectangle *)luaL_checkudata(L, 3, "Rectangle");
+  Color      * col   = luax_isclass(L, 4, "Color") ? (Color *)luaL_checkudata(L, 4, "Color") : &WHITE;
+  int          thick = luax_optinteger(L, 5, 1);
+
+       if (!strcmp(mode, "fill")) ImageDrawRectangle(dst, *rect, *col);
+  else if (!strcmp(mode, "line")) ImageDrawRectangleLines(dst, *rect, thick, *col);
+  else return luaL_error(L, "bad argument #1: string \"fill\" or \"line\" expected");
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:drawText
+```lua
+-- variants
+Image Image = Image:drawText(integer X, integer Y, string Text, Color Color, number FontSize) -- defaut font
+Image Image = Image:drawText(integer X, integer Y, string Text, Font Font, number FontSize, number Spacing, Color Color)
+
+Image Image = Image:drawText(Vector2 Position, string Text, Color Color, number FontSize) -- defaut font
+Image Image = Image:drawText(Vector2 Position, string Text, Font Font, number FontSize, number Spacing, Color Color)
+```
+Draw text within an image, returns modified image for chaining.
+See [Vector2](Vector2), [Color](Color), [Font](Font).
+*/
+int lua_class_image_DrawText(lua_State *L){
+  Image      * dst      = (Image *)luaL_checkudata(L, 1, "Image");
+  Vector2      position = {0};
+  const char * text     = "\0";
+  int          fontSize = 12;
+  Color        color    = BLACK;
+
+  if (luax_type(L, 2, LUA_TNUMBER)){
+    position.x = luaL_checknumber(L, 2);
+    position.y = luaL_checknumber(L, 3);
+    text       = luaL_checkstring(L, 4);
+    // skip 5 (font)
+    fontSize = luaL_checknumber(L, 6);
+    if (luax_isclass(L, 5, "Font")){
+      Font * font   = (Font *)luaL_checkudata(L, 5, "Font");
+      float spacing = luaL_checknumber(L, 7);
+      color         = luax_isclass(L, 8, "Color") ? *(Color *)luaL_checkudata(L, 8, "Color") : color;
+      ImageDrawTextEx(dst, position, *font, text, fontSize, spacing, color);
+    }
+    else {
+      color = luax_isclass(L, 5, "Color") ? *(Color *)luaL_checkudata(L, 5, "Color") : color;
+      ImageDrawText(dst, position, text, fontSize, color);
+    }
+    lua_settop(L, 1);
+    return 1;
+  }
+
+  position = *(Vector2 *)luaL_checkudata(L, 2, "Vector2");
+  text     = luaL_checkstring(L, 3);
+  // skip 4 (font)
+  fontSize = luaL_checknumber(L, 5);
+
+  if (luax_isclass(L, 4, "Font")){
+    Font * font   = (Color *)luaL_checkudata(L, 4, "Font");
+    float spacing = luaL_checknumber(L, 6);
+    color    = luax_isclass(L, 7, "Color") ? *(Color *)luaL_checkudata(L, 7, "Color") : color;
+    ImageDrawTextEx(dst, position, *font, text, fontSize, spacing, color);
+  }
+  else {
+    color    = luax_isclass(L, 4, "Color") ? *(Color *)luaL_checkudata(L, 4, "Color") : color;
+    ImageDrawText(dst, position, text, fontSize, color);
+  }
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:flip
+```lua
+Image Image = Image:flip(string Mode)
+```
+Flip image, returns modified image for chaining.
+Available modes: `"horizontal"`, `"vertical"`.
+*/
+int lua_class_image_Flip(lua_State *L){
+  Image      * dst   = (Image *)luaL_checkudata(L, 1, "Image");
+  const char * mode  = luaL_checkstring(L, 2);
+       if (!strcmp(mode, "horizontal")) ImageFlipHorizontal(dst);
+  else if (!strcmp(mode, "vertical"))   ImageFlipVertical(dst);
+  else return luaL_error(L, "bad argument #1: string \"horizontal\" or \"vertical\" expected");
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:rotate
+```lua
+Image Image = Image:rotate(string Mode)
+```
+Rotate image, returns modified image for chaining.
+Available modes: `"right"`, `"left"` (clockwise 90deg and counter-clockwise 90deg).
+*/
+int lua_class_image_Rotate(lua_State *L){
+  Image      * dst   = (Image *)luaL_checkudata(L, 1, "Image");
+  const char * mode  = luaL_checkstring(L, 2);
+       if (!strcmp(mode, "left"))  ImageRotateCCW(dst);
+  else if (!strcmp(mode, "right")) ImageRotateCW(dst);
+  else return luaL_error(L, "bad argument #1: string \"left\" or \"right\" expected");
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:tint
+```lua
+Image Image = Image:tint(Color Color)
+```
+Modify image color: tint, returns modified image for chaining.
+See [Color](Color).
+*/
+int lua_class_image_Tint(lua_State *L){
+  Image * dst = (Image *)luaL_checkudata(L, 1, "Image");
+  Color * clr = (Color *)luaL_checkudata(L, 2, "Color");
+  ImageColorTint(dst, *clr);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:invert
+```lua
+Image Image = Image:invert()
+```
+Modify image color: invert, returns modified image for chaining.
+*/
+int lua_class_image_Invert(lua_State *L){
+  Image * dst = (Image *)luaL_checkudata(L, 1, "Image");
+  ImageColorInvert(dst);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:grayscale
+```lua
+Image Image = Image:grayscale()
+```
+Modify image color: grayscale, returns modified image for chaining.
+*/
+int lua_class_image_Grayscale(lua_State *L){
+  Image * dst = (Image *)luaL_checkudata(L, 1, "Image");
+  ImageColorGrayscale(dst);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:contrast
+```lua
+Image Image = Image:contrast(number Contrast)
+```
+Modify image color: contrast (-100 to 100), returns modified image for chaining.
+*/
+int lua_class_image_Contrast(lua_State *L){
+  Image * dst      = (Image *)luaL_checkudata(L, 1, "Image");
+  float   contrast = luaL_checknumber(L, 2);
+  ImageColorContrast(dst, contrast);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:brightness
+```lua
+Image Image = Image:brightness(integer Brightness)
+```
+Modify image color: brightness (-255 to 255), returns modified image for chaining.
+*/
+int lua_class_image_Brightness(lua_State *L){
+  Image * dst        = (Image *)luaL_checkudata(L, 1, "Image");
+  int     brightness = luaL_checknumber(L, 2);
+  ImageColorBrightness(dst, brightness);
+  lua_settop(L, 1);
+  return 1;
+}
+
+/*!MD
+#### Image:replaceColor
+```lua
+Image Image = Image:replaceColor(Color Src, Color Dst)
+```
+Modify image color: replace color, returns modified image for chaining.
+See [Color](Color).
+*/
+int lua_class_image_ColorReplace(lua_State *L){
+  Image * dst     = (Image *)luaL_checkudata(L, 1, "Image");
+  Color * clrFrom = (Color *)luaL_checkudata(L, 2, "Color");
+  Color * clrTo   = (Color *)luaL_checkudata(L, 3, "Color");
+  ImageColorReplace(dst, *clrFrom, *clrTo);
+  lua_settop(L, 1);
+  return 1;
+}
+
+
+// meta
+int lua_class_image__Index(lua_State *L){
+  if (!luax_type(L, 2, LUA_TSTRING)) return 0;
+  Image * img    = (Image *)luaL_checkudata(L, 1, "Image");
+  const char * key = luaL_checkstring(L, 2);
+
+  lua_class_GetFieldIfCompared(L, img, key, "width",   width);
+  lua_class_GetFieldIfCompared(L, img, key, "height",  height);
+  lua_class_GetFieldIfCompared(L, img, key, "mipmaps", mipmaps);
+  lua_class_GetFieldIfCompared(L, img, key, "format",  format);
+  if (!strcmp(key, "format")) {
+    const char * fmt = ray_enums_string(L, img->format, ray_lua_enum_texturefmt);
+    lua_pushstring(L, fmt);
+    return 1;
+  }
+  if (!strcmp(key, "data")) { lua_pushstring(L, img->data); return 1; }
+
+  luax_getclasskey(L, 1, 2);
+  return 1;
+}
+
+int lua_class_image__Newindex(lua_State *L){
+  return 0;
+}
+
+int lua_class_image__GC(lua_State *L){
+  Image * img = (Image *)luaL_checkudata(L, 1, "Image");
+  UnloadImage(*img);
+  return 0;
+}
+
+int lua_class_image__ToString(lua_State *L){
+  Image * img = (Image *)luaL_checkudata(L, 1, "Image");
+  lua_pushfstring(L, "Image[%f, %f]: %0.8x", img->width, img->height, img);
+  return 1;
+}
+
+luaL_Reg luaray_class_image[] = {
+  {"clone",            lua_class_image_Clone},
+  {"subImage",         lua_class_image_SubImage},
+  {"toPOT",            lua_class_image_toPOT},
+  {"getFormat",        lua_class_image_GetFormat},
+  {"setFormat",        lua_class_image_SetFormat},
+  {"alphaMask",        lua_class_image_AlphaMask},
+  {"alphaClear",       lua_class_image_AlphaClear},
+  {"alphaCrop",        lua_class_image_AlphaCrop},
+  {"alphaPremultiply", lua_class_image_AlphaPremultiply},
+  {"crop",             lua_class_image_Crop},
+  {"resize",           lua_class_image_Resize},
+  {"resizeNN",         lua_class_image_ResizeNN},
+  {"resizeCanvas",     lua_class_image_ResizeCanvas},
+  {"dither",           lua_class_image_Dither},
+  {"genMipmaps",       lua_class_image_Mipmaps},
+  {"extractPalette",   lua_class_image_ExtractPalette},
+  {"drawImage",        lua_class_image_DrawImage},
+  {"drawRectangle",    lua_class_image_DrawRectangle},
+  {"drawText",         lua_class_image_DrawText},
+  {"flip",             lua_class_image_Flip},
+  {"rotate",           lua_class_image_Rotate},
+  {"tint",             lua_class_image_Tint},
+  {"invert",           lua_class_image_Invert},
+  {"grayscale",        lua_class_image_Grayscale},
+  {"contrast",         lua_class_image_Contrast},
+  {"brightness",       lua_class_image_Brightness},
+  {"replaceColor",     lua_class_image_ColorReplace},
+
+  // meta
+  {"__index",          lua_class_image__Index},
+  {"__newindex",       lua_class_image__Newindex},
+  {"__gc",             lua_class_image__GC},
+  {"__tostring",       lua_class_image__ToString},
+  {NULL, NULL}
+};
+
 
 /*!MD
 ## Texture
@@ -3893,20 +4812,23 @@ luaL_Reg luaray_class_rectangle[] = {
 // register table should be on top of stack
 void lua_class_register(lua_State * L){
   luax_newclass(L,   "Vector2",   luaray_class_vector2);
-  luax_tsfunction(L, "Vector2",       lua_class_vector2_new);
+  luax_tsfunction(L, "Vector2",   lua_class_vector2_new);
 
   luax_newclass(L,   "Vector3",   luaray_class_vector3);
-  luax_tsfunction(L, "Vector3",       lua_class_vector3_new);
+  luax_tsfunction(L, "Vector3",   lua_class_vector3_new);
 
   luax_newclass(L,   "Matrix",    luaray_class_matrix);
-  luax_tsfunction(L, "Matrix",        lua_class_matrix_new);
+  luax_tsfunction(L, "Matrix",    lua_class_matrix_new);
 
   luax_newclass(L,   "Vector4",   luaray_class_vector4);
-  luax_tsfunction(L, "Vector4",       lua_class_vector4_new);
+  luax_tsfunction(L, "Vector4",   lua_class_vector4_new);
 
   luax_newclass(L,   "Color",     luaray_class_color);
-  luax_tsfunction(L, "Color",         lua_class_color_new);
+  luax_tsfunction(L, "Color",     lua_class_color_new);
 
   luax_newclass(L,   "Rectangle", luaray_class_rectangle);
-  luax_tsfunction(L, "Rectangle",     lua_class_rectangle_new);
+  luax_tsfunction(L, "Rectangle", lua_class_rectangle_new);
+
+  luax_newclass(L,   "Image",     luaray_class_image);
+  luax_tsfunction(L, "Image",     lua_class_image_new);
 }

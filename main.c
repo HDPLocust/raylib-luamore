@@ -1,6 +1,6 @@
 #include "main.h"
-#include "classes.h"
 #include "enums.h"
+#include "classes.h"
 
 /*!MD
 ## Table of content
@@ -396,7 +396,7 @@ int lua_core_SetWindowTitle(lua_State *L){
 /*!MD
 #### SetWindowPosition
 ```lua
-rl.core.SetWindowPosition(string Title)
+rl.core.SetWindowPosition(integer x, integer y)
 ```
 Set window position on screen (only PLATFORM_DESKTOP).
 */
@@ -883,7 +883,7 @@ See [Ray](#Ray), [Vector2](#Vector2).
 int lua_core_GetMouseRay(lua_State *L){
   Vector2  * v = luaL_checkudata(L, 1, "Vector2");
   Camera3D * c = luaL_checkudata(L, 2, "Camera3D");
-  if (lua_isstring(L, 3) && luaL_checkstring(L, 3)[0] == 'v') {
+  if (luax_optstring(L, 3, "\0")[0] == 'v') {
     Ray r = GetMouseRay(*v, *c);
     Vector3 * position  = luax_newobject(L, "Vector3", sizeof(Vector3));
     Vector3 * direction = luax_newobject(L, "Vector3", sizeof(Vector3));
@@ -1108,7 +1108,7 @@ See [Vector4](#Vector4), [Color](#Color).
 */
 int lua_core_ColorFromNormalized(lua_State *L){
   Color * c = luax_newobject(L, "Color", sizeof(Color));
-  if (luax_checkclass(L, 1, "Vector4")) {
+  if (luax_isclass(L, 1, "Vector4")) {
     Vector4 * v = luaL_checkudata(L, 1, "Vector4");
     *c = ColorFromNormalized(*v);
     return 1;
@@ -1937,7 +1937,8 @@ int lua_core_GetAllKeysPressedString(lua_State *L){
     return 1;
   }
 
-  char * text = TextToUtf8(&codepoints, len);
+  int  * codes = &codepoints;
+  char * text  = TextToUtf8(codes, len);
   lua_pushstring(L, text);
   free(text);
   return 1;
@@ -2918,7 +2919,6 @@ luaL_Reg luaray_text[] = {
   {NULL, NULL}
 };
 
-
 #if defined(_WIN32) || defined(_WIN64)
 __declspec(dllexport)
 #endif
@@ -2926,11 +2926,15 @@ int luaopen_raylib_luamore(lua_State *L) {
   lua_newtable(L);
   lua_class_register(L);
   
+  // modules
   lua_pushstring(L, "core");     luax_pushfunctable(L, luaray_core);     lua_rawset(L, -3);
   lua_pushstring(L, "shapes");   luax_pushfunctable(L, luaray_shapes);   lua_rawset(L, -3);
   lua_pushstring(L, "textures"); luax_pushfunctable(L, luaray_textures); lua_rawset(L, -3);
   lua_pushstring(L, "text");     luax_pushfunctable(L, luaray_text);     lua_rawset(L, -3);
+
+  // enums
   lua_pushstring(L, "ekey");     luaray_exportKeyboardKeys(L);           lua_rawset(L, -3);
+  lua_pushstring(L, "etexture"); luaray_exportTextureFormat(L);          lua_rawset(L, -3);
   
   return 1;
 }

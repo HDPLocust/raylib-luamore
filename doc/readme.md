@@ -325,7 +325,7 @@ Set title for window (only PLATFORM_DESKTOP).
 
 #### SetWindowPosition
 ```lua
-rl.core.SetWindowPosition(string Title)
+rl.core.SetWindowPosition(integer x, integer y)
 ```
 Set window position on screen (only PLATFORM_DESKTOP).
 
@@ -2475,6 +2475,34 @@ Color fade-in or fade-out, alpha goes from 0.0f to 1.0f
 
 
 ## Rectangle
+Structure:
+
+| Field  | Type  |
+| :----- | :---- |
+| x      | float |
+| y      | float |
+| width  | float |
+| height | float |
+
+| **Methods**                                    | description
+| :---------------------------------------       | :-----------
+| [clone](#Rectangleclone)                       | Create copy of rectangle
+| [get](#Rectangleget)                           | Return vector fields
+| [set](#Rectangleset)                           | Assing values to rectangle fields
+| [move](#Rectanglemove)                         | Move rectangle by vector
+| [getPosition](#RectanglegetPosition)           | Return rectangle position
+| [setPosition](#RectanglesetPosition)           | Set rectangle position
+| [getDimensions](#RectanglegetDimensions)       | Return rectangle width and height
+| [setDimensions](#RectanglesetDimensions)       | Set rectangle width and height
+| [draw](#Rectangledraw)                         | Draw rectangle
+| [drawPro](#RectangledrawPro)                   | Draw rectangle with angle and offset
+| [drawRounded](#RectangledrawRounded)           | Draw rectangle with rounded corners
+| [drawGradient](#RectangledrawGradient)         | Draw rectangular color gradient
+| [collideRect](#RectanglecollideRect)           | Check collision between two rectangles
+| [collideCircle](#RectanglecollideCircle)       | Check collision between circle and rectangle
+| [getCollisionRect](#RectanglegetCollisionRect) | Get collision rectangle for two rectangles collision
+| [collidePoint](#RectanglecollidePoint)         | Check if point is inside rectangle
+
 ### Initialization
 ```lua
 -- variants
@@ -2483,11 +2511,409 @@ Rectangle Rect = rl.Rectangle(table t) --> Rectangle[ x = t[1], y = t[2], width 
 ```
 
 
+#### Rectangle:clone
+```lua
+Rectangle rec = Rectangle:clone()
+```
+Create copy of rectangle
+
+
+#### Rectangle:get
+```lua
+-- variants
+number x, number y, number width, number height = Rectangle:get()
+table Table = Rectangle:get('t') -- Table[x, y, width, height]
+```
+Return vector fields
+
+
+#### Rectangle:set
+```lua
+Rectangle:set(number x, number y, number width, number height)
+```
+Assing values to rectangle fields
+
+
+#### Rectangle:move
+```lua
+Rectangle:move(number vx, number vy)
+```
+Move rectangle by vector
+
+
+#### Rectangle:getPosition
+```lua
+-- variants
+number x, number y = Rectangle:getPosition()
+Vector2 Position = Rectangle:getPosition('v')
+table Position = Rectangle:getPosition('t')
+```
+Return rectangle position
+
+
+#### Rectangle:setPosition
+```lua
+-- variants
+Rectangle:setPosition(number x, number y)
+Rectangle:setPosition(Vector2 Position)
+Rectangle:setPosition(table Position)
+```
+Set rectangle position
+
+
+#### Rectangle:getDimensions
+```lua
+-- variants
+number x, number y = Rectangle:getDimensions()
+Vector2 Position = Rectangle:getDimensions('v')
+table Position = Rectangle:getDimensions('t')
+```
+Return rectangle width and height
+
+
+#### Rectangle:setDimensions
+```lua
+-- variants
+Rectangle:setDimensions(number x, number y)
+Rectangle:setDimensions(Vector2 Position)
+Rectangle:setDimensions(table Position)
+```
+Set rectangle width and height
+
+
+#### Rectangle:draw
+```lua
+Rectangle:draw(string Mode, Color Color)
+```
+Draw rectangle.
+Available modes: `"fill"`, `"line"`
+
+
+#### Rectangle:drawPro
+```lua
+-- variants
+Rectangle:drawPro(Color Color[, Vector2 OriginOffset, number Angle])
+Rectangle:drawPro(Color Color[, number OffsetX, number OffsetY, number Angle])
+```
+Draw filled rectangle with angle and offset
+
+
+#### Rectangle:drawRounded
+```lua
+Rectangle:drawRounded(string Mode, Color Color, number Roundness[, integer Segments, float LineThick])
+```
+Draw rectangle with rounded corners
+Available modes: `"fill"`, `"line"`
+
+
+#### Rectangle:drawGradient
+```lua
+-- variants
+Rectangle:drawGradient(string Mode, Color A, Color B)
+Rectangle:drawGradient(Color A, Color B, Color C, Color D)
+```
+Draw rectangular color gradient
+Available modes: `"h"`, `"v"` for horizontal and vertical gradients
+
+
+#### Rectangle:collideRect
+```lua
+boolean isCollide = Rectangle:collideRect(Rectangle Rect)
+```
+Check collision between two rectangles
+
+
+#### Rectangle:collideCircle
+```lua
+-- variants
+boolean isCollide = Rectangle:collideCircle(Vector2 Center, number Radius)
+boolean isCollide = Rectangle:collideCircle(number CenterX, number CenterY, number Radius)
+```
+Check collision between circle and rectangle
+
+
+#### Rectangle:getCollisionRect
+```lua
+Rectangle CollRect = Rectangle:getCollisionRect(Rectangle Rect)
+```
+Get collision rectangle for two rectangles collision
+
+
+#### Rectangle:collidePoint
+```lua
+-- variants
+boolean isCollide = Rectangle:collidePoint(Vector2 Point)
+boolean isCollide = Rectangle:collidePoint(number PointX, number PointY)
+```
+Check if point is inside rectangle
+
+
 ## Image
+Structure:
+
+| Field   | Type    |
+| :------ | :------ |
+| data    | string  |
+| width   | integer |
+| height  | integer |
+| mipmaps | integer |
+| format  | integer |
+
+Structure is read-only.
+Data stored in CPU memory (RAM), cannot be drawed directly.
+
+| **Methods**                                | description
+| :---------------------------------------   | :-----------
+| [clone](#Imageclone)                       | Create copy of image
+| [subImage](#ImagesubImage)                 | Create an image from another image piece
+| [toPOT](#ImagetoPOT)                       | Convert image to POT (power-of-two)
+| [getFormat](#ImagegetFormat)               | Get image data format
+| [setFormat](#ImagesetFormat)               | Convert image data to desired format
+| [alphaMask](#ImagealphaMask)               | Apply alpha mask to image
+| [alphaClear](#ImagealphaClear)             | Clear alpha channel to desired color
+| [alphaCrop](#ImagealphaCrop)               | Crop image depending on alpha value
+| [alphaPremultiply](#ImagealphaPremultiply) | Premultiply alpha channel
+| [crop](#Imagecrop)                         | Crop an image to a defined rectangle
+| [resize](#Imageresize)                     | Resize image (Bicubic scaling algorithm)
+| [resizeNN](#ImageresizeNN)                 | Resize image (Nearest-Neighbor scaling algorithm)
+| [resizeCanvas](#ImageresizeCanvas)         | Resize canvas and fill with color
+| [genMipmaps](#ImagegenMipmaps)             | Generate all mipmap levels for a provided image
+| [dither](#Imagedither)                     | Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
+| [extractPalette](#ImageextractPalette)     | Extract color palette from image to maximum size
+| [drawImage](#ImagedrawImage)               | Draw a source image within a destination image (tint applied to source)
+| [drawRectangle](#ImagedrawRectangle)       | Draw rectangle within an image
+| [drawText](#ImagedrawText)                 | Draw text within an image
+| [flip](#Imageflip)                         | Flip image
+| [rotate](#Imagerotate)                     | Rotate image
+| [tint](#Imagetint)                         | Modify image color: tint
+| [invert](#Imageinvert)                     | Modify image color: invert
+| [grayscale](#Imagegrayscale)               | Modify image color: grayscale
+| [contrast](#Imagecontrast)                 | Modify image color: contrast (-100 to 100)
+| [brightness](#Imagebrightness)             | Modify image color: brightness (-255 to 255)
+| [replaceColor](#ImagereplaceColor)         | Modify image color: replace color
+
 ### Initialization
 ```lua
---
+-- variants
+Image Img = rl.Image(string Filename)
+Image Img = rl.Image(integer Width, integer Height, eTexture Format[, Color FillColor])
 ```
+Creates new Image object.
+See [eTexture](eTexture).
+
+
+#### Image:clone
+```lua
+Image Img = Image:clone()
+```
+Create copy of image
+
+
+#### Image:subImage
+```lua
+-- variants
+Image subImage = Image:subImage(integer X, integer Y, integer Width, integer Height)
+Image subImage = Image:subImage(Rectangle Rect)
+```
+Create an image from another image piece
+See [Rectangle](Rectangle).
+
+
+#### Image:toPOT
+```lua
+Image subImgage = Image:toPOT(Color Color)
+```
+Convert image to POT (power-of-two).
+See [Color](Color).
+
+
+#### Image:getFormat
+```lua
+eTexture ImageFormat = Image:getFormat()
+```
+Get image data format
+See [eTexture](eTexture)
+
+
+#### Image:setFormat
+```lua
+Image:setFormat(eTexture ImageFormat)
+```
+Convert image data to desired format
+See [eTexture](eTexture)
+
+
+#### Image:alphaMask
+```lua
+Image Image = Image:alphaMask(Image Mask)
+```
+Apply alpha mask to image, returns modified image for chaining.
+
+
+#### Image:alphaClear
+```lua
+Image Image = Image:alphaClear(number Treshold, Color Color)
+```
+Clear alpha channel to desired color, returns modified image for chaining.
+See [Color](Color).
+
+
+#### Image:alphaCrop
+```lua
+Image Image = Image:alphaCrop(number Treshold)
+```
+Crop image depending on alpha value, returns modified image for chaining.
+
+
+#### Image:alphaPremultiply
+```lua
+Image Image = Image:alphaPremultiply(number Treshold)
+```
+Premultiply alpha channel, returns modified image for chaining.
+
+
+#### Image:crop
+```lua
+-- variants
+Image croppedImage = Image:crop(integer X, integer Y, integer Width, integer Height)
+Image croppedImage = Image:crop(Rectangle Rect)
+```
+Crop an image to a defined rectangle.
+See [Rectangle](Rectangle).
+
+
+#### Image:resize
+```lua
+Image Image = Image:resize(integer Width, integer Height)
+```
+Resize image (Bicubic scaling algorithm), returns modified image for chaining.
+
+
+#### Image:resizeNN
+```lua
+Image Image = Image:resizeNN(integer Width, integer Height)
+```
+Resize image (Bicubic scaling algorithm), returns modified image for chaining.
+
+
+#### Image:resizeCanvas
+```lua
+Image Image = Image:resizeCanvas(integer Width, integer Height[, integer OffsetX, integer OffsetY, Color FillColor])
+```
+Resize canvas and fill with color, returns modified image for chaining.
+See [Color](Color).
+
+
+#### Image:genMipmaps
+```lua
+Image Image = Image:genMipmaps()
+```
+Generate all mipmap levels for a provided image, returns modified image for chaining.
+
+
+#### Image:dither
+```lua
+Image Image = Image:dither(integer rBpp, integer gBpp, integer bBpp, integer aBpp)
+```
+Dither image data to 16bpp or lower (Floyd-Steinberg dithering), returns modified image for chaining.
+
+
+#### Image:extractPalette
+```lua
+table Colors = Image:extractPalette([integer MaxColorCount = 256])
+```
+Extract color palette from image to maximum size.
+See [Color](Color).
+
+
+#### Image:drawImage
+```lua
+Image Image = Image:drawImage(Image Src, Rectangle SrcRect, Rectangle DstRect[, Color Tint])
+```
+Draw a source image within a destination image (tint applied to source), returns modified image for chaining.
+See [Rectangle](Rectangle), [Color](Color).
+
+
+#### Image:drawRectangle
+```lua
+Image Image = Image:drawRectangle(string Mode, Rectangle Rect[, Color Color[, Integer LineThick])
+```
+Draw a source image within a destination image (tint applied to source), returns modified image for chaining.
+See [Rectangle](Rectangle), [Color](Color).
+Available modes: `"fill"`, `"line"`.
+
+
+#### Image:drawText
+```lua
+-- variants
+Image Image = Image:drawText(integer X, integer Y, string Text, Color Color, number FontSize) -- defaut font
+Image Image = Image:drawText(integer X, integer Y, string Text, Font Font, number FontSize, number Spacing, Color Color)
+
+Image Image = Image:drawText(Vector2 Position, string Text, Color Color, number FontSize) -- defaut font
+Image Image = Image:drawText(Vector2 Position, string Text, Font Font, number FontSize, number Spacing, Color Color)
+```
+Draw text within an image, returns modified image for chaining.
+See [Vector2](Vector2), [Color](Color), [Font](Font).
+
+
+#### Image:flip
+```lua
+Image Image = Image:flip(string Mode)
+```
+Flip image, returns modified image for chaining.
+Available modes: `"horizontal"`, `"vertical"`.
+
+
+#### Image:rotate
+```lua
+Image Image = Image:rotate(string Mode)
+```
+Rotate image, returns modified image for chaining.
+Available modes: `"right"`, `"left"` (clockwise 90deg and counter-clockwise 90deg).
+
+
+#### Image:tint
+```lua
+Image Image = Image:tint(Color Color)
+```
+Modify image color: tint, returns modified image for chaining.
+See [Color](Color).
+
+
+#### Image:invert
+```lua
+Image Image = Image:invert()
+```
+Modify image color: invert, returns modified image for chaining.
+
+
+#### Image:grayscale
+```lua
+Image Image = Image:grayscale()
+```
+Modify image color: grayscale, returns modified image for chaining.
+
+
+#### Image:contrast
+```lua
+Image Image = Image:contrast(number Contrast)
+```
+Modify image color: contrast (-100 to 100), returns modified image for chaining.
+
+
+#### Image:brightness
+```lua
+Image Image = Image:brightness(integer Brightness)
+```
+Modify image color: brightness (-255 to 255), returns modified image for chaining.
+
+
+#### Image:replaceColor
+```lua
+Image Image = Image:replaceColor(Color Src, Color Dst)
+```
+Modify image color: replace color, returns modified image for chaining.
+See [Color](Color).
 
 
 ## Texture
@@ -2779,5 +3205,43 @@ Translating of representations provides by `rl.ekey` table:
 key = "space"
 ikey = rl.ekey[key]  --> 32
 skey = rl.ekey[ikey] --> "space"
+```
+This table is used internally in the library, so do not modify it if you don't know what is happens.
+
+
+### eTexture
+eTexture is the string or integer representation of different texture formats.
+Any image or texture function with eTexture accepts strings and integers both.
+Representation layout:
+
+| integer | string        | descriptions
+| :------ | :------------ | :-----------
+| 1       | grayscale     | 8 bit per pixel, no alpha, uncompressed
+| 2       | grayalpha     | 8*2 bpp, 2 channels, uncompressed
+| 3       | r5g6b5        | 16 bpp, uncompressed
+| 4       | r8g8b8        | 24 bpp, uncompressed
+| 5       | r5g5b5a1      | 16 bpp (1 bit alpha), uncompressed
+| 6       | r4g4b4a4      | 16 bpp (4 bit alpha), uncompressed
+| 7       | r8g8b8a8      | 32 bpp, default, uncompressed
+| 8       | r32           | 32 bpp (1 channel - float), uncompressed
+| 9       | r32g32b32     | 32*3 bpp (3 channels - float), uncompressed
+| 10      | r32g32b32a32  | 32*4 bpp (4 channels - float), uncompressed
+| 11      | dxt1_rgb      | 4 bpp (no alpha), compressed
+| 12      | dxt1_rgba     | 4 bpp (1 bit alpha), compressed
+| 13      | dxt3_rgba     | 8 bpp, compressed
+| 14      | dxt5_rgba     | 8 bpp, compressed
+| 15      | etc1_rgb      | 4 bpp, compressed
+| 16      | etc2_rgb      | 4 bpp, compressed
+| 17      | etc2_eac_rgba | 8 bpp, compressed
+| 18      | pvrt_rgb      | 4 bpp, compressed
+| 19      | pvrt_rgba     | 4 bpp, compressed
+| 20      | astc_4x4_rgba | 8 bpp, compressed
+| 21      | astc_8x8_rgba | 2 bpp, compressed
+
+Translation of representations is provided by `rl.etexture` table:
+```lua
+key = "r8g8b8"
+ikey = rl.etexture[key]  --> 4
+skey = rl.etexture[ikey] --> "r8g8b8"
 ```
 This table is used internally in the library, so do not modify it if you don't know what is happens.

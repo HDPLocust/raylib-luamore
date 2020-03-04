@@ -13,12 +13,12 @@
 #define luax_tnstring(L,   index, value) lua_pushnumber(L, index); lua_pushstring(L, value);   lua_rawset(L, -3)
 #define luax_tsstring(L,   name,  value) lua_pushstring(L, name);  lua_pushstring(L, value);   lua_rawset(L, -3)
 
-#define luax_optnumber(L,  idx, default) lua_isnumber(L, idx) ? luaL_checknumber(L, idx)  : default
-#define luax_optinteger(L, idx, default) lua_isnumber(L, idx) ? luaL_checkinteger(L, idx) : default
-#define luax_optstring(L,  idx, default) lua_isstring(L, idx) ? luaL_checkstring(L, idx)  : default
+#define luax_optnumber(L,  idx, default) (lua_isnumber(L, idx) ? luaL_checknumber(L, idx)  : default)
+#define luax_optinteger(L, idx, default) (lua_isnumber(L, idx) ? luaL_checkinteger(L, idx) : default)
+#define luax_optstring(L,  idx, default) (lua_isstring(L, idx) ? luaL_checkstring(L, idx)  : default)
 
 #define luax_typename(L, idx)  luaL_typename(L, idx)
-#define luax_type(L, idx, typeenum)  lua_type(L, idx) == typeenum
+#define luax_type(L, idx, typeenum)  (lua_type(L, idx) == typeenum)
 
 
 void luax_printstack(lua_State * L, const char * msg) {
@@ -99,7 +99,7 @@ void * luax_checkclass(lua_State * L, int index, const char * classname) {
 }
 
 // compare metatables
-int luaobject_isclass(lua_State * L, int index, const char * classname) {
+int luax_isclass(lua_State * L, int index, const char * classname) {
 	if (lua_type(L, index) != LUA_TUSERDATA) return 0;
 	if (!lua_getmetatable(L, index)) return 0; // mt
 	luaL_getmetatable(L, classname);
