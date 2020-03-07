@@ -3339,12 +3339,12 @@ int lua_class_color_FromNormalized(lua_State *L){
 /*!MD
 #### Color:toHSV
 ```lua
-number Hue, number Value, number Saturation = Color:toHSV()
+Vector3 HSV = Color:toHSV()
 ```
-Return color hue, value and saturation
+Return Vector3 color hue, value and saturation
 */
 int lua_class_color_ToHSV(lua_State *L){
-  Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
+  Color *   c = (Color *)luaL_checkudata(L, 1, "Color");
   Vector3 * v = (Vector3 *)luax_newobject(L, "Vector3", sizeof(Vector3));
   *v = ColorToHSV(*c);
   return 1;
@@ -3353,12 +3353,12 @@ int lua_class_color_ToHSV(lua_State *L){
 /*!MD
 #### Color:fromHSV
 ```lua
-Color:fromHSV(number Hue, number Value, number Saturation)
+Color:fromHSV(Vector3 HSV)
 ```
-Set color components from a given hue, value and saturation
+Set color components from a given Vector3 hue, value and saturation
 */
 int lua_class_color_FromHSV(lua_State *L){
-  Color *   c =   (Color *)luaL_checkudata(L, 1, "Color");
+  Color *   c = (Color *)luaL_checkudata(L, 1, "Color");
   Vector3 * v = (Vector3 *)luaL_checkudata(L, 2, "Vector3");
   *c = ColorFromHSV(*v);
 	
@@ -4006,7 +4006,7 @@ Image Img = rl.Image(string Filename)
 Image Img = rl.Image(integer Width, integer Height, eTexture Format[, Color FillColor])
 ```
 Creates new Image object.
-See [eTexture](eTexture).
+See [eTexture](#etexture).
 */
 int lua_class_image_new(lua_State *L){
   if (luax_type(L, 1, LUA_TSTRING)){
@@ -4049,7 +4049,7 @@ Image subImage = Image:subImage(integer X, integer Y, integer Width, integer Hei
 Image subImage = Image:subImage(Rectangle Rect)
 ```
 Create an image from another image piece
-See [Rectangle](Rectangle).
+See [Rectangle](#Rectangle).
 */
 int lua_class_image_SubImage(lua_State *L){
   Image *   src  = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4074,7 +4074,7 @@ int lua_class_image_SubImage(lua_State *L){
 Image subImgage = Image:toPOT(Color Color)
 ```
 Convert image to POT (power-of-two).
-See [Color](Color).
+See [Color](#Color).
 */
 int lua_class_image_toPOT(lua_State *L){
   Image * img   = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4090,7 +4090,7 @@ int lua_class_image_toPOT(lua_State *L){
 eTexture ImageFormat = Image:getFormat()
 ```
 Get image data format
-See [eTexture](eTexture)
+See [eTexture](#etexture)
 */
 int lua_class_image_GetFormat(lua_State *L){
   Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4105,7 +4105,7 @@ int lua_class_image_GetFormat(lua_State *L){
 Image:setFormat(eTexture ImageFormat)
 ```
 Convert image data to desired format
-See [eTexture](eTexture)
+See [eTexture](#etexture)
 */
 int lua_class_image_SetFormat(lua_State *L){
   Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4136,7 +4136,7 @@ int lua_class_image_AlphaMask(lua_State *L){
 Image Image = Image:alphaClear(number Treshold, Color Color)
 ```
 Clear alpha channel to desired color, returns modified image for chaining.
-See [Color](Color).
+See [Color](#Color).
 */
 int lua_class_image_AlphaClear(lua_State *L){
   Image * img      = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4184,7 +4184,7 @@ Image croppedImage = Image:crop(integer X, integer Y, integer Width, integer Hei
 Image croppedImage = Image:crop(Rectangle Rect)
 ```
 Crop an image to a defined rectangle.
-See [Rectangle](Rectangle).
+See [Rectangle](#Rectangle).
 */
 int lua_class_image_Crop(lua_State *L){
   Image *   img  = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4239,7 +4239,7 @@ int lua_class_image_ResizeNN(lua_State *L){
 Image Image = Image:resizeCanvas(integer Width, integer Height[, integer OffsetX, integer OffsetY, Color FillColor])
 ```
 Resize canvas and fill with color, returns modified image for chaining.
-See [Color](Color).
+See [Color](#Color).
 */
 int lua_class_image_ResizeCanvas(lua_State *L){
   Image * img  = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4292,7 +4292,7 @@ int lua_class_image_Dither(lua_State *L){
 table Colors = Image:extractPalette([integer MaxColorCount = 256])
 ```
 Extract color palette from image to maximum size.
-See [Color](Color).
+See [Color](#Color).
 */
 int lua_class_image_ExtractPalette(lua_State *L){
   Image * img   = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4316,7 +4316,7 @@ int lua_class_image_ExtractPalette(lua_State *L){
 Image Image = Image:drawImage(Image Src, Rectangle SrcRect, Rectangle DstRect[, Color Tint])
 ```
 Draw a source image within a destination image (tint applied to source), returns modified image for chaining.
-See [Rectangle](Rectangle), [Color](Color).
+See [Rectangle](#Rectangle), [Color](#Color).
 */
 int lua_class_image_DrawImage(lua_State *L){
   Image     * dst     = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4335,7 +4335,7 @@ int lua_class_image_DrawImage(lua_State *L){
 Image Image = Image:drawRectangle(string Mode, Rectangle Rect[, Color Color[, Integer LineThick])
 ```
 Draw a source image within a destination image (tint applied to source), returns modified image for chaining.
-See [Rectangle](Rectangle), [Color](Color).
+See [Rectangle](#Rectangle), [Color](#Color).
 Available modes: `"fill"`, `"line"`.
 */
 int lua_class_image_DrawRectangle(lua_State *L){
@@ -4363,7 +4363,7 @@ Image Image = Image:drawText(Vector2 Position, string Text, Color Color, number 
 Image Image = Image:drawText(Vector2 Position, string Text, Font Font, number FontSize, number Spacing, Color Color)
 ```
 Draw text within an image, returns modified image for chaining.
-See [Vector2](Vector2), [Color](Color), [Font](Font).
+See [Vector2](#Vector2), [Color](#Color), [Font](#Font).
 */
 int lua_class_image_DrawText(lua_State *L){
   Image      * dst      = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4453,7 +4453,7 @@ int lua_class_image_Rotate(lua_State *L){
 Image Image = Image:tint(Color Color)
 ```
 Modify image color: tint, returns modified image for chaining.
-See [Color](Color).
+See [Color](#Color).
 */
 int lua_class_image_Tint(lua_State *L){
   Image * dst = (Image *)luaL_checkudata(L, 1, "Image");
@@ -4527,7 +4527,7 @@ int lua_class_image_Brightness(lua_State *L){
 Image Image = Image:replaceColor(Color Src, Color Dst)
 ```
 Modify image color: replace color, returns modified image for chaining.
-See [Color](Color).
+See [Color](#Color).
 */
 int lua_class_image_ColorReplace(lua_State *L){
   Image * dst     = (Image *)luaL_checkudata(L, 1, "Image");

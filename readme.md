@@ -21,7 +21,8 @@ Current binding is for Raylib v3.0. Source code is self-documented, but the extr
 Functions is located in `main.c` file, classes in `classes.h`.
 
 ## Building
-Currently this project for Windows and LuaJIT. So just run `build.bat` if you are adding some features.
+<img align="left" src="logo/build_bat.jpg">
+Currently this project is for Windows and LuaJIT. So just run `build.bat` if you are adding some features.
 Rebuilding the Raylib library is done using `include/raylib/build_objects.bat` (`lib/raylib.a` will updated).
 
 ## External stuff

@@ -274,7 +274,7 @@ eTexture is the string or integer representation of different texture formats.
 Any image or texture function with eTexture accepts strings and integers both.
 Representation layout:
 
-| integer | string        | descriptions
+| integer | string        | description
 | :------ | :------------ | :-----------
 | 1       | grayscale     | 8 bit per pixel, no alpha, uncompressed
 | 2       | grayalpha     | 8*2 bpp, 2 channels, uncompressed

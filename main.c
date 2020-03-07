@@ -1457,7 +1457,7 @@ int lua_core_TakeScreenshot(lua_State *L){
 /*!MD
 #### GetRandomValue
 ```lua
--- variat
+-- variants
 integer RndValue = rl.core.GetRandomValue(integer Min, integer Max) -- [Mix .. Max]
 integer RndValue = rl.core.GetRandomValue(integer Max)              -- [1   .. Max]
 ```

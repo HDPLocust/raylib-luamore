@@ -4,7 +4,6 @@
 #include "lua/lua.h"
 #include "lua/lauxlib.h"
 #include "raylib/raylib.h"
-#include "raylib/raylib.h"
 #include "raylib/raymath.h"
 #define luax_tnfunction(L, index, func)  lua_pushnumber(L, index); lua_pushcfunction(L, func); lua_rawset(L, -3)
 #define luax_tsfunction(L, name,  func)  lua_pushstring(L, name);  lua_pushcfunction(L, func); lua_rawset(L, -3)
