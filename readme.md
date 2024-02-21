@@ -43,5 +43,3 @@ Check [Examples](build/examples) (Lua scripts can be drag-and-dropped to `run_ex
 ## License
 Raylib-luamore is licensed under an zlib/libpng license.
 *Copyright (c) 2020~2xxx [Snusmumriken](@HDPLocust)
-
-### Developed with [PVS Studio](https://www.viva64.com/en/pvs-studio/).
